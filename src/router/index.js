@@ -15,11 +15,11 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    // component: () => import('../views/echarts.vue'),
+    component: () => import('../views/echarts.vue'),
     // component: () => import('../views/test3.vue'),
     // component: () => import('../views/gojs.vue'),
     // component: () => import('../views/date.vue'),
-    component: () => import('../views/yzm.vue'),
+    // component: () => import('../views/yzm.vue'),
     // component: () => import('../views/mock.vue'),
     // component: () => import('../views/excel.vue'),
     // component: () => import('../views/excelDeal.vue'),
