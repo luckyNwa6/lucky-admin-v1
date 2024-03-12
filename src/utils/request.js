@@ -1,32 +1,42 @@
-import axios from 'axios'
 import Vue from 'vue'
-let request = axios.create({
-  baseURL: '/api',
-  // 超时
+import axios from 'axios'
+
+const request = axios.create({
+  // baseURL: process.env.VUE_APP_BASE_API,
   timeout: 1000 * 60 * 2,
+  withCredentials: true,
+  headers: {
+    'Content-Type': 'application/json; charset=utf-8',
+  },
 })
 
+/**
+ * 请求拦截
+ */
 request.interceptors.request.use(
   (config) => {
-    // config.headers.token = sessionStorage.getItem("token");
-    config.headers['picToken'] = Vue.cookie.get('picToken') // 请求头带上token
+    // config.headers['token'] = Vue.cookie.get('share_wiring_token') // 请求头带上token
+    // config.headers['language'] = localStorage.getItem('language') // 请求头带上中英文切换
     return config
   },
-  function (error) {
+  (error) => {
     return Promise.reject(error)
   }
 )
 
-//添加响应拦截器,下面改了会报错
+/**
+ * 响应拦截
+ */
 request.interceptors.response.use(
   (response) => {
-    // 将响应数据进行处理，并返回data里的值，就是后端传过来的
-    //这样前端调用接口方法时候可以直接看到值res即可
-
+    // if (response.data && response.data.code === 401) {
+    //   // 401, token失效
+    //   clearLoginInfo()
+    //   router.push({ name: 'login' })
+    // }
     return response.data
   },
-  function (error) {
-    // 对响应错误做点什么
+  (error) => {
     return Promise.reject(error)
   }
 )

@@ -1,63 +1,45 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import store from './store'
-import ElementUIPlugin from './utils/element-ui-plugin'
-import VueCookie from 'vue-cookie'
-import Global from './utils/Global'
-import qs from 'qs'
-import ViButton from '@luckynwa-lib/vi-button'
-import '@luckynwa-lib/vi-button/dist/index.css'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 
-import $ from 'jquery'
-
-// 引入echarts-5.0
+import '@/mock'
+import request from '@/utils/request'
+import i18n from '@/lang'
+import Lang from '@/components/Lang'
 import * as echarts from 'echarts'
+Vue.component('Lang', Lang)
+Vue.use(ElementUI)
 Vue.prototype.$echarts = echarts
 
-//全局注册
-Vue.use(ElementUIPlugin)
-Vue.use(Global)
-Vue.use(ViButton)
-Vue.use(VueCookie)
+import dayjs from 'dayjs'
+Vue.prototype.dayjs = dayjs
 
+import $ from 'jquery'
+window.jQuery = $
 window.$ = $
-// 挂载全局
-Vue.prototype.$qs = qs
-// Vue.prototype.$target = "http://localhost:3737/";
-Vue.config.productionTip = false //关闭生产环境下的提示信息
 
 // 全局前置守卫
-router.beforeEach(function (to, from, next) {
-  if (to.path === '/home' || to.path === '/index' || to.path === '/pic') {
-    const token = Vue.cookie.get('picToken')
-    if (token !== null) {
-      // console.log('全局前置守卫启动，token有值放行！')
-      next()
-    } else {
-      Vue.prototype.failMsg('请先登录！')
-    }
-  } else {
-    next()
-  }
-})
+// router.beforeEach(function (to, from, next) {
+//   if (to.path === '/home' || to.path === '/index' || to.path === '/user') {
+//     const token = sessionStorage.getItem('token')
 
-// 防止重复点击,下面是一个自定义指令，在button中可以加入v-preventReClick生效
-Vue.directive('preventReClick', {
-  inserted(el, binding) {
-    el.addEventListener('click', () => {
-      if (!el.disabled) {
-        el.disabled = true
-        setTimeout(() => {
-          el.disabled = false
-        }, binding.value || 2000)
-      }
-    })
-  },
-})
+//     if (token !== null) {
+//       console.log('全局前置守卫启动，token有值放行！')
+//       next()
+//     } else {
+//       Vue.prototype.notifyError('请先登录！')
+//     }
+//   } else {
+//     next()
+//   }
+// })
+Vue.prototype.request = request
+Vue.config.productionTip = false
 
 new Vue({
   router,
-  store,
+  i18n,
   render: (h) => h(App),
 }).$mount('#app')
