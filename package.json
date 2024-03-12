@@ -1,0 +1,35 @@
+{
+  "name": "lucky_pic",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "dev": "vue-cli-service serve",
+    "build": "vue-cli-service build"
+  },
+  "dependencies": {
+    "@luckynwa-lib/vi-button": "^3.0.0",
+    "animsition": "^4.0.2",
+    "axios": "^1.2.2",
+    "core-js": "^3.32.1",
+    "echarts": "^5.4.3",
+    "element-ui": "^2.15.12",
+    "jquery": "^3.7.1",
+    "qs": "^6.11.0",
+    "sass": "^1.66.1",
+    "sass-loader": "^13.3.2",
+    "vue": "^2.6.14",
+    "vue-cookie": "^1.1.4",
+    "vue-router": "^3.6.5",
+    "vuex": "^3.1.2"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-router": "~5.0.0",
+    "@vue/cli-plugin-vuex": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "babel-plugin-component": "^1.1.1",
+    "compression-webpack-plugin": "^10.0.0",
+    "vue-template-compiler": "^2.6.14"
+  }
+}
