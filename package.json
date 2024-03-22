@@ -13,6 +13,7 @@
     "dayjs": "^1.11.10",
     "echarts": "4.9.0",
     "element-ui": "^2.15.6",
+    "express": "4.17.1",
     "gojs": "2.2.7",
     "insert-css": "^2.0.0",
     "jquery": "^3.7.1",
