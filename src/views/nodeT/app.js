@@ -21,9 +21,34 @@ app.get('/user', (req, res) => {
 
   res.send({ name: 'zs', age: 20, gender: '男', time: req.startTime })
 })
-app.post('/user', (req, res) => {
+app.post('/api/login', (req, res) => {
   // 调用express提供的res.sent()方法，向客户端发送文本内容
   res.send('请求成功')
+  // 判断用户提交的登录信息是否正确
+  if (req.body.username !== 'admin' || req.body.password !== '000000') {
+    return res.send({ status: 1, msg: '登录失败' })
+  }
+  req.session.user = req.body //将用户的信息，存储到Session中
+  req.session.islogin = true //将用户的登录状态，存储到Session中
+  res.send({ status: 0, msg: '登录成功' })
+})
+//获取用户姓名的接口
+app.get('/api/username ', (req, res) => {
+  //判断用户是否登录
+  if (!req.session.islogin) {
+    return res.send({ status: 1, msg: 'fail' })
+  }
+  res.send({ status: 0, msg: 'success', username: req.session.user.username })
+})
+
+// 退出登录的接口
+app.post('/api/logout', (req, res) => {
+  //清空当前客户端对应的session信息
+  req.session.destroy()
+  res.send({
+    status: 0,
+    msg: '退出登录成功',
+  })
 })
 
 // URL地址中，可以通过:参数名的形式，匹配动态参数值
@@ -39,7 +64,18 @@ app.use(function (err, req, res, next) {
   console.log('发生了错误:' + err.message)
   res.send('Error! ' + err.message)
 })
+// 1．导入session中间件
+var session = require('express-session')
+// 2．配置Session中间件
+app.use(
+  session({
+    secret: 'keyboard cat', // secret属性的值可以为任意字符串
+    resave: false, // 固定写法
+    saveUninitialized: true, //固定写法
+  })
+)
 
+app.use(cors())
 //需要多个目录，也可以再弄一行换个路径
 app.use(express.static('pic')) //pic文件夹和这个js同级创建静态资源服务器，本项目pic下的全部访问省略public,http://127.0.0.1/1.png
 

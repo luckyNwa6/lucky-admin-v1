@@ -15,15 +15,22 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: () => import('../views/echarts.vue'),
-    // component: () => import('../views/test3.vue'),
-    // component: () => import('../views/gojs.vue'),
-    // component: () => import('../views/date.vue'),
-    // component: () => import('../views/yzm.vue'),
-    // component: () => import('../views/mock.vue'),
-    // component: () => import('../views/excel.vue'),
-    // component: () => import('../views/excelDeal.vue'),
-    // component: () => import('../views/layout.vue'),
+    component: () => import('../views/home.vue'),
+  },
+  {
+    path: '/excelT',
+    name: 'excelT',
+    component: () => import('@/views/excelT/index.vue'),
+  },
+  {
+    path: '/dateT',
+    name: 'dateT',
+    component: () => import('@/views/dateT/index.vue'),
+  },
+  {
+    path: '/jisuanqi',
+    name: 'jisuanqi',
+    component: () => import('@/views/jisuanqi/index.vue'),
   },
 ]
 
