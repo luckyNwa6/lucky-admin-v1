@@ -1,25 +1,19 @@
 # Vue3 项目模板
 
+## 🐑 分支
+
+main------------>基于 Vue2+Element 框架，从零搭建
+luckyDev-------->上面的分支
+luckyRev-------->基于人人框架 Vue2 集成自己的管理 部署到云服务器也是这个
+test------------>vue2 的各种包和组件测试
+
 ## 🐶 环境
 
-node 16+
+node 16 版本
 
-技术栈采用:
-
-Vue2+JavaScript+vueX++Element Ui
-
-包管理采用 yarn
-
-```shell
-npm install -g pnpm
-pnpm install
-```
+包管理采用 yarn 安装
 
 ## 🐯 代码提交规范
-
-husky 是一个 Git Hook 工具，可以让你在 Git 提交过程中自动运行脚本。
-
-当 commit 的时候会执行脚本，脚本会校验 commit message 是否符合规范。
 
 严格按照如下规范:
 
@@ -36,37 +30,23 @@ husky 是一个 Git Hook 工具，可以让你在 Git 提交过程中自动运�
 比如修复一个 bug 必须是
 
 fix: 修复 bug
-
 中间有:后面有空格
 
 ## ⭐️ 开发工具
 
 推荐 VS Code 开发，配合插件如下：
 
-| 插件名                        | 功能                                             |
-| ----------------------------- | ------------------------------------------------ |
-| TypeScript Vue Plugin (Volar) | 用于 TypeScript 的 Vue 插件                      |
-| Vue Language Features (Volar) | Vue3.0 语法支持                                  |
-| WindiCSS IntelliSense         | 自动完成、语法突出显示、代码折叠和构建等高级功能 |
-| Iconify IntelliSense          | Iconify 预览和搜索                               |
-| i18n Ally                     | 国际化智能提示                                   |
-| Stylelint                     | Css 格式化                                       |
-| Prettier                      | 代码格式化                                       |
-| ESLint                        | 脚本代码检查                                     |
-| DotENV                        | env 文件高亮                                     |
+| 插件名   | 功能          |
+| :------- | ------------- |
+| Vetur    | Vue2 语法支持 |
+| Prettier | 代码格式化    |
+| ESLint   | 脚本代码检查  |
+| DotENV   | env 文件高亮  |
 
 ## 🚀 优势
 
-1、自动按需引入组件，自动按需引入 Vue 相关 API，自动引入 ep 图标
-
-2、在 vscode 提交时候走 husky 流程，先走格式化代码和修复，以及提交必须走提交规范,代码有错误则不能提交
+暂无
 
 ## 🐷 其他
 
 暂无
-
-启动项目后另启一个终端输入
-
-npx localtunnel --port 8000
-
-选 y,点击链接跳转，点网站里的链接获取密码，复制粘贴提交，可公网访问，
