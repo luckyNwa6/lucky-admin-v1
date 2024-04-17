@@ -11,6 +11,7 @@
     <hr />
     <p>路由跳转:</p>
     <el-button @click="goJisuanqi()">计算器</el-button>
+    <el-image @click="goQQ()" style="position: absolute; top: 340px; right: 100px" :src="url" fit="contain"></el-image>
   </div>
 </template>
 
@@ -21,6 +22,7 @@ export default {
   data() {
     return {
       responseData: '',
+      url: require('@/assets/imgs/Connect_logo_7.webp'),
     }
   },
   methods: {
@@ -58,6 +60,10 @@ export default {
       userList().then((res) => {
         this.responseData = res.data
       })
+    },
+    //获取qq的跳转链接
+    goQQ() {
+      console.log('xxx')
     },
   },
   created() {
