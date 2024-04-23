@@ -1544,6 +1544,16 @@
   dependencies:
     "@sinonjs/commons" "^3.0.0"
 
+"@smallwei/avue@^2.12.1":
+  version "2.12.1"
+  resolved "https://registry.npmmirror.com/@smallwei/avue/-/avue-2.12.1.tgz#6fa49e17e4bce41a04f0fc35a65b19c55ce8813f"
+  integrity sha512-rM2t40Kcacyh7vNqLnuUFsBdEem9zVbPE1qyaeoHGD44cJx53oANhjo3soDZXyq3W6Yn42hrhlaUu5Nh1zEOSA==
+  dependencies:
+    countup.js "^1.9.3"
+    dayjs "^1.10.4"
+    nprogress "^0.2.0"
+    vue-cropper "^0.5.8"
+
 "@soda/friendly-errors-webpack-plugin@^1.8.0":
   version "1.8.1"
   resolved "https://registry.npmmirror.com/@soda/friendly-errors-webpack-plugin/-/friendly-errors-webpack-plugin-1.8.1.tgz#4d4fbb1108993aaa362116247c3d18188a2c6c85"
@@ -3185,6 +3195,11 @@ cosmiconfig@^7.0.0:
     path-type "^4.0.0"
     yaml "^1.10.0"
 
+countup.js@^1.9.3:
+  version "1.9.3"
+  resolved "https://registry.npmmirror.com/countup.js/-/countup.js-1.9.3.tgz#ce3e50cd7160441e478f07da31895edcc0f1c9dd"
+  integrity sha512-UHf2P/mFKaESqdPq+UdBJm/1y8lYdlcDd0nTZHNC8cxWoJwZr1Eldm1PpWui446vDl5Pd8PtRYkr3q6K4+Qa5A==
+
 crc-32@~1.2.0, crc-32@~1.2.1:
   version "1.2.2"
   resolved "https://registry.npmmirror.com/crc-32/-/crc-32-1.2.2.tgz#3cad35a934b8bf71f25ca524b6da51fb7eace2ff"
@@ -3359,7 +3374,7 @@ data-urls@^5.0.0:
     whatwg-mimetype "^4.0.0"
     whatwg-url "^14.0.0"
 
-dayjs@^1.11.10:
+dayjs@^1.10.4, dayjs@^1.11.10:
   version "1.11.10"
   resolved "https://registry.npmmirror.com/dayjs/-/dayjs-1.11.10.tgz#68acea85317a6e164457d6d6947564029a6a16a0"
   integrity sha512-vjAczensTgRcqDERK0SR2XMwsF/tSvnvlv6VcF2GIhg6Sx4yOIt/irsr1RDJsKiIyBzJDpCoXiWWq28MqH2cnQ==
@@ -5629,6 +5644,11 @@ npm-run-path@^4.0.1:
   dependencies:
     path-key "^3.0.0"
 
+nprogress@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.npmmirror.com/nprogress/-/nprogress-0.2.0.tgz#cb8f34c53213d895723fcbab907e9422adbcafb1"
+  integrity sha512-I19aIingLgR1fmhftnbWWO3dXc0hSxqHQHQb3H8m+K3TnEn/iSeTZZOyvKXWqQESMwuUVnatlCnZdLBZZt2VSA==
+
 nth-check@^2.0.1:
   version "2.1.1"
   resolved "https://registry.npmmirror.com/nth-check/-/nth-check-2.1.1.tgz#c9eab428effce36cd6b92c924bdb000ef1f1ed1d"
@@ -7342,6 +7362,11 @@ vary@^1, vary@~1.1.2:
   version "1.1.2"
   resolved "https://registry.npmmirror.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==
+
+vue-cropper@^0.5.8:
+  version "0.5.11"
+  resolved "https://registry.npmmirror.com/vue-cropper/-/vue-cropper-0.5.11.tgz#2ea05bb5069146dc4c6818edf8de209cbc5b7103"
+  integrity sha512-UeA3qL2BLCTGkOEAxEsxSNFO+qLYAn6YRHv4oS32cP9lMhF1vFmnAf/z+ZamtR0/Fh3sbZeZUCLVR2Ol2/dpTQ==
 
 vue-demi@latest:
   version "0.14.7"

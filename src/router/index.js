@@ -32,6 +32,16 @@ const routes = [
     name: 'jisuanqi',
     component: () => import('@/views/jisuanqi/index.vue'),
   },
+  {
+    path: '/chartsT',
+    name: 'chartsT',
+    component: () => import('@/views/chartsT/index.vue'),
+  },
+  {
+    path: '/aVueT',
+    name: 'aVueT',
+    component: () => import('@/views/aVueT/index.vue'),
+  },
 ]
 
 const router = new VueRouter({

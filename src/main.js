@@ -20,6 +20,11 @@ import $ from 'jquery'
 window.jQuery = $
 window.$ = $
 
+import Avue from '@smallwei/avue';
+import '@smallwei/avue/lib/index.css';
+Vue.use(Avue);
+
+
 // 全局前置守卫
 // router.beforeEach(function (to, from, next) {
 //   if (to.path === '/home' || to.path === '/index' || to.path === '/user') {
