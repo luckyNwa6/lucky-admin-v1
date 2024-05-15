@@ -602,3 +602,13 @@ export async function previewFile(type, url) {
     Message.error('该文件暂不支持预览')
   }
 }
+
+export function getScientificCounting(value) {
+  if (value > 99999) {
+    return value.toExponential(2)
+  } else if (value < -99999) {
+    return value.toExponential(2)
+  } else {
+    return value
+  }
+}
