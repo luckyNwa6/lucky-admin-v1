@@ -3,12 +3,157 @@ import { echartOptions } from '@/views/common/dataZoom.js'
 import { deepClone } from '@/views/common'
 import _ from 'lodash'
 
+export const demoCharts2 = (tooltip, oepnDataZoom1, curveHorizontal, yData1, echarts) => {
+  let colors = ['#a5c5d4', '#91CC75', '#EE6666'] //颜色
+  let tooltipTemp = tooltip ? tooltip : {
+    trigger: 'axis',
+  }
+  return {
+    dataZoom: oepnDataZoom1 ? _.cloneDeep(echartOptions.dataZoom) : '',
+    color: colors,
+    tooltip: tooltipTemp,
+    grid: {
+      right: '20%', //echarts离容器左侧的距离
+    },
+    toolbox: {
+      //工具栏。内置有导出图片，数据视图，动态类型切换，数据区域缩放，重置五个工具。
+      feature: {
+        dataView: {
+          show: true,
+          readOnly: false,
+        }, //数据视图
+        restore: {
+          show: true,
+        }, //重置
+        saveAsImage: {
+          show: true,
+        }, //下载
+      },
+    },
+    legend: {
+      //图例组件展现了不同系列的标记(symbol)，颜色和名字。可以通过点击图例控制哪些系列不显示
+      data: ['压力'], //就是图表上面正中间那3，点击某个某个就能隐藏
+    },
+    xAxis: [
+      {
+        type: 'category', //类目轴，适用于离散的类目数据。为该类型时类目数据可自动从 series.data 或 dataset.source 中取，或者可通过 xAxis.data 设置类目数据
+        boundaryGap: false, //false从0开始,最少x会放0位置
+        axisLabel: {
+          interval: function (index, value) {
+            // 每小时显示一次标签
+            var time = value.split(':');
+            var minutes = parseInt(time[1], 10);
+            return minutes === 0;
+          },
+          formatter: function (value, index) {
+            var time = value.split(':');
+            var minutes = parseInt(time[1], 10);
+            if (minutes === 0) {
+              return value;
+            } else {
+              return '';
+            }
+          }
+        },
+        axisTick: {
+          show: false,
+          //坐标轴刻度|和数据是对齐的，加上这个
+          alignWithLabel: false,
+        },
+        // prettier-ignore
+        data: curveHorizontal, //x轴数据
+      },
+    ],
+    yAxis: [
+      //直角坐标系 grid 中的 y 轴，一般情况下单个 grid 组件最多只能放左右两个 y 轴，多于两个 y 轴需要通过配置 offset 属性防止同个位置多个 Y 轴的重叠。
+      {
+        type: 'value', //适用于连续数据
+        name: '压力', //坐标轴名称
+        position: 'left', //左边
+        nameGap: 10,
+        nameTextStyle: {
+          color: "#5E7D94",
+        },
+        alignTicks: true, //开启该配置项自动对齐刻度
+        min: 0, //初始
+        // interval: 200, //间距   如果没这3，会自适应数据
+        axisLine: {
+          show: false, //y轴|  是否显示
+          lineStyle: {
+            color: colors[0], //颜色
+          },
+        },
+        splitLine: {
+          lineStyle: {
+            color: '#DCDFE6 ', //虚线颜色
+            type: 'dashed', //虚线
+          },
+        },
+        axisLabel: {
+          color: "#5E7D94",
+        },
+      },
+
+    ],
+    series: [
+      //数据
+      {
+        name: '压力',
+        type: 'line', //折线
+        symbol: 'none', // 默认是空心圆（中间是白色的），改成实心圆
+        connectNulls: false, //null值是否连线
+        smooth: true, //是否平滑
+        symbol: "circle",
+        sampling: "lttb",
+        symbolSize: 4,
+        showSymbol: true,
+        yAxisIndex: 0,
+        areaStyle: {
+          color: {
+            type: "linear",
+            x: 0,
+            y: 0,
+            x2: 0,
+            y2: 1,
+            colorStops: [
+              // 渐变颜色
+              {
+                offset: 0,
+                color: "rgba(102, 225, 223, 0.71)",
+              },
+              {
+                offset: 1,
+                color: "rgba(0, 89, 84, 0)",
+              },
+            ],
+            global: false,
+          },
+        },
+        itemStyle: {
+          //设置鼠标移入样式
+          label: { show: true },
+          color: "rgba(102, 225, 223, 1)",
+          borderColor: "rgba(102, 225, 223, 0.4)",
+          borderWidth: 7,
+        },
+        data: yData1,
+      },
+
+
+    ],
+  }
+}
+
+
 export const demoCharts1 = (tooltip, oepnDataZoom1, curveHorizontal, yData1, echarts, yData2, yData3) => {
   let colors = ['#a5c5d4', '#91CC75', '#EE6666'] //颜色
+  let tooltipTemp = tooltip ? tooltip : {
+    trigger: 'axis',
+  }
   return {
-    dataZoom: oepnDataZoom1 ? deepClone(echartOptions.dataZoom) : '',
+    dataZoom: oepnDataZoom1 ? _.cloneDeep(echartOptions.dataZoom) : '',
     color: colors,
-    tooltip: tooltip,
+    tooltip: tooltipTemp,
     grid: {
       right: '20%', //echarts离容器左侧的距离
     },
