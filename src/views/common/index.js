@@ -165,3 +165,27 @@ export function deepClone(obj) {
 
   return result
 }
+
+
+/**
+ * 超过5位数值转化为科学计数法
+ * 
+ * @param {Number|String} value 数值
+ * @param {Number} limitBit 限制位数
+ */
+export function getScientificCounting(value, limitBit = 5) {
+
+  const numberValue = Number(value);
+
+  // 若值不为数值或限制位数小于等于0
+  if (Number.isNaN(numberValue) || limitBit <= 0) {
+    return value;
+  }
+
+  // 限制值
+  const maxBit = Math.pow(10, limitBit + 1);
+
+  const translateValue = (numberValue >= maxBit || numberValue <= -maxBit) ? numberValue.toExponential(2) : numberValue;
+
+  return translateValue;
+}
