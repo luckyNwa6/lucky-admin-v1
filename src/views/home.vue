@@ -1,28 +1,23 @@
 <template>
-<div>
-  <el-button @click="login()">Express登录</el-button>
-  <el-button @click="exit()">退出登录</el-button>
-  <el-button @click="testSession()">测试Session</el-button>
-  <hr />
-  <el-button @click="mockTest()">mock测试</el-button>
-  <hr />
-  数据回显区:😃
-  <span>{{ responseData }}</span>
-  <hr />
-  <p>路由跳转:</p>
-  <el-button @click="goJisuanqi()">计算器</el-button>
-  <el-image @click="goQQ()" style="position: absolute; top: 340px; right: 100px" :src="url" fit="contain"></el-image>
-  <hr>
-  <el-button @click="goCharts()">图表测试</el-button>
-  <el-button @click="goAVue()">aVue测试</el-button>
-</div>
+  <div>
+    <el-button @click="login()">Express登录</el-button>
+    <el-button @click="exit()">退出登录</el-button>
+    <el-button @click="testSession()">测试Session</el-button>
+    <hr />
+    <el-button @click="mockTest()">mock测试</el-button>
+    <hr />
+    数据回显区:😃
+    <span>{{ responseData }}</span>
+    <hr />
+    <p>路由跳转:</p>
+    <el-button @click="goCharts()">图表测试</el-button>
+    <el-button @click="goAVue()">aVue测试</el-button>
+  </div>
 </template>
 
 <script>
 import request from 'axios'
-import {
-  userList
-} from '@/api/user'
+import { userList } from '@/api/user'
 export default {
   data() {
     return {
@@ -71,10 +66,6 @@ export default {
       userList().then((res) => {
         this.responseData = res.data
       })
-    },
-    //获取qq的跳转链接
-    goQQ() {
-      console.log('xxx')
     },
   },
   created() {

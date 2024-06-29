@@ -27,11 +27,7 @@ const routes = [
     name: 'dateT',
     component: () => import('@/views/dateT/index.vue'),
   },
-  {
-    path: '/jisuanqi',
-    name: 'jisuanqi',
-    component: () => import('@/views/jisuanqi/index.vue'),
-  },
+
   {
     path: '/chartsT',
     name: 'chartsT',
