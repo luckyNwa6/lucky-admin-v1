@@ -38,7 +38,7 @@ module.exports = defineConfig({
     port: 88,
     proxy: {
       '/api': {
-        target: 'http://localhost:3737/',
+        target: 'http://localhost:10086/luckyAdmin/',
         changeOrigin: true,
         ws: true,
         pathRewrite: {
@@ -46,7 +46,7 @@ module.exports = defineConfig({
         },
       },
       '/idp': {
-        target: 'http://47.98.230.128:10086',
+        target: 'http://localhost:10086',
         changeOrigin: true,
         ws: true,
         pathRewrite: {
