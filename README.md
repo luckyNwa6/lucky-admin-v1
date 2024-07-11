@@ -1,19 +1,53 @@
-## renren-fast-vue
-- renren-fast-vue基于vue、element-ui构建开发，实现[renren-fast](https://gitee.com/renrenio/renren-fast)后台管理前端功能，提供一套更优的前端解决方案
-- 前后端分离，通过token进行数据交互，可独立部署
-- 主题定制，通过scss变量统一一站式定制
-- 动态菜单，通过菜单管理统一管理访问路由
-- 数据切换，通过mock配置对接口数据／mock模拟数据进行切换
-- 发布时，可动态配置CDN静态资源／切换新旧版本
-- 演示环境：http://demo.open.renren.io/renren-security
+# Vue2 项目
 
-![输入图片说明](https://images.gitee.com/uploads/images/2019/0305/133529_ff15f192_63154.png "01.png")
-![输入图片说明](https://images.gitee.com/uploads/images/2019/0305/133537_7a1b2d85_63154.png "02.png")
+## 🐑 分支
 
+main------------>基于人人框架 Vue2 集成自己的管理服务并部署到云服务
 
-## 说明文档
-项目开发、部署等说明都在[wiki](https://github.com/renrenio/renren-fast-vue/wiki)中。
+luckyDev-------->上面的分支
 
+test------------>vue2 的各种包和组件测试
 
-## 更新日志
-每个版本的详细更改都记录在[release notes](https://github.com/renrenio/renren-fast-vue/releases)中。
+## 🐶 环境
+
+node 14 版本
+
+包管理采用 npm 安装
+
+## 🐯 代码提交规范
+
+严格按照如下规范:
+
+| 类型     | 描述                     |
+| -------- | ------------------------ |
+| feat     | 新功能                   |
+| fix      | 修补 bug                 |
+| docs     | 文档                     |
+| style    | 格式方面的优化           |
+| refactor | 重构                     |
+| test     | 测试                     |
+| chore    | 构建过程或辅助工具的变动 |
+
+比如修复一个 bug 必须是
+
+fix: 修复 bug
+中间有:后面有空格
+
+## ⭐️ 开发工具
+
+推荐 VS Code 开发，配合插件如下：
+
+| 插件名   | 功能          |
+| :------- | ------------- |
+| Vetur    | Vue2 语法支持 |
+| Prettier | 代码格式化    |
+| ESLint   | 脚本代码检查  |
+| DotENV   | env 文件高亮  |
+
+## 🚀 优势
+
+支持 qq 登录
+
+## 🐷 部署
+
+采用 CDN 加速、config 文件夹和 index.html 文件放在 nginx 下,版本文件放在 CDN 加速目录即可

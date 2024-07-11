@@ -1,12 +1,3 @@
-/**
- * UI组件, 统一使用饿了么桌面端组件库(https://github.com/ElemeFE/element）
- *
- * 使用:
- *  1. 项目中需要的组件进行释放(解开注释)
- *
- * 注意:
- *  1. 打包只会包含释放(解开注释)的组件, 减少打包文件大小
- */
 import Vue from 'vue'
 import {
   Pagination,
@@ -51,6 +42,7 @@ import {
   Alert,
   Slider,
   Icon,
+  Drawer,
   Row,
   Col,
   Upload,
@@ -73,9 +65,10 @@ import {
   Main,
   Footer,
   Loading,
+  Image,
   MessageBox,
   Message,
-  Notification
+  Notification,
 } from 'element-ui'
 
 Vue.use(Pagination)
@@ -103,6 +96,8 @@ Vue.use(OptionGroup)
 Vue.use(Button)
 Vue.use(ButtonGroup)
 Vue.use(Table)
+Vue.use(Drawer)
+
 Vue.use(TableColumn)
 Vue.use(DatePicker)
 Vue.use(TimeSelect)
@@ -139,6 +134,7 @@ Vue.use(Transfer)
 Vue.use(Container)
 Vue.use(Header)
 Vue.use(Aside)
+Vue.use(Image)
 Vue.use(Main)
 Vue.use(Footer)
 
