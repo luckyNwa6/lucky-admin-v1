@@ -53,7 +53,7 @@ export default {
     return {
       form: {
         acc: 'admin',
-        pwd: '',
+        pwd: 'Nwa741741',
       },
       yzmInput: '',
       yzmm: '',
@@ -97,6 +97,7 @@ export default {
               if (res.data.code === 0) {
                 // console.log('🚀 ~ reqLogin ~ res:', res)
                 this.$cookie.set('token', res.data.token)
+
                 this.successMsg(res.data.msg)
                 this.$router.replace({ name: 'home' })
               } else {
