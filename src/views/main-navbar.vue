@@ -24,8 +24,8 @@
         <el-menu-item class="site-navbar__avatar" index="3">
           <el-dropdown :show-timeout="0" placement="bottom">
             <span class="el-dropdown-link">
-              <img src="~@/assets/img/avatar.png" :alt="userName" />
-              {{ userName }}
+              <img :src="headImg" :alt="nickname" />
+              {{ nickname }}
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item @click.native="updatePasswordHandle()">修改密码</el-dropdown-item>
@@ -47,11 +47,14 @@ export default {
   data() {
     return {
       updatePassowrdVisible: false,
+      nickname: '',
+      headImg: require('@/assets/img/avatar.png'),
     }
   },
   components: {
     UpdatePassword,
   },
+
   computed: {
     navbarLayoutType: {
       get() {
@@ -76,6 +79,14 @@ export default {
     },
     userName: {
       get() {
+        var obj = JSON.parse(this.$cookie.get('picData'))
+        console.log('🚀 ~ mounted ~ obj:', obj)
+        if (obj.nickname && obj.nickname !== '') {
+          this.nickname = obj.nickname
+        }
+        if (obj.headUrl && obj.headUrl !== '') {
+          this.headImg = obj.headUrl
+        }
         return this.$store.state.user.name
       },
     },
@@ -103,6 +114,7 @@ export default {
           }).then(({ data }) => {
             if (data && data.code === 0) {
               clearLoginInfo()
+              this.$cookie.delete('picData')
               this.$router.push({ name: 'login' })
             }
           })

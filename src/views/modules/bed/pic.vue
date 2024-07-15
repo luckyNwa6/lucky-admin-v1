@@ -90,6 +90,7 @@
 
 <script>
 import { getFolderList } from '@/api/bed/folder/index'
+import { getYunList, delRemotePic, modifyInfo } from '@/api/bed/pic/index'
 export default {
   data() {
     return {
@@ -131,7 +132,7 @@ export default {
       // 处理上传成功的逻辑
 
       if (response.code === 0) {
-        this.getYunList()
+        this.getYunListF()
       } else {
         this.failMsg(response.msg)
       }
@@ -158,9 +159,9 @@ export default {
         id: this.tempId,
         picName: this.picName,
         folder: this.selectedValue,
-      }).then((res) => {
+      }).then(res => {
         this.successMsg(res.msg)
-        this.getYunList()
+        this.getYunListF()
       })
 
       this.closeDialog() // 关闭弹框
@@ -171,25 +172,24 @@ export default {
       this.picName = ''
     },
     //获取图片列表
-    getYunList() {
-      this.$http({
-        url: this.$http.adornUrl('/bedPic/list'),
-        method: 'post',
-        data: this.$http.adornData({
-          picName: this.findContent || 'pic',
-          folder: this.selectedValue,
-          page: 1,
-          limit: 100,
-        }),
-      }).then(({ data }) => {
-        if (data && data.code === 0) {
-          console.log('🚀 ~ getYunList ~ data:', data)
-          this.$data.tableData = data.list
+    getYunListF() {
+      let params = {
+        picName: this.findContent || null,
+        folder: this.selectedValue,
+        page: 1,
+        limit: 100,
+      }
+
+      getYunList(params).then(res => {
+        console.log('🚀 ~ getYunList ~ res:', res)
+        if (res.data.code === 0) {
+          this.tableData = res.data.data.list
         } else {
-          this.$message.error(data.msg)
+          this.failMsg(res.data.msg)
         }
       })
     },
+
     //删除图片
     delOssPic(obj) {
       if (this.dataListSelections.length === 0) {
@@ -200,7 +200,7 @@ export default {
       }
       var ids = obj.id //处理完[]这种包着的
         ? [obj.id]
-        : this.dataListSelections.map((item) => {
+        : this.dataListSelections.map(item => {
             return item.id
           })
 
@@ -211,9 +211,9 @@ export default {
       })
         .then(() => {
           //不管单还是多都是传一个数组就行
-          delRemotePic(ids, this.selectedValue).then((res) => {
+          delRemotePic(ids, this.selectedValue).then(res => {
             this.successMsg(res.msg)
-            this.getYunList()
+            this.getYunListF()
           })
         })
         .catch(() => {})
@@ -225,7 +225,7 @@ export default {
     },
     //查找图片
     searchPic() {
-      this.getYunList()
+      this.getYunListF()
     },
     // 每页条数改变时触发，选中一页显示多少行
     handleSizeChange(val) {
@@ -248,7 +248,7 @@ export default {
   },
 
   created() {
-    this.getYunList()
+    this.getYunListF()
 
     //获取文件夹列表,处理成下拉框数据
     getFolderList({
@@ -256,8 +256,7 @@ export default {
       userId: 1,
     }).then(({ data }) => {
       if (data && data.code === 0) {
-        console.log('🚀 ~ getYunList ~ data:', data)
-        this.options = data.data.map((folder) => ({
+        this.options = data.data.map(folder => ({
           value: folder.folderName,
           label: folder.folderName,
         }))
