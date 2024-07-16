@@ -12,7 +12,7 @@ export function getYunList(data) {
 // 删除文件
 export function delRemotePic(ids, path) {
   return request({
-    url: '/bedPic/delRemotePic?path=' + path,
+    url: request.adornUrl('/bedPic/delRemotePic?path=' + path),
     method: 'post',
     data: ids,
   })
@@ -20,8 +20,9 @@ export function delRemotePic(ids, path) {
 // 修改文件名称
 export function modifyInfo(data) {
   return request({
-    url: '/bedPic/modifyInfo',
+    url: request.adornUrl('/bedPic/modifyInfo'),
     method: 'post',
     data,
   })
 }
+

@@ -104,9 +104,9 @@ export default {
       dataListSelections: [], //用来存放多选的对象
       findContent: '', //搜索框内容
       uploadHeaders: {
-        picToken: this.$cookie.get('token'), // 添加自定义请求头
+        Token: this.$cookie.get('token'), // 添加自定义请求头
       },
-      actionUrl: '/api/luckyNwa/uploadPic',
+      actionUrl: '/proxyApi/bedPic/uploadPic',
 
       dialogVisible: false, // 控制弹框显示与隐藏
       picName: '', // 输入框1的值

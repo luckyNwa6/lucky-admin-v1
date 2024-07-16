@@ -1,14 +1,12 @@
 <template>
-  <el-dialog
-    title="云存储配置"
-    :close-on-click-modal="false"
-    :visible.sync="visible">
+  <el-dialog title="云存储配置" :close-on-click-modal="false" :visible.sync="visible">
     <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="120px">
       <el-form-item size="mini" label="存储类型">
         <el-radio-group v-model="dataForm.type">
           <el-radio :label="1">七牛</el-radio>
           <el-radio :label="2">阿里云</el-radio>
           <el-radio :label="3">腾讯云</el-radio>
+          <el-radio :label="4">MinIO</el-radio>
         </el-radio-group>
       </el-form-item>
       <template v-if="dataForm.type === 1">
@@ -74,6 +72,23 @@
           <el-input v-model="dataForm.qcloudRegion" placeholder="如：sh（可选值 ，华南：gz 华北：tj 华东：sh）"></el-input>
         </el-form-item>
       </template>
+      <template v-else-if="dataForm.type === 4">
+        <el-form-item label="accessKey">
+          <el-input v-model="dataForm.accessKeyMinIO" placeholder="MinIO绑定的accessKey"></el-input>
+        </el-form-item>
+        <el-form-item label="secretKey">
+          <el-input v-model="dataForm.secretKeyMinIO" placeholder="MinIO绑定的secretKey"></el-input>
+        </el-form-item>
+        <el-form-item label="bucket">
+          <el-input v-model="dataForm.bucketMinIO" placeholder="MinIO绑定的bucket"></el-input>
+        </el-form-item>
+        <el-form-item label="endpoint">
+          <el-input v-model="dataForm.endpointMinIO" placeholder="MinIO绑定的endpoint"></el-input>
+        </el-form-item>
+        <el-form-item label="readPath">
+          <el-input v-model="dataForm.readPathMinIO" placeholder="MinIO绑定的readPath"></el-input>
+        </el-form-item>
+      </template>
     </el-form>
     <span slot="footer" class="dialog-footer">
       <el-button @click="visible = false">取消</el-button>
@@ -83,51 +98,50 @@
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
-        visible: false,
-        dataForm: {},
-        dataRule: {}
-      }
-    },
-    methods: {
-      init (id) {
-        this.visible = true
-        this.$http({
-          url: this.$http.adornUrl('/sys/oss/config'),
-          method: 'get',
-          params: this.$http.adornParams()
-        }).then(({data}) => {
-          this.dataForm = data && data.code === 0 ? data.config : []
-        })
-      },
-      // 表单提交
-      dataFormSubmit () {
-        this.$refs['dataForm'].validate((valid) => {
-          if (valid) {
-            this.$http({
-              url: this.$http.adornUrl('/sys/oss/saveConfig'),
-              method: 'post',
-              data: this.$http.adornData(this.dataForm)
-            }).then(({data}) => {
-              if (data && data.code === 0) {
-                this.$message({
-                  message: '操作成功',
-                  type: 'success',
-                  duration: 1500,
-                  onClose: () => {
-                    this.visible = false
-                  }
-                })
-              } else {
-                this.$message.error(data.msg)
-              }
-            })
-          }
-        })
-      }
+export default {
+  data() {
+    return {
+      visible: false,
+      dataForm: {},
+      dataRule: {},
     }
-  }
+  },
+  methods: {
+    init(id) {
+      this.visible = true
+      this.$http({
+        url: this.$http.adornUrl('/sys/oss/config'),
+        method: 'get',
+        params: this.$http.adornParams(),
+      }).then(({ data }) => {
+        this.dataForm = data && data.code === 0 ? data.config : []
+      })
+    },
+    // 表单提交
+    dataFormSubmit() {
+      this.$refs['dataForm'].validate(valid => {
+        if (valid) {
+          this.$http({
+            url: this.$http.adornUrl('/sys/oss/saveConfig'),
+            method: 'post',
+            data: this.$http.adornData(this.dataForm),
+          }).then(({ data }) => {
+            if (data && data.code === 0) {
+              this.$message({
+                message: '操作成功',
+                type: 'success',
+                duration: 1500,
+                onClose: () => {
+                  this.visible = false
+                },
+              })
+            } else {
+              this.$message.error(data.msg)
+            }
+          })
+        }
+      })
+    },
+  },
+}
 </script>
-
