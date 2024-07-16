@@ -13,9 +13,7 @@
       window.SITE_CONFIG.cdnUrl + '/static/js/manifest.js',
       window.SITE_CONFIG.cdnUrl + '/static/js/vendor.js',
       window.SITE_CONFIG.cdnUrl + '/static/js/app.js',
-      // 看板娘
-      window.SITE_CONFIG.cdnUrl + '/static/plugins/live2dw/lib/L2Dwidget.min.js',
-      window.SITE_CONFIG.cdnUrl + '/static/plugins/live2dw/lib/L2Dwidget.min.js.map',
+
     ]
 
   };

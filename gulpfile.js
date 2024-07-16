@@ -17,7 +17,7 @@ var env = process.env.npm_config_qa ? 'qa' : process.env.npm_config_uat ? 'uat' 
   var h = d.getHours() >= 10 ? d.getHours() : '0' + d.getHours();
   var mm = d.getMinutes() >= 10 ? d.getMinutes() : '0' + d.getMinutes();
   //version = "" + yy + MM + DD + h + mm;//匹配真实时间
-  version = "19990327"//写死
+  version = "19990327"//写19990327
   versionPath = distPath + '/' + version;
 
 })();

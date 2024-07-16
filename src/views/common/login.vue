@@ -52,8 +52,8 @@ export default {
   data() {
     return {
       form: {
-        acc: 'luckyNwa',
-        pwd: '123456',
+        acc: 'luckyNwa6',
+        pwd: '1234567',
       },
       yzmInput: '',
       yzmm: '',
@@ -172,27 +172,6 @@ export default {
 
   created() {
     this.updateDateTime()
-    if (this.openCool) {
-      import('@/assets/js/yinHua.js').then(() => {
-        //看板娘初始化
-        setTimeout(() => {
-          window.L2Dwidget.init({
-            pluginRootPath: '../static/plugins/live2dw/',
-            pluginJsPath: 'lib/',
-            pluginModelPath: 'live2d-widget-model-haru_1/assets/', //中间这个haru_2就是你的老婆,想换个老婆,换这个就可以了
-            tagMode: false,
-            debug: false,
-            model: {
-              //jsonPath: '../static/plugins/live2dw/live2d-widget-model-haru_1/assets/haru01.model.json', //本地
-              jsonPath: window.SITE_CONFIG.cdnUrl + '/static/plugins/live2dw/live2d-widget-model-haru_1/assets/haru01.model.json', //线上
-            },
-            display: { position: 'left', width: 150, height: 400 }, //调整大小,和位置
-            mobile: { show: true }, //要不要盯着你的鼠标看
-            log: false,
-          })
-        }, 1000)
-      })
-    }
   },
 }
 </script>
