@@ -1,12 +1,17 @@
 <template>
   <div>
-    <el-input v-model="findContent" placeholder="请输入标题关键字" style="width: 222px; margin-right: 12px; margin-bottom: 12px"></el-input>
-    <el-select v-model="selectedValue" placeholder="请选择文件夹" style="margin-right: 10px" @change="searchPic">
+    <el-input
+      v-if="isAuth('bed:pic:list')"
+      v-model="findContent"
+      placeholder="请输入标题关键字"
+      style="width: 222px; margin-right: 12px; margin-bottom: 12px"
+    ></el-input>
+    <el-select v-model="selectedValue" placeholder="请选择文件夹" style="margin-right: 10px" v-if="isAuth('bed:folder:list')">
       <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
     </el-select>
 
     <el-button type="primary" icon="el-icon-search" @click="searchPic">搜索</el-button>
-    <el-button type="danger" @click="delOssPic">批量删除</el-button>
+    <el-button v-if="isAuth('bed:pic:delete')" type="danger" @click="delOssPic">批量删除</el-button>
     <div>
       <div style="display: flex">
         <!-- action是请求的地址,需要token所以加入请求头,自动上传关闭
@@ -15,19 +20,26 @@
         <el-upload
           class="upload-btn"
           :action="actionUrl"
+          v-if="isAuth('bed:pic:save')"
           :headers="uploadHeaders"
           :auto-upload="false"
           ref="upload"
           :data="{ path: this.selectedValue }"
           :show-file-list="showFileList"
           :before-upload="handleBeforeUpload"
+          style="margin-left: 20px; margin-bottom: 30px; margin-left: 30px;height: 20px;"
           :on-success="handleSuccess"
           multiple
-          style="height: 20px; width: 90px; padding-bottom: 10px"
         >
           <el-button size="small" type="primary">选取本地文件</el-button>
         </el-upload>
-        <el-button type="success" style="margin-left: 20px; margin-bottom: 30px; margin-left: 30px" @click="handleUpload" size="small">
+        <el-button
+          v-if="isAuth('bed:pic:save')"
+          type="success"
+          @click="handleUpload"
+          size="small"
+          style="height: 20px; width: 90px; padding-bottom: 10px"
+        >
           上传
         </el-button>
       </div>
@@ -54,9 +66,9 @@
       <el-table-column header-align="center" align="center" prop="createDate" label="创建时间" width="100"></el-table-column>
       <el-table-column label="操作" header-align="center" align="center">
         <template slot-scope="scope">
-          <el-button size="mini" @click="modify(scope.row)">修改</el-button>
+          <el-button v-if="isAuth('sys:menu:update')" size="mini" @click="modify(scope.row)">修改</el-button>
 
-          <el-button size="mini" type="danger" @click="delOssPic(scope.row)">删除</el-button>
+          <el-button v-if="isAuth('sys:menu:delete')" size="mini" type="danger" @click="delOssPic(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>

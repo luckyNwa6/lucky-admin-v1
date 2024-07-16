@@ -52,12 +52,13 @@ export default {
   data() {
     return {
       form: {
-        acc: 'admin',
-        pwd: 'Nwa741741',
+        acc: 'luckyNwa',
+        pwd: '123456',
       },
       yzmInput: '',
       yzmm: '',
       openCool: false, //关闭樱花和看板娘
+      isOpenYzm: false, //开发中false则不需输验证码
       currentDateTime: '',
       rules: {
         acc: [
@@ -77,7 +78,7 @@ export default {
     login() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          if (this.yzmInput.toLowerCase() !== this.yzmm.toLowerCase()) {
+          if (this.yzmInput.toLowerCase() !== this.yzmm.toLowerCase() && this.isOpenYzm) {
             this.failMsg('验证码有误！')
             this.yzmm = this.$options.methods.showCode()
           } else {
