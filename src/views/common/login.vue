@@ -52,20 +52,20 @@ export default {
   data() {
     return {
       form: {
-        acc: 'admin6',
-        pwd: 'Nwa7417416',
+        acc: 'admin',
+        pwd: 'Nwa741',
       },
       yzmInput: '',
       yzmm: '',
-      isOpenYzm: false, //开发中false则不需输验证码
+      isOpenYzm: true, //开发中false则不需输验证码
       currentDateTime: '',
       rules: {
         acc: [
           { required: true, message: '请输入账号', trigger: 'blur' },
           {
             min: 4,
-            max: 10,
-            message: '账号长度必须为 4-10 位',
+            max: 33,
+            message: '账号长度必须为 4-33 位',
             trigger: 'blur',
           },
         ],

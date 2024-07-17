@@ -38,8 +38,9 @@ export default {
     }
   },
   methods: {
-    init(id) {
+    init(selectedValue) {
       this.visible = true
+      this.selectedValue = selectedValue
     },
     // 上传之前
     beforeUploadHandle(file) {

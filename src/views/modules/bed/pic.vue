@@ -5,23 +5,19 @@
       v-model="findContent"
       placeholder="请输入标题关键字"
       style="width: 222px; margin-right: 12px; margin-bottom: 12px"
+      clearable
     ></el-input>
-    <el-select v-model="selectedValue" placeholder="请选择文件夹" style="margin-right: 10px" v-if="isAuth('bed:folder:list')">
+    <el-select v-model="selectedValue" placeholder="请选择文件夹" style="margin-right: 10px">
       <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
     </el-select>
 
     <el-button type="primary" @click="uploadHandle()" v-if="isAuth('bed:pic:save')">上传文件</el-button>
     <el-button type="primary" icon="el-icon-search" @click="searchPic">搜索</el-button>
-    <el-button v-if="isAuth('bed:pic:delete')" type="danger" @click="delOssPic">批量删除</el-button>
+    <el-button v-if="isAuth('bed:pic:delete')" type="danger" @click="delOssPic" :disabled="dataListSelections.length <= 0">
+      批量删除
+    </el-button>
 
-    <el-table
-      :data="tableData.slice((currentPage - 1) * pageSize, currentPage * pageSize)"
-      style="width: 100%; border: 2px solid #ebeef5; border-color: #868686"
-      :header-cell-style="tableHeaderCellStyle"
-      border
-      :cell-style="tableCellStyle"
-      @selection-change="handleSelectionChange"
-    >
+    <el-table :data="dataList" style="width: 100%;" v-loading="dataListLoading" border @selection-change="handleSelectionChange">
       <el-table-column header-align="center" align="center" type="selection" width="55"></el-table-column>
       <el-table-column header-align="center" align="center" prop="id" label="id" width="100"></el-table-column>
       <el-table-column header-align="center" align="center" prop="picName" label="名称" width="100"></el-table-column>
@@ -30,30 +26,28 @@
           <img :src="scope.row.url" style="width: 100px" />
         </template>
       </el-table-column>
-      <el-table-column header-align="center" align="center" prop="url" label="URL" width="100"></el-table-column>
+      <el-table-column header-align="center" align="center" prop="url" label="URL"></el-table-column>
       <el-table-column header-align="center" align="center" prop="fileSize" label="大小" width="100"></el-table-column>
       <el-table-column header-align="center" align="center" prop="createBy" label="创建人" width="100"></el-table-column>
       <el-table-column header-align="center" align="center" prop="createDate" label="创建时间" width="100"></el-table-column>
-      <el-table-column label="操作" header-align="center" align="center">
+      <el-table-column label="操作" header-align="center" align="center" width="150">
         <template slot-scope="scope">
-          <el-button v-if="isAuth('sys:menu:update')" size="mini" @click="modify(scope.row)">修改</el-button>
-          <el-button v-if="isAuth('sys:menu:delete')" size="mini" type="danger" @click="delOssPic(scope.row)">删除</el-button>
+          <el-button v-if="isAuth('bed:pic:update')" size="mini" @click="modify(scope.row)">修改</el-button>
+          <el-button v-if="isAuth('bed:pic:delete')" size="mini" type="danger" @click="delOssPic(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-    <div>
-      <div class="block" style="margin-top: 15px">
-        <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="currentPage"
-          :page-sizes="[5, 10, 20]"
-          :page-size="pageSize"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="tableData.length"
-        ></el-pagination>
-      </div>
-    </div>
+
+    <el-pagination
+      @size-change="sizeChangeHandle"
+      @current-change="currentChangeHandle"
+      :current-page="pageIndex"
+      :page-sizes="[10, 20, 50, 100]"
+      :page-size="pageSize"
+      :total="totalPage"
+      layout="total, sizes, prev, pager, next, jumper"
+    ></el-pagination>
+
     <!-- 弹框组件 -->
     <el-dialog :visible.sync="dialogVisible" title="修改名称">
       <el-form label-width="80px">
@@ -78,12 +72,13 @@ import Upload from './pic-upload'
 export default {
   data() {
     return {
-      tableData: [],
-      currentPage: 1,
+      dataList: [],
+      pageIndex: 1,
       pageSize: 10,
-      total: '',
+      totalPage: 0,
       selectedValue: '', // 初始化为空
       options: [],
+      dataListLoading: false,
       showFileList: false, //隐藏上传的文件列表
       dataListSelections: [], //用来存放多选的对象
       findContent: '', //搜索框内容
@@ -101,7 +96,7 @@ export default {
     uploadHandle() {
       this.uploadVisible = true
       this.$nextTick(() => {
-        this.$refs.uploadLucky.init()
+        this.$refs.uploadLucky.init(this.selectedValue)
       })
     },
 
@@ -132,6 +127,7 @@ export default {
     },
     //获取图片列表
     getYunListF() {
+      this.dataListLoading = true
       let params = {
         picName: this.findContent || null,
         folder: this.selectedValue,
@@ -139,12 +135,16 @@ export default {
         limit: 100,
       }
       getYunList(params).then(res => {
-        console.log('🚀 ~ getYunList ~ res:', res)
+        // console.log('🚀 ~ getYunList ~ res:', res)
         if (res.data.code === 0) {
-          this.tableData = res.data.data.list
+          this.dataList = res.data.data.list
+          this.totalPage = res.data.data.totalCount
         } else {
+          this.dataList = []
+          this.totalPage = 0
           this.failMsg(res.data.msg)
         }
+        this.dataListLoading = false
       })
     },
 
@@ -184,38 +184,32 @@ export default {
     searchPic() {
       this.getYunListF()
     },
-    // 每页条数改变时触发，选中一页显示多少行
-    handleSizeChange(val) {
-      console.log(`每页${val}条`)
-      this.currentPage = 1
+    // 每页数
+    sizeChangeHandle(val) {
       this.pageSize = val
+      this.pageIndex = 1
+      this.getYunListF()
     },
-    handleCurrentChange(val) {
-      console.log(`当前页:${val}`)
-      this.currentPage = val
-    },
-    //表格样式
-    tableCellStyle() {
-      return 'border-color: #868686;'
-    },
-
-    tableHeaderCellStyle() {
-      return 'border-color: #868686; color: #606266;'
+    // 当前页
+    currentChangeHandle(val) {
+      this.pageIndex = val
+      this.getYunListF()
     },
   },
 
   created() {
-    this.getYunListF()
     //获取文件夹列表,处理成下拉框数据
     getFolderList({
       folderName: '',
-      userId: 1,
+      userId: JSON.parse(this.$cookie.get('picData')).userId,
     }).then(({ data }) => {
       if (data && data.code === 0) {
         this.options = data.data.map(folder => ({
           value: folder.folderName,
           label: folder.folderName,
         }))
+        this.selectedValue = this.options[0].value // 将第一个选项的值赋给 selectedValue
+        this.getYunListF()
       } else {
         this.$message.error(data.msg)
       }

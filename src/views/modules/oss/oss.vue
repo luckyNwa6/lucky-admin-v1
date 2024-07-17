@@ -5,9 +5,10 @@
         <el-button type="primary" @click="configHandle()">云存储配置</el-button>
         <el-button type="primary" @click="uploadHandle()">上传文件</el-button>
         <el-button type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
-        <el-button type="success" style="margin-left: 20px; margin-bottom: 30px; margin-left: 30px" @click="loadMinIO" size="small">
-          下载MinIO测试
-        </el-button>
+        <el-button type="success" @click="loadMinIO">下载MinIO测试</el-button>
+        <el-button type="primary" @click="syncYun()" :disabled="btnYunDis">同步文件夹和图片</el-button>
+        <!-- <el-button type="primary" @click="syncYunFolder()">同步文件夹</el-button>
+        <el-button type="primary" @click="syncYunPic()">同步图片</el-button> -->
       </el-form-item>
     </el-form>
     <el-table :data="dataList" border v-loading="dataListLoading" @selection-change="selectionChangeHandle" style="width: 100%;">
@@ -51,6 +52,7 @@ export default {
       pageSize: 10,
       totalPage: 0,
       dataListLoading: false,
+      btnYunDis: false,
       dataListSelections: [],
       configVisible: false,
       uploadVisible: false,
@@ -64,6 +66,41 @@ export default {
     this.getDataList()
   },
   methods: {
+    //同步云
+    syncYun() {
+      this.syncYunFolder()
+    },
+    //同步文件夹
+    syncYunFolder() {
+      this.btnYunDis = true
+      this.$http({
+        url: this.$http.adornUrl('/bedFolder/syncYunFolder'),
+        method: 'get',
+      }).then(({ data }) => {
+        if (data && data.code === 0) {
+          this.successMsg(data.msg)
+          this.syncYunPic() //同步完文件夹再去同步图片
+        } else {
+          this.failMsg(data.msg)
+          this.btnYunDis = false
+        }
+      })
+    },
+    //同步图片
+    syncYunPic() {
+      this.$http({
+        url: this.$http.adornUrl('/bedPic/syncYunPic'),
+        method: 'get',
+      }).then(({ data }) => {
+        if (data && data.code === 0) {
+          this.successMsg(data.msg)
+        } else {
+          this.failMsg(data.msg)
+        }
+        this.btnYunDis = false
+      })
+    },
+    //下载MinIO测试
     loadMinIO() {
       //请求那返回类型改blob即可
       loadMinIOFile('http://47.98.230.128:9000/lucky/20240715/ca3371a366b04942bb13166ac7e6e04b.jpg').then(res => {

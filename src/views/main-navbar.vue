@@ -2,7 +2,7 @@
   <nav class="site-navbar" :class="'site-navbar--' + navbarLayoutType">
     <div class="site-navbar__header">
       <h1 class="site-navbar__brand" @click="$router.push({ name: 'home' })">
-        <a class="site-navbar__brand-lg" href="javascript:;">后台管理系统</a>
+        <a class="site-navbar__brand-lg" href="javascript:;">小维后台管理系统</a>
         <a class="site-navbar__brand-mini" href="javascript:;">NN</a>
       </h1>
     </div>
@@ -13,7 +13,7 @@
         </el-menu-item>
       </el-menu>
       <el-menu class="site-navbar__menu site-navbar__menu--right" mode="horizontal">
-        <el-menu-item index="1" @click="$router.push({ name: 'theme' })">
+        <el-menu-item v-if="isAuth('sys:pwd:update')" index="1" @click="$router.push({ name: 'theme' })">
           <template slot="title">
             <el-badge value="new">
               <icon-svg name="shezhi" class="el-icon-setting"></icon-svg>
@@ -28,7 +28,7 @@
               {{ nickname }}
             </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item @click.native="updatePasswordHandle()">修改密码</el-dropdown-item>
+              <el-dropdown-item v-if="isAuth('sys:pwd:update')" @click.native="updatePasswordHandle()">修改密码</el-dropdown-item>
               <el-dropdown-item @click.native="logoutHandle()">退出</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
