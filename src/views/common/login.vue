@@ -52,21 +52,20 @@ export default {
   data() {
     return {
       form: {
-        acc: 'luckyNwa6',
-        pwd: '1234567',
+        acc: 'admin6',
+        pwd: 'Nwa7417416',
       },
       yzmInput: '',
       yzmm: '',
-      openCool: false, //关闭樱花和看板娘
       isOpenYzm: false, //开发中false则不需输验证码
       currentDateTime: '',
       rules: {
         acc: [
           { required: true, message: '请输入账号', trigger: 'blur' },
           {
-            min: 5,
+            min: 4,
             max: 10,
-            message: '账号长度必须为 5-10 位',
+            message: '账号长度必须为 4-10 位',
             trigger: 'blur',
           },
         ],
@@ -300,5 +299,10 @@ export default {
   to {
     background-position: 200% center;
   }
+}
+
+.el-form >>> .el-form-item__error {
+  padding-top: 1px;
+  font-size: 8px;
 }
 </style>

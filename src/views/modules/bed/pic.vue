@@ -10,40 +10,10 @@
       <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
     </el-select>
 
+    <el-button type="primary" @click="uploadHandle()" v-if="isAuth('bed:pic:save')">上传文件</el-button>
     <el-button type="primary" icon="el-icon-search" @click="searchPic">搜索</el-button>
     <el-button v-if="isAuth('bed:pic:delete')" type="danger" @click="delOssPic">批量删除</el-button>
-    <div>
-      <div style="display: flex">
-        <!-- action是请求的地址,需要token所以加入请求头,自动上传关闭
-        data直接携带参数，nb
-      multiple批量选择文件 -->
-        <el-upload
-          class="upload-btn"
-          :action="actionUrl"
-          v-if="isAuth('bed:pic:save')"
-          :headers="uploadHeaders"
-          :auto-upload="false"
-          ref="upload"
-          :data="{ path: this.selectedValue }"
-          :show-file-list="showFileList"
-          :before-upload="handleBeforeUpload"
-          style="margin-left: 20px; margin-bottom: 30px; margin-left: 30px;height: 20px;"
-          :on-success="handleSuccess"
-          multiple
-        >
-          <el-button size="small" type="primary">选取本地文件</el-button>
-        </el-upload>
-        <el-button
-          v-if="isAuth('bed:pic:save')"
-          type="success"
-          @click="handleUpload"
-          size="small"
-          style="height: 20px; width: 90px; padding-bottom: 10px"
-        >
-          上传
-        </el-button>
-      </div>
-    </div>
+
     <el-table
       :data="tableData.slice((currentPage - 1) * pageSize, currentPage * pageSize)"
       style="width: 100%; border: 2px solid #ebeef5; border-color: #868686"
@@ -67,7 +37,6 @@
       <el-table-column label="操作" header-align="center" align="center">
         <template slot-scope="scope">
           <el-button v-if="isAuth('sys:menu:update')" size="mini" @click="modify(scope.row)">修改</el-button>
-
           <el-button v-if="isAuth('sys:menu:delete')" size="mini" type="danger" @click="delOssPic(scope.row)">删除</el-button>
         </template>
       </el-table-column>
@@ -97,12 +66,15 @@
         <el-button type="primary" @click="confirmDialog">确 定</el-button>
       </span>
     </el-dialog>
+    <!-- 弹窗, 上传文件 -->
+    <upload v-if="uploadVisible" ref="uploadLucky" @refreshDataList="getYunListF"></upload>
   </div>
 </template>
 
 <script>
 import { getFolderList } from '@/api/bed/folder/index'
 import { getYunList, delRemotePic, modifyInfo } from '@/api/bed/pic/index'
+import Upload from './pic-upload'
 export default {
   data() {
     return {
@@ -115,46 +87,21 @@ export default {
       showFileList: false, //隐藏上传的文件列表
       dataListSelections: [], //用来存放多选的对象
       findContent: '', //搜索框内容
-      uploadHeaders: {
-        Token: this.$cookie.get('token'), // 添加自定义请求头
-      },
-      actionUrl: '/proxyApi/bedPic/uploadPic',
-
+      uploadVisible: false, //上传弹框
       dialogVisible: false, // 控制弹框显示与隐藏
       picName: '', // 输入框1的值
       tempId: 0, //用来存id修改时候用到
     }
   },
+  components: {
+    Upload,
+  },
   methods: {
-    handleBeforeUpload(file) {
-      // 处理上传前的逻辑
-      // console.log(file.type)
-      // const isJPG = file.type === 'image/jpeg' || file.type === 'image/png'
-      // const isLt2M = file.size / 1024 / 1024 < 2
-      // console.log(isLt2M, isJPG)
-      // if (!isJPG) {
-      //   this.$message.error('上传头像图片只能是 JPG或PNG 格式!')
-      // }
-      // if (!isLt2M) {
-      //   this.$message.error('上传头像图片大小不能超过 2MB!')
-      // }
-      // return isJPG && isLt2M
-    },
-    handleSuccess(response, file, fileList) {
-      // 处理上传成功的逻辑
-
-      if (response.code === 0) {
-        this.getYunListF()
-      } else {
-        this.failMsg(response.msg)
-      }
-    },
-
-    //手动上传
-    handleUpload() {
+    // 上传文件
+    uploadHandle() {
+      this.uploadVisible = true
       this.$nextTick(() => {
-        //确保在DOM更新后再执行提交操作
-        this.$refs.upload.submit() // 提交表单
+        this.$refs.uploadLucky.init()
       })
     },
 
@@ -191,7 +138,6 @@ export default {
         page: 1,
         limit: 100,
       }
-
       getYunList(params).then(res => {
         console.log('🚀 ~ getYunList ~ res:', res)
         if (res.data.code === 0) {
@@ -215,7 +161,6 @@ export default {
         : this.dataListSelections.map(item => {
             return item.id
           })
-
       this.$confirm(`确定对[id=${ids.join(',')}]进行[${obj.id ? '删除' : '批量删除'}]操作?`, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -261,7 +206,6 @@ export default {
 
   created() {
     this.getYunListF()
-
     //获取文件夹列表,处理成下拉框数据
     getFolderList({
       folderName: '',

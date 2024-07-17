@@ -14,7 +14,7 @@ module.exports = {
     // 代理列表, 是否开启代理通过[./dev.env.js]配置
     proxyTable: devEnv.OPEN_PROXY === false ? {} : {
       '/proxyApi': {
-        target: 'https://imgs.luckynwa.top',
+        target: 'http://localhost:10086/luckyAdmin',//远程  https://imgs.luckynwa.top   |本地 http://localhost:10086/luckyAdmin
         changeOrigin: true,
         pathRewrite: {
           '^/proxyApi/': ''

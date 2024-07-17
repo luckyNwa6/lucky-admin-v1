@@ -47,8 +47,7 @@ export default {
   data() {
     return {
       updatePassowrdVisible: false,
-      nickname: '',
-      headImg: require('@/assets/img/avatar.png'),
+      headImgLocal: require('@/assets/img/avatar.gif'),
     }
   },
   components: {
@@ -77,17 +76,24 @@ export default {
         this.$store.commit('common/updateMainTabs', val)
       },
     },
-    userName: {
+    nickname: {
       get() {
         var obj = JSON.parse(this.$cookie.get('picData'))
-        console.log('🚀 ~ mounted ~ obj:', obj)
         if (obj.nickname && obj.nickname !== '') {
-          this.nickname = obj.nickname
+          return obj.nickname
+        } else {
+          return this.$store.state.user.name
         }
+      },
+    },
+    headImg: {
+      get() {
+        var obj = JSON.parse(this.$cookie.get('picData'))
         if (obj.headUrl && obj.headUrl !== '') {
-          this.headImg = obj.headUrl
+          return obj.headUrl
+        } else {
+          return this.headImgLocal
         }
-        return this.$store.state.user.name
       },
     },
   },
