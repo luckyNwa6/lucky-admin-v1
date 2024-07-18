@@ -19,6 +19,7 @@ const _import = require('./import-' + process.env.NODE_ENV)
 const globalRoutes = [
   { path: '/404', component: _import('common/404'), name: '404', meta: { title: '404未找到' } },
   { path: '/login', component: _import('common/login'), name: 'login', meta: { title: '登录' } },
+  { path: '/uploadL', component: _import('common/uploadL'), name: 'login', meta: { title: '大文件上传' } },
 ]
 
 // 主入口路由(需嵌套上左右整体布局)

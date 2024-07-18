@@ -7,6 +7,7 @@
         <el-button type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
         <el-button type="success" @click="loadMinIO">下载MinIO测试</el-button>
         <el-button type="primary" @click="syncYun()" :disabled="btnYunDis">同步文件夹和图片</el-button>
+        <el-button type="primary" @click="openEditDialog()">大文件上传</el-button>
         <!-- <el-button type="primary" @click="syncYunFolder()">同步文件夹</el-button>
         <el-button type="primary" @click="syncYunPic()">同步图片</el-button> -->
       </el-form-item>
@@ -66,6 +67,16 @@ export default {
     this.getDataList()
   },
   methods: {
+    /**
+     * 打开上传页面
+     * @param {*} row
+     */
+    openEditDialog() {
+      // $router.push({ path: '/model-upload' });
+      const newRoute = this.$router.resolve({ path: '/uploadL' }) //新页面
+      window.open(newRoute.href, '_blank')
+    },
+
     //同步云
     syncYun() {
       this.syncYunFolder()
