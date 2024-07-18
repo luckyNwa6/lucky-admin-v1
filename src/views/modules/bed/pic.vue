@@ -120,6 +120,7 @@ export default {
 
       this.closeDialog() // 关闭弹框
     },
+
     closeDialog() {
       this.dialogVisible = false // 关闭弹框
       this.tempId = 0

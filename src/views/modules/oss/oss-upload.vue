@@ -37,8 +37,14 @@ export default {
     },
     // 上传之前
     beforeUploadHandle(file) {
-      if (file.type !== 'image/jpg' && file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/gif') {
-        this.$message.error('只支持jpg、png、gif格式的图片！')
+      if (
+        file.type !== 'image/jpg' &&
+        file.type !== 'image/jpeg' &&
+        file.type !== 'image/png' &&
+        file.type !== 'image/gif' &&
+        file.type !== 'image/webp'
+      ) {
+        this.$message.error('只支持jpg、png、gif、webp格式的图片！')
         return false
       }
       this.num++
