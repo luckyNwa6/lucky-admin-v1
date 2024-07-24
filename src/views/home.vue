@@ -12,6 +12,7 @@
     <p>路由跳转:</p>
     <el-button @click="goCharts()">图表测试</el-button>
     <el-button @click="goAVue()">aVue测试</el-button>
+    <el-button @click="goScreen()">大屏</el-button>
   </div>
 </template>
 
@@ -36,6 +37,10 @@ export default {
     goAVue() {
       this.$router.push('/aVueT')
     },
+    goScreen() {
+      this.$router.push('/screen')
+    },
+
     //下面是测试session
     testSession() {
       request.get('http://localhost/api/testSession').then((res) => {
@@ -107,4 +112,9 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped></style>
+<style>
+* {
+  padding: 0;
+  margin: 0;
+}
+</style>

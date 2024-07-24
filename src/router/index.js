@@ -38,6 +38,11 @@ const routes = [
     name: 'aVueT',
     component: () => import('@/views/aVueT/index.vue'),
   },
+  {
+    path: '/screen',
+    name: 'screen',
+    component: () => import('@/views/screen/index.vue'),
+  },
 ]
 
 const router = new VueRouter({
