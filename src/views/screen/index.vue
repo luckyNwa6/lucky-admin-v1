@@ -13,9 +13,9 @@
         <div class="left-time">
           <div style="display: flex; align-items: center">
             <img src="@/assets/screen/时间图标.png" class="conT" />
-            <span class="dateD">2024 年 07 月 12 日</span>
-            <span class="dateW">星期六</span>
-            <span class="dateN">13:45:23</span>
+            <span class="dateD">{{ year }} 年 {{ month }} 月 {{ day }} 日</span>
+            <span class="dateW">{{ weekday }}</span>
+            <span class="dateN">{{ hours }}:{{ minutes }}:{{ seconds }}</span>
           </div>
           <div style="margin-top: -11px"><img src="@/assets/screen/环境监测数据装饰线.png" class="dateLine" /></div>
         </div>
@@ -121,12 +121,12 @@
             :color="colors"
             :percentage="percentage"
             :define-back-color="percentageBgColor"
-          ></el-progress>
+          ></el-progress> -->
           <div class="device-percent">
             <span class="device-percent-num">{{ percentageShow }}</span>
             <span class="device-percent-company">%</span>
           </div>
-          <div class="device-online-title">设备在线率</div> -->
+          <div class="device-online-title">设备在线率</div>
           <div class="luckyPie"><div id="luckyPie" style="width: 470px; height: 280px"></div></div>
         </div>
         <div class="left-bottom"><p class="left-top-title">通知公告</p></div>
@@ -247,7 +247,7 @@ export default {
   mixins: [ResizeMixins],
   data() {
     return {
-      percentage: 48,
+      percentage: 88,
       colors: [
         { color: 'rgba(255, 255, 255, 0.2)', percentage: 50 },
         { color: 'rgba(255, 255, 255, 1)', percentage: 100 },
@@ -257,12 +257,23 @@ export default {
       dataX: ['7/10', '7/11', '7/12', '7/13', '7/14', '7/15', '7/16'], //x轴的数据
       dataY: [65, 28, 92, 55, 12, 62, 58], //X轴对应的数据
       myChart2: null, //饼图
+      year: '', //下面实时时间
+      month: '',
+      day: '',
+      hours: '',
+      minutes: '',
+      seconds: '',
+      weekday: '',
+      weekdays: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
     }
   },
   computed: {
     percentageShow() {
       return this.percentage
     },
+  },
+  created() {
+    this.updateDateTime()
   },
   mounted() {
     this.initChart()
@@ -275,13 +286,30 @@ export default {
       this.myChart.setOption(option)
 
       this.myChart2 = echarts.init(document.getElementById('luckyPie'))
-      var option2 = greenPieOpt(88, echarts)
+      var option2 = greenPieOpt(this.percentage, echarts)
       this.myChart2.setOption(option2)
     },
     //自适应分辨率
     onResize() {
       this.myChart && this.myChart.resize()
       this.myChart2 && this.myChart2.resize()
+    },
+    //更新时间
+    updateDateTime() {
+      this.getCurrentDateTimeWithWeekday()
+      setInterval(() => {
+        this.getCurrentDateTimeWithWeekday()
+      }, 1000)
+    },
+    getCurrentDateTimeWithWeekday() {
+      const now = new Date()
+      this.year = now.getFullYear()
+      this.month = String(now.getMonth() + 1).padStart(2, '0') // 月份是从0开始的，所以需要加1
+      this.day = String(now.getDate()).padStart(2, '0')
+      this.hours = String(now.getHours()).padStart(2, '0')
+      this.minutes = String(now.getMinutes()).padStart(2, '0')
+      this.seconds = String(now.getSeconds()).padStart(2, '0')
+      this.weekday = this.weekdays[now.getDay()]
     },
   },
 }

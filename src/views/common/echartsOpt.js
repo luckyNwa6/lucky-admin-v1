@@ -1183,21 +1183,21 @@ export const greenPieOpt = (percentage, echarts) => {
     value: [percentage],
   };
   return {
-    title: {
-      text: data.value[0] + '%',//标题不能分开设置样式，采用自定义
-      textStyle: {
-        color: '#FFCB67',
-        fontSize: 35
-      },
-      subtext: '设备在线率',
-      subtextStyle: {
-        color: 'rgba(223, 255, 255, 0.8)',
-        fontSize: 14
-      },
-      itemGap: 0,
-      left: 'center',
-      top: 'center'//控制文本
-    },
+    // title: {
+    //   text: data.value[0] + '%',//标题不能分开设置样式，采用自定义
+    //   textStyle: {
+    //     color: '#FFCB67',
+    //     fontSize: 35
+    //   },
+    //   subtext: '设备在线率',
+    //   subtextStyle: {
+    //     color: 'rgba(223, 255, 255, 0.8)',
+    //     fontSize: 14
+    //   },
+    //   itemGap: 0,
+    //   left: 'center',
+    //   top: 'center'//控制文本
+    // },
     angleAxis: {
       max: 100,
       clockwise: true, // 逆时针
@@ -1239,8 +1239,8 @@ export const greenPieOpt = (percentage, echarts) => {
         barWidth: 5, //大的占比环
         itemStyle: {
           normal: {
-            opacity: 1,
-            color: new echarts.graphic.LinearGradient(0, 0, 1, 1, [
+            // opacity: 1,
+            color: new echarts.graphic.LinearGradient(1, 0, 0, 1, [
               {
                 offset: 0,
                 color: 'rgba(255, 255, 255, 0)'
@@ -1265,7 +1265,7 @@ export const greenPieOpt = (percentage, echarts) => {
         clockWise: true,
         itemStyle: {
           normal: {
-            color: new echarts.graphic.LinearGradient(0, 0, 1, 1, [
+            color: new echarts.graphic.LinearGradient(1, 0, 0, 1, [//右上到左下渐变
               {
                 offset: 0,
                 color: 'rgba(14, 195, 220, 0.08)'
