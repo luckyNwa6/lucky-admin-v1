@@ -12,12 +12,14 @@
         <!-- 时间 -->
         <div class="left-time">
           <div style="display: flex; align-items: center">
-            <img src="@/assets/screen/时间图标.png" class="conT" />
+            <img src="@/assets/screen_images/smart-green-irrigation/时间图标.png" class="conT" />
             <span class="dateD">{{ year }} 年 {{ month }} 月 {{ day }} 日</span>
             <span class="dateW">{{ weekday }}</span>
             <span class="dateN">{{ hours }}:{{ minutes }}:{{ seconds }}</span>
           </div>
-          <div style="margin-top: -11px"><img src="@/assets/screen/环境监测数据装饰线.png" class="dateLine" /></div>
+          <div style="margin-top: -11px">
+            <img src="@/assets/screen_images/smart-green-irrigation/环境监测数据装饰线.png" class="dateLine" />
+          </div>
         </div>
         <!-- 天气 -->
         <div class="left-weather">
@@ -27,21 +29,21 @@
               <span class="temperature-v">30</span>
               <span class="temperature-c">℃</span>
             </div>
-            <div><img src="@/assets/screen/实时天气.png" /></div>
+            <div><img src="@/assets/screen_images/smart-green-irrigation/实时天气.png" /></div>
             <div class="real-time-weather">实时天气</div>
           </div>
           <!-- 天气右边 -->
           <div style="margin-top: 20px">
             <div style="display: flex">
               <div class="box" style="margin: 0 24px 24px">
-                <div><img src="@/assets/screen/天气图标.png" /></div>
+                <div><img src="@/assets/screen_images/smart-green-irrigation/天气图标.png" /></div>
                 <div>
                   <div class="item-title">天气</div>
                   <div class="item-con1 item-po">多云转晴</div>
                 </div>
               </div>
               <div class="box">
-                <img src="@/assets/screen/湿度图标.png" />
+                <img src="@/assets/screen_images/smart-green-irrigation/湿度图标.png" />
                 <div>
                   <div class="item-title">湿度</div>
                   <div class="item-con2 item-po">50%</div>
@@ -50,7 +52,7 @@
             </div>
             <div style="display: flex">
               <div class="box" style="margin: 0 24px 24px">
-                <img src="@/assets/screen/温度图标.png" />
+                <img src="@/assets/screen_images/smart-green-irrigation/温度图标.png" />
                 <div>
                   <div class="item-title">温度</div>
                   <div class="item-po">
@@ -62,7 +64,7 @@
                 </div>
               </div>
               <div class="box">
-                <img src="@/assets/screen/风力图标.png" />
+                <img src="@/assets/screen_images/smart-green-irrigation/风力图标.png" />
                 <div>
                   <div class="item-title">风力</div>
                   <div class="item-po">
@@ -78,8 +80,8 @@
         <div class="left-center"><p class="left-top-title">设备统计</p></div>
         <!-- 设备 -->
         <div class="left-device">
-          <div><img class="statistics-img1" src="@/assets/screen/设备统计1080.png" /></div>
-          <img class="statistics-img2" src="@/assets/screen/设备统计10802.png" />
+          <div><img class="statistics-img1" src="@/assets/screen_images/smart-green-irrigation/设备统计1080.png" /></div>
+          <img class="statistics-img2" src="@/assets/screen_images/smart-green-irrigation/设备统计10802.png" />
           <div style="display: flex; position: absolute; left: 0px; top: 5px">
             <div class="device-line" style="margin-left: 10px; margin-top: 12px"></div>
             <div class="device-title" style="margin-left: 18px; margin-top: 10px">设备总数</div>
@@ -133,32 +135,31 @@
         <!-- 公告 -->
         <div class="left-notice">
           <div class="left-notice-con">
-            <img class="left-notice-img1" src="@/assets/screen/通知公告左边小装饰.png" />
+            <img class="left-notice-img1" src="@/assets/screen_images/smart-green-irrigation/通知公告左边小装饰.png" />
             <div class="left-notice-p">小林子社区停电通知</div>
             <div style="flex: 1"></div>
             <div class="left-notice-date">2024-07-12</div>
-            <img class="left-notice-img2" src="@/assets/screen/通知公告右边小装饰.png" />
+            <img class="left-notice-img2" src="@/assets/screen_images/smart-green-irrigation/通知公告右边小装饰.png" />
           </div>
           <div class="left-notice-con">
-            <img class="left-notice-img1" src="@/assets/screen/通知公告左边小装饰.png" />
+            <img class="left-notice-img1" src="@/assets/screen_images/smart-green-irrigation/通知公告左边小装饰.png" />
             <div class="left-notice-p">小林子社区停电通知</div>
             <div style="flex: 1"></div>
             <div class="left-notice-date">2024-07-12</div>
-            <img class="left-notice-img2" src="@/assets/screen/通知公告右边小装饰.png" />
+            <img class="left-notice-img2" src="@/assets/screen_images/smart-green-irrigation/通知公告右边小装饰.png" />
           </div>
           <div class="left-notice-con">
-            <img class="left-notice-img1" src="@/assets/screen/通知公告左边小装饰.png" />
+            <img class="left-notice-img1" src="@/assets/screen_images/smart-green-irrigation/通知公告左边小装饰.png" />
             <div class="left-notice-p">小林子社区停电通知</div>
             <div style="flex: 1"></div>
             <div class="left-notice-date">2024-07-12</div>
-            <img class="left-notice-img2" src="@/assets/screen/通知公告右边小装饰.png" />
+            <img class="left-notice-img2" src="@/assets/screen_images/smart-green-irrigation/通知公告右边小装饰.png" />
           </div>
         </div>
       </div>
       <!-- 中间 -->
       <div class="center">
         <div class="center-content">
-          <!-- 下面是每一块 -->
           <div class="center-content-item" v-for="i in 19">
             <div class="center-content-item-title">1# 管网</div>
             <div class="center-content-item-con">
@@ -208,7 +209,6 @@
             <div class="right-table-title-font">采集时间</div>
           </div>
           <div class="right-table-con" v-for="i in 4">
-            <!-- 第一行 -->
             <div class="right-table-one">
               <div class="right-table-one-font">1</div>
               <div class="right-table-one-font">温湿度传感器</div>
@@ -216,7 +216,6 @@
               <div class="right-table-one-font">27℃</div>
               <div class="right-table-one-font">2024-07-09 14:15:12</div>
             </div>
-            <!-- 第二行 -->
             <div class="right-table-two">
               <div class="right-table-one-font">1</div>
               <div class="right-table-one-font">温湿度传感器</div>
@@ -231,8 +230,8 @@
           </div>
         </div>
       </div>
-      <div><img src="@/assets/screen/左下角装饰.png" class="all-img1" /></div>
-      <div><img src="@/assets/screen/右下角装饰.png" class="all-img2" /></div>
+      <div><img src="@/assets/screen_images/smart-green-irrigation/左下角装饰.png" class="all-img1" /></div>
+      <div><img src="@/assets/screen_images/smart-green-irrigation/右下角装饰.png" class="all-img2" /></div>
       <div class="all-img3"><span>管理中心</span></div>
     </div>
   </div>
@@ -265,6 +264,7 @@ export default {
       seconds: '',
       weekday: '',
       weekdays: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
+      timerId: '',
     }
   },
   computed: {
@@ -277,6 +277,12 @@ export default {
   },
   mounted() {
     this.initChart()
+  },
+  beforeDestroy() {
+    // 在组件销毁前清除定时器，以避免内存泄漏
+    if (this.timerId) {
+      clearInterval(this.timerId)
+    }
   },
   methods: {
     initChart() {
@@ -297,7 +303,7 @@ export default {
     //更新时间
     updateDateTime() {
       this.getCurrentDateTimeWithWeekday()
-      setInterval(() => {
+      this.timerId = setInterval(() => {
         this.getCurrentDateTimeWithWeekday()
       }, 1000)
     },
@@ -318,20 +324,20 @@ export default {
 <style lang="scss" scoped>
 @font-face {
   font-family: 'PangMenZhengDao';
-  src: url('@/assets/fonts/PangMenZhengDaoBiaoTiTiMianFeiBan-2.ttf') format('opentype');
+  src: url('@/assets/screen_images/smart-green-irrigation/fonts/PangMenZhengDaoBiaoTiTiMianFeiBan-2.ttf') format('opentype');
 }
 .green-content {
   margin: 0;
   padding: 0;
   background-color: #072830;
   position: relative;
-  height: 100vh;
+  height: 100%;
 }
 .head {
   position: absolute;
   width: 100%;
   height: 298px;
-  background: url(@/assets/screen/头部.png) no-repeat center center;
+  background: url(@/assets/screen_images/smart-green-irrigation/头部.png) no-repeat center center;
   .title {
     font-family: PangMenZhengDao;
     font-size: 40px;
@@ -354,7 +360,7 @@ export default {
   .left-top {
     margin-top: 116px;
     margin-left: 24px;
-    background: url(@/assets/screen/小标题.png);
+    background: url(@/assets/screen_images/smart-green-irrigation/小标题.png);
     width: 466px;
     height: 38px;
     .left-top-title {
@@ -369,7 +375,7 @@ export default {
   }
   .left-center {
     margin-left: 24px;
-    background: url(@/assets/screen/小标题.png);
+    background: url(@/assets/screen_images/smart-green-irrigation/小标题.png);
     width: 466px;
     height: 38px;
     .left-top-title {
@@ -385,7 +391,7 @@ export default {
   .left-bottom {
     margin-left: 24px;
     margin-top: 32px;
-    background: url(@/assets/screen/小标题.png);
+    background: url(@/assets/screen_images/smart-green-irrigation/小标题.png);
     width: 466px;
     height: 38px;
 
@@ -474,7 +480,7 @@ export default {
       display: flex;
       align-items: center;
       // background-image: linear-gradient(139deg, rgba(81, 197, 233, 0) 3%, rgba(43, 125, 143, 0.21) 100%);
-      background-image: url(@/assets/screen/小卡片.png);
+      background-image: url(@/assets/screen_images/smart-green-irrigation/小卡片.png);
       .item-title {
         font-family: SourceHanSansSC-Regular;
         font-size: 14px;
@@ -656,9 +662,9 @@ export default {
     overflow: auto;
     height: 790px;
     flex-wrap: wrap;
-    background: url(@/assets/screen/中间点阵.png) no-repeat bottom right;
+    background: url(@/assets/screen_images/smart-green-irrigation/中间点阵.png) no-repeat bottom right;
     .center-content-item {
-      background: url(@/assets/screen/管网卡片背景1920.png) no-repeat left center;
+      background: url(@/assets/screen_images/smart-green-irrigation/管网卡片背景1920.png) no-repeat left center;
       width: 294px;
       height: 242px;
       margin-bottom: 13px;
@@ -667,7 +673,7 @@ export default {
     .center-content-item-title {
       padding-top: 12px;
       padding-left: 13px;
-      background: url(@/assets/screen/管网卡片标题.png) no-repeat left center;
+      background: url(@/assets/screen_images/smart-green-irrigation/管网卡片标题.png) no-repeat left center;
 
       font-family: SourceHanSansSC-Bold;
       font-size: 16px;
@@ -733,7 +739,7 @@ export default {
   .right-top {
     margin-top: 116px;
     margin-left: 7px;
-    background: url(@/assets/screen/小标题.png);
+    background: url(@/assets/screen_images/smart-green-irrigation/小标题.png);
     width: 466px;
     height: 38px;
     .right-top-title {
@@ -750,7 +756,7 @@ export default {
     margin-top: 18.59px;
     margin-left: 7px;
     .right-table-title {
-      background: url(@/assets/screen/实时统计表头1920.png);
+      background: url(@/assets/screen_images/smart-green-irrigation/实时统计表头1920.png);
       width: 466px;
       height: 40.38px;
       padding: 13px;
@@ -799,7 +805,7 @@ export default {
   .right-water {
     margin-top: 25px;
     margin-left: 7px;
-    background: url(@/assets/screen/小标题.png);
+    background: url(@/assets/screen_images/smart-green-irrigation/小标题.png);
     width: 466px;
     height: 38px;
     .right-top-title {
@@ -830,7 +836,7 @@ export default {
   z-index: 1;
 }
 .all-img3 {
-  background: url(@/assets/screen/控制台按钮.png);
+  background: url(@/assets/screen_images/smart-green-irrigation/控制台按钮.png);
   position: absolute;
   right: 24px;
   top: 72px;
