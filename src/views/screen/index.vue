@@ -1,3 +1,4 @@
+<!-- 适配分辨率1280——1920 -->
 <template>
   <div class="green-content">
     <!-- 这是标题单独布局 -->
@@ -17,26 +18,28 @@
             <span class="dateW">{{ weekday }}</span>
             <span class="dateN">{{ hours }}:{{ minutes }}:{{ seconds }}</span>
           </div>
-          <div style="margin-top: -11px">
-            <img src="@/assets/screen_images/smart-green-irrigation/环境监测数据装饰线.png" class="dateLine" />
-          </div>
+          <img src="@/assets/screen_images/smart-green-irrigation/环境监测数据装饰线.png" class="dateLine" />
         </div>
         <!-- 天气 -->
         <div class="left-weather">
           <!-- 天气左边 -->
-          <div style="margin-top: 12px">
+          <div style="margin-top: 12px; width: 31.5%">
             <div style="text-align: center">
               <span class="temperature-v">30</span>
               <span class="temperature-c">℃</span>
             </div>
-            <div><img src="@/assets/screen_images/smart-green-irrigation/实时天气.png" /></div>
+            <div style="text-align: center">
+              <img src="@/assets/screen_images/smart-green-irrigation/实时天气.png" />
+            </div>
             <div class="real-time-weather">实时天气</div>
           </div>
           <!-- 天气右边 -->
-          <div style="margin-top: 20px">
-            <div style="display: flex">
-              <div class="box" style="margin: 0 24px 24px">
-                <div><img src="@/assets/screen_images/smart-green-irrigation/天气图标.png" /></div>
+          <div style="margin-top: 20px; width: 68.5%">
+            <div style="display: flex; flex-wrap: wrap">
+              <div class="box">
+                <div>
+                  <img src="@/assets/screen_images/smart-green-irrigation/天气图标.png" />
+                </div>
                 <div>
                   <div class="item-title">天气</div>
                   <div class="item-con1 item-po">多云转晴</div>
@@ -49,9 +52,7 @@
                   <div class="item-con2 item-po">50%</div>
                 </div>
               </div>
-            </div>
-            <div style="display: flex">
-              <div class="box" style="margin: 0 24px 24px">
+              <div class="box">
                 <img src="@/assets/screen_images/smart-green-irrigation/温度图标.png" />
                 <div>
                   <div class="item-title">温度</div>
@@ -80,56 +81,62 @@
         <div class="left-center"><p class="left-top-title">设备统计</p></div>
         <!-- 设备 -->
         <div class="left-device">
-          <div><img class="statistics-img1" src="@/assets/screen_images/smart-green-irrigation/设备统计1080.png" /></div>
-          <img class="statistics-img2" src="@/assets/screen_images/smart-green-irrigation/设备统计10802.png" />
-          <div style="display: flex; position: absolute; left: 0px; top: 5px">
-            <div class="device-line" style="margin-left: 10px; margin-top: 12px"></div>
-            <div class="device-title" style="margin-left: 18px; margin-top: 10px">设备总数</div>
-          </div>
-          <div style="display: flex; position: absolute; right: 0px; top: 5px">
-            <div class="device-title" style="margin-right: 18px; margin-top: 10px">在线设备</div>
-            <div class="device-line" style="margin-right: 10px; margin-top: 12px"></div>
-          </div>
-          <div style="display: flex; position: absolute; left: 0px; top: 125px">
-            <div class="device-line" style="margin-left: 10px; margin-top: 2px"></div>
-            <div class="device-title" style="margin-left: 18px">告警设备</div>
-          </div>
-          <div style="display: flex; position: absolute; right: 0px; top: 125px">
-            <div class="device-title" style="margin-right: 18px">离线设备</div>
-            <div class="device-line" style="margin-right: 10px; margin-top: 2px"></div>
-          </div>
-
-          <div style="position: absolute; left: 30px; top: 45px">
-            <span class="device-col-value">738</span>
-            <span class="device-col-num">台</span>
-          </div>
-          <div style="position: absolute; left: 370px; top: 45px">
-            <span class="device-col-value">637</span>
-            <span class="device-col-num">台</span>
-          </div>
-          <div style="position: absolute; left: 30px; top: 155px">
-            <span class="device-col-value">15</span>
-            <span class="device-col-num">台</span>
-          </div>
-          <div style="position: absolute; left: 370px; top: 155px">
-            <span class="device-col-value">50</span>
-            <span class="device-col-num">台</span>
+          <div class="left-device-con" style="justify-content: space-between">
+            <div style="flex: 1">
+              <div class="left-device-con-1">
+                <div class="device-line" style="margin-left: 8px; margin-top: 8px"></div>
+                <div class="device-title" style="margin-left: 16px; margin-top: 8px; width: 70px">设备总数</div>
+              </div>
+              <div>
+                <span class="device-col-value" style="margin-left: 24px">738</span>
+                <span class="device-col-num">台</span>
+              </div>
+            </div>
+            <div class="luckyPieCon">
+              <div id="luckyPie" class="luckyPie">
+                <!-- <div class="device-percent">
+                  <span class="device-percent-num">{{ percentageShow }}</span>
+                  <span class="device-percent-company">%</span>
+                </div>
+                <div class="device-online-title">设备在线率</div> -->
+              </div>
+            </div>
+            <div style="flex: 1">
+              <div class="left-device-con-1">
+                <div class="device-title" style="margin-right: 16px; margin-top: 8px; width: 70px">在线设备</div>
+                <div class="device-line" style="margin-right: 8px; margin-top: 8px"></div>
+              </div>
+              <div>
+                <span class="device-col-value">637</span>
+                <span class="device-col-num">台</span>
+              </div>
+            </div>
           </div>
 
-          <!-- <el-progress
-            style="position: absolute; left: 170px; top: 31px"
-            :show-text="false"
-            type="circle"
-            :color="colors"
-            :percentage="percentage"
-            :define-back-color="percentageBgColor"
-          ></el-progress> -->
-          <div class="device-percent">
-            <span class="device-percent-num">{{ percentageShow }}</span>
-            <span class="device-percent-company">%</span>
+          <div class="left-device-con" style="justify-content: space-between; margin-top: -59px">
+            <div>
+              <div class="left-device-con-1">
+                <div class="device-line" style="margin-left: 8px"></div>
+                <div class="device-title" style="margin-left: 16px; margin-top: 2px">告警设备</div>
+              </div>
+
+              <div>
+                <span class="device-col-value" style="margin-left: 24px">15</span>
+                <span class="device-col-num">台</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="left-device-con-1">
+                <div class="device-title" style="margin-right: 16px; margin-top: 2px">离线设备</div>
+                <div class="device-line" style="margin-right: 8px"></div>
+              </div>
+              <div>
+                <span class="device-col-value">50</span>
+                <span class="device-col-num">台</span>
+              </div>
+            </div>
           </div>
-          <div class="device-online-title">设备在线率</div>
-          <div class="luckyPie"><div id="luckyPie" style="width: 470px; height: 280px"></div></div>
         </div>
         <div class="left-bottom"><p class="left-top-title">通知公告</p></div>
         <!-- 公告 -->
@@ -160,7 +167,7 @@
       <!-- 中间 -->
       <div class="center">
         <div class="center-content">
-          <div class="center-content-item" v-for="i in 19">
+          <div class="center-content-item" v-for="i in 11">
             <div class="center-content-item-title">1# 管网</div>
             <div class="center-content-item-con">
               <div class="center-kv">
@@ -200,53 +207,42 @@
       <!-- 右边 -->
       <div class="right">
         <div class="right-top"><p class="right-top-title">实时数据</p></div>
-        <div class="right-table">
-          <div class="right-table-title">
-            <div class="right-table-title-font">序号</div>
-            <div class="right-table-title-font">设备</div>
-            <div class="right-table-title-font">属性</div>
-            <div class="right-table-title-font">数据</div>
-            <div class="right-table-title-font">采集时间</div>
-          </div>
-          <div class="right-table-con" v-for="i in 4">
-            <div class="right-table-one">
-              <div class="right-table-one-font">1</div>
-              <div class="right-table-one-font">温湿度传感器</div>
-              <div class="right-table-one-font">湿度</div>
-              <div class="right-table-one-font">27℃</div>
-              <div class="right-table-one-font">2024-07-09 14:15:12</div>
-            </div>
-            <div class="right-table-two">
-              <div class="right-table-one-font">1</div>
-              <div class="right-table-one-font">温湿度传感器</div>
-              <div class="right-table-one-font">湿度</div>
-              <div class="right-table-one-font">27℃</div>
-              <div class="right-table-one-font">2024-07-09 14:15:12</div>
-            </div>
-          </div>
-          <div class="right-water"><p class="right-top-title">近七日用水趋势</p></div>
-          <div class="lucky-echart">
-            <div id="lucky" style="width: 470px; height: 280px"></div>
+        <div class="right-table" @mousemove="move">
+          <div class="real-time-data" @mouseleave="leave">
+            <dv-scroll-board :config="realData" @mouseover="over" />
+            <p v-if="tipShow" class="tip-text" :style="{ top: tipText.offsetY, left: tipText.offsetX }">
+              {{ tipText.name }}
+            </p>
           </div>
         </div>
+        <div class="right-water">
+          <p class="right-top-title">近七日用水趋势</p>
+        </div>
+        <div class="lucky-echart">
+          <div id="lucky" style="width: 100%; height: 280px"></div>
+        </div>
       </div>
-      <div><img src="@/assets/screen_images/smart-green-irrigation/左下角装饰.png" class="all-img1" /></div>
-      <div><img src="@/assets/screen_images/smart-green-irrigation/右下角装饰.png" class="all-img2" /></div>
-      <div class="all-img3"><span>管理中心</span></div>
     </div>
+    <div>
+      <img src="@/assets/screen_images/smart-green-irrigation/左下角装饰.png" class="all-img1" />
+    </div>
+    <div>
+      <img src="@/assets/screen_images/smart-green-irrigation/右下角装饰.png" class="all-img2" />
+    </div>
+    <div class="all-img3"><span>管理中心</span></div>
   </div>
 </template>
 
 <script>
 import echarts from 'echarts'
 import ResizeMixins from '@/views/common/mixins-resize.js'
-import { greenOpt, greenPieOpt } from '@/views/common/echartsOpt.js'
+import { greenOpt, greenPieOpt } from '@/utils/echartsOpt.js'
 
 export default {
   mixins: [ResizeMixins],
   data() {
     return {
-      percentage: 88,
+      percentage: 80,
       colors: [
         { color: 'rgba(255, 255, 255, 0.2)', percentage: 50 },
         { color: 'rgba(255, 255, 255, 1)', percentage: 100 },
@@ -265,6 +261,35 @@ export default {
       weekday: '',
       weekdays: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
       timerId: '',
+      realData: {
+        header: ['设备', '属性', '数据', '采集时间'],
+        data: [
+          ['1温湿度传感器', '湿度', '27℃', '2024-07-09 14:15:12'],
+          ['2温湿度传感器', '湿度', '27℃', '2024-07-09 14:15:12'],
+          ['3温湿度传感器', '湿度', '27℃', '2024-07-09 14:15:12'],
+          ['4温湿度传感器', '湿度', '27℃', '2024-07-09 14:15:12'],
+          ['5温湿度传感器', '湿度', '27℃', '2024-07-09 14:15:12'],
+          ['6温湿度传感器', '湿度', '27℃', '2024-07-09 14:15:12'],
+          ['7温湿度传感器', '湿度', '27℃', '2024-07-09 14:15:12'],
+          ['8温湿度传感器', '湿度', '27℃', '2024-07-09 14:15:12'],
+          ['9温湿度传感器', '湿度', '27℃', '2024-07-09 14:15:12'],
+        ],
+        columnWidth: [55, 100, 58, 58],
+        index: true,
+        indexHeader: '序号',
+        rowNum: 8,
+        align: ['center', 'center', 'center', 'center', 'center'],
+        headerBGC: '',
+        oddRowBGC: 'none',
+        evenRowBGC: 'rgba(24, 125, 156, 0.2)',
+      },
+      // tooltip
+      tipText: {
+        name: '',
+        offsetX: '',
+        offsetY: '',
+      },
+      tipShow: false, // 控制实时数据单元格显隐
     }
   },
   computed: {
@@ -303,9 +328,9 @@ export default {
     //更新时间
     updateDateTime() {
       this.getCurrentDateTimeWithWeekday()
-      this.timerId = setInterval(() => {
-        this.getCurrentDateTimeWithWeekday()
-      }, 1000)
+      // this.timerId = setInterval(() => {
+      //   this.getCurrentDateTimeWithWeekday()
+      // }, 1000)
     },
     getCurrentDateTimeWithWeekday() {
       const now = new Date()
@@ -317,6 +342,33 @@ export default {
       this.seconds = String(now.getSeconds()).padStart(2, '0')
       this.weekday = this.weekdays[now.getDay()]
     },
+    // 实时数据列表鼠标移入
+    over(dom) {
+      this.tipShow = true
+      //v.ceil拿到单元格数据
+      const htmlString = dom.ceil
+      //过滤条件：序号划入输出的是span标签 序号过滤不展示tooltip
+      const regex = /<span[^>]*>(.*?)<\/span>/
+      const match = regex.exec(htmlString)
+      this.tipText.name = match ? '' : dom.ceil
+      //没有值则直接隐藏悬浮框
+      if (!this.tipText.name) this.tipShow = false
+    },
+    // 鼠标移动（共用）
+    move(e) {
+      const { left, top } = e.currentTarget.getBoundingClientRect()
+      const xPosition = e.pageX - left
+      const yPosition = e.pageY - top
+      // 悬浮框位置可自行调整
+      this.tipText.offsetX = xPosition - 110 + 'px'
+      this.tipText.offsetY = yPosition - 60 + 'px'
+    },
+    // 鼠标离开（共用）
+    leave() {
+      //隐藏单元格
+      this.tipShow = false
+      this.alarmTipShow = false
+    },
   },
 }
 </script>
@@ -324,20 +376,22 @@ export default {
 <style lang="scss" scoped>
 @font-face {
   font-family: 'PangMenZhengDao';
-  src: url('@/assets/screen_images/smart-green-irrigation/fonts/PangMenZhengDaoBiaoTiTiMianFeiBan-2.ttf') format('opentype');
+  src: url('~@/assets/screen_images/smart-green-irrigation/fonts/PangMenZhengDaoBiaoTiTiMianFeiBan-2.ttf') format('opentype');
 }
+
 .green-content {
-  margin: 0;
-  padding: 0;
+  width: 100%;
+  height: 100vh;
+  overflow-y: auto;
   background-color: #072830;
   position: relative;
-  height: 100%;
 }
 .head {
   position: absolute;
   width: 100%;
   height: 298px;
-  background: url(@/assets/screen_images/smart-green-irrigation/头部.png) no-repeat center center;
+  background: url(~@/assets/screen_images/smart-green-irrigation/头部.png) no-repeat center center;
+  background-size: cover;
   .title {
     font-family: PangMenZhengDao;
     font-size: 40px;
@@ -356,12 +410,13 @@ export default {
 }
 
 .left {
-  width: 26%;
+  flex: 1;
+  margin-right: 16px;
+  margin-left: 24px;
   .left-top {
     margin-top: 116px;
-    margin-left: 24px;
-    background: url(@/assets/screen_images/smart-green-irrigation/小标题.png);
-    width: 466px;
+    background: url(~@/assets/screen_images/smart-green-irrigation/小标题.png) no-repeat;
+    width: 100%;
     height: 38px;
     .left-top-title {
       font-family: PangMenZhengDao;
@@ -374,9 +429,8 @@ export default {
     }
   }
   .left-center {
-    margin-left: 24px;
-    background: url(@/assets/screen_images/smart-green-irrigation/小标题.png);
-    width: 466px;
+    background: url(~@/assets/screen_images/smart-green-irrigation/小标题.png) no-repeat;
+    width: 100%;
     height: 38px;
     .left-top-title {
       font-family: PangMenZhengDao;
@@ -389,10 +443,9 @@ export default {
     }
   }
   .left-bottom {
-    margin-left: 24px;
     margin-top: 32px;
-    background: url(@/assets/screen_images/smart-green-irrigation/小标题.png);
-    width: 466px;
+    background: url(~@/assets/screen_images/smart-green-irrigation/小标题.png) no-repeat;
+    width: 100%;
     height: 38px;
 
     .left-top-title {
@@ -407,8 +460,8 @@ export default {
   }
   .left-time {
     margin-top: 13px;
+    position: relative;
     .conT {
-      margin-left: 24px;
     }
     .dateD {
       font-family: SourceHanSansSC-Regular;
@@ -439,12 +492,15 @@ export default {
     }
 
     .dateLine {
-      margin-left: 60px;
+      position: absolute;
+      top: 12px;
+      right: 0;
+      width: 94%;
     }
   }
   .left-weather {
     display: flex;
-    margin-left: 57px;
+    margin-left: 32px;
 
     .temperature-v {
       font-family: DIN-Bold;
@@ -475,12 +531,14 @@ export default {
       margin-top: -22px;
     }
     .box {
-      width: 130px;
+      flex: 1 0 calc(50% - 10px); /* 每个格子的宽度，减去间隔 */
+      margin: 5px; /* 格子之间的间隔 */
+      background-size: 100% 100%;
       height: 55.83px;
       display: flex;
       align-items: center;
       // background-image: linear-gradient(139deg, rgba(81, 197, 233, 0) 3%, rgba(43, 125, 143, 0.21) 100%);
-      background-image: url(@/assets/screen_images/smart-green-irrigation/小卡片.png);
+      background: url(~@/assets/screen_images/smart-green-irrigation/小卡片.png) no-repeat;
       .item-title {
         font-family: SourceHanSansSC-Regular;
         font-size: 14px;
@@ -534,45 +592,50 @@ export default {
     margin-left: 24px;
     margin-top: 24px;
     position: relative;
-    .statistics-img2 {
-      position: absolute;
-      top: 15px;
-      left: 158px;
+    background: url(~@/assets/screen_images/smart-green-irrigation/设备统计1080.png) center center no-repeat;
+    background-size: cover;
+    height: 190px;
+    .left-device-con {
+      display: flex;
+      // justify-content: space-between;
+      .left-device-con-1 {
+        display: flex;
+        margin-bottom: 8px;
+        align-items: center;
+        .device-title {
+          font-family: SourceHanSansSC-Regular;
+          font-size: 16px;
+          color: rgba(223, 255, 255, 0.8);
+          letter-spacing: 1.14px;
+          text-align: justify;
+          font-weight: 400;
+        }
+        .device-line {
+          background: #2cffed;
+          width: 1px;
+          height: 12px;
+        }
+      }
+      .device-col-value {
+        font-family: DIN-Bold;
+        font-size: 18px;
+        color: #ffcb67;
+        letter-spacing: 0;
+        text-align: justify;
+        font-weight: 700;
+      }
+      .device-col-num {
+        font-family: SourceHanSansSC-Regular;
+        font-size: 12px;
+        color: rgba(223, 255, 255, 0.6);
+        letter-spacing: 0;
+        text-align: justify;
+        font-weight: 400;
+        margin-left: 5px;
+      }
     }
-    .device-title {
-      font-family: SourceHanSansSC-Regular;
-      font-size: 16px;
-      color: rgba(223, 255, 255, 0.8);
-      letter-spacing: 1.14px;
-      text-align: justify;
-      font-weight: 400;
-    }
-    .device-line {
-      background: #2cffed;
-      width: 1px;
-      height: 12px;
-    }
-    .device-col-value {
-      font-family: DIN-Bold;
-      font-size: 18px;
-      color: #ffcb67;
-      letter-spacing: 0;
-      text-align: justify;
-      font-weight: 700;
-    }
-    .device-col-num {
-      font-family: SourceHanSansSC-Regular;
-      font-size: 12px;
-      color: rgba(223, 255, 255, 0.6);
-      letter-spacing: 0;
-      text-align: justify;
-      font-weight: 400;
-      margin-left: 5px;
-    }
+
     .device-online-title {
-      position: absolute;
-      left: 198px;
-      top: 109px;
       font-family: SourceHanSansSC-Regular;
       font-size: 14px;
       color: rgba(223, 255, 255, 0.8);
@@ -580,18 +643,25 @@ export default {
       text-align: center;
       font-weight: 400;
     }
-    .luckyPie {
-      position: absolute;
-      left: 1px;
-      top: -52px;
+    .luckyPieCon {
+      width: 100%;
+      // background-color: #fff;
+      height: 179px;
+      flex: 2;
+      .luckyPie {
+        width: 220px;
+        // width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
     }
 
     .device-percent {
-      position: absolute;
-      left: 187px;
-      top: 62px;
       text-align: center;
       width: 100px;
+      z-index: 10;
       .device-percent-num {
         font-family: DIN-Bold;
         font-size: 35px;
@@ -614,14 +684,14 @@ export default {
   }
   .left-notice {
     margin-left: 24px;
-    margin-top: 24px;
+    margin-top: 26.59px;
 
     .left-notice-con {
       display: flex;
       align-items: center;
       background: rgba(24, 125, 156, 0.26);
       position: relative;
-      width: 466px;
+      width: 100%;
       height: 40px;
       z-index: 5;
       margin-bottom: 16px;
@@ -655,35 +725,37 @@ export default {
   }
 }
 .center {
-  width: 48%;
+  flex: 2;
+  display: flex;
+
   .center-content {
     margin-top: 116px;
     display: flex;
     overflow: auto;
-    height: 790px;
+    height: 770px;
     flex-wrap: wrap;
-    background: url(@/assets/screen_images/smart-green-irrigation/中间点阵.png) no-repeat bottom right;
+    background: url(~@/assets/screen_images/smart-green-irrigation/中间点阵.png) no-repeat bottom right;
     .center-content-item {
-      background: url(@/assets/screen_images/smart-green-irrigation/管网卡片背景1920.png) no-repeat left center;
-      width: 294px;
+      background: url(~@/assets/screen_images/smart-green-irrigation/管网卡片背景1920.png) no-repeat left center;
+      flex: 1 0 calc(33.33% - 24px); /* 每个格子的宽度，减去间隔 */
+      margin-right: 12px;
+      background-size: 100% 100%;
       height: 242px;
-      margin-bottom: 13px;
-      margin-right: 10px;
+      margin-bottom: 12px;
     }
     .center-content-item-title {
       padding-top: 12px;
       padding-left: 13px;
-      background: url(@/assets/screen_images/smart-green-irrigation/管网卡片标题.png) no-repeat left center;
-
+      background: url(~@/assets/screen_images/smart-green-irrigation/管网卡片标题.png) no-repeat left center;
       font-family: SourceHanSansSC-Bold;
       font-size: 16px;
       color: #ffffff;
       font-weight: 700;
-      width: 294px;
+      width: 100%;
       height: 40px;
     }
     .center-content-item-con {
-      width: 294px;
+      width: 100%;
       height: 202px;
       padding: 16px;
       .center-kv {
@@ -735,13 +807,16 @@ export default {
   }
 }
 .right {
-  width: 25.5%;
+  flex: 1;
+  margin-left: 16px;
+  margin-right: 24px;
   .right-top {
     margin-top: 116px;
     margin-left: 7px;
-    background: url(@/assets/screen_images/smart-green-irrigation/小标题.png);
-    width: 466px;
+    background: url(~@/assets/screen_images/smart-green-irrigation/小标题.png) no-repeat;
+    width: 100%;
     height: 38px;
+    background-size: 100% 100%;
     .right-top-title {
       font-family: PangMenZhengDao;
       font-size: 22px;
@@ -755,15 +830,26 @@ export default {
   .right-table {
     margin-top: 18.59px;
     margin-left: 7px;
+    height: 370px;
+    background: url(~@/assets/screen_images/smart-green-irrigation/实时统计表头1920.png) no-repeat;
+    background-position: 0 -5px;
+    z-index: 999;
+    .real-time-data {
+      // margin-top: 50px;
+      // margin: 20px;
+      height: 370px;
+      position: relative;
+    }
     .right-table-title {
-      background: url(@/assets/screen_images/smart-green-irrigation/实时统计表头1920.png);
-      width: 466px;
+      background: url(~@/assets/screen_images/smart-green-irrigation/实时统计表头1920.png) no-repeat;
+      width: 100%;
       height: 40.38px;
       padding: 13px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       margin-bottom: 15.62px;
+      background-size: 100% 100%;
       .right-table-title-font {
         font-family: SourceHanSansSC-Regular;
         font-size: 14px;
@@ -780,7 +866,7 @@ export default {
         justify-content: space-between;
         height: 40.38px;
         padding: 13px;
-        width: 466px;
+        width: 100%;
         background: rgba(24, 125, 156, 0.2);
       }
       .right-table-one-font {
@@ -798,16 +884,17 @@ export default {
         justify-content: space-between;
         height: 40.38px;
         padding: 13px;
-        width: 466px;
+        width: 100%;
       }
     }
   }
   .right-water {
     margin-top: 25px;
     margin-left: 7px;
-    background: url(@/assets/screen_images/smart-green-irrigation/小标题.png);
-    width: 466px;
+    background: url(~@/assets/screen_images/smart-green-irrigation/小标题.png) no-repeat;
+    width: 100%;
     height: 38px;
+    background-size: 100% 100%;
     .right-top-title {
       font-family: PangMenZhengDao;
       font-size: 22px;
@@ -824,19 +911,19 @@ export default {
 }
 
 .all-img1 {
-  position: absolute;
+  position: fixed;
   left: 0;
   bottom: 0;
   z-index: 1;
 }
 .all-img2 {
-  position: absolute;
+  position: fixed;
   right: 0;
   bottom: 0;
   z-index: 1;
 }
 .all-img3 {
-  background: url(@/assets/screen_images/smart-green-irrigation/控制台按钮.png);
+  background: url(~@/assets/screen_images/smart-green-irrigation/控制台按钮.png) no-repeat;
   position: absolute;
   right: 24px;
   top: 72px;
@@ -855,16 +942,58 @@ export default {
   }
 }
 *::-webkit-scrollbar {
-  width: 8px;
+  width: 1px !important;
+  display: none;
   // height: 1px;
-  background: #051e24;
-  border-radius: 8px;
+  background: red !important;
+  border-radius: 8px !important;
 }
 
 *::-webkit-scrollbar-thumb {
-  border: 1px solid rgba(0, 0, 0, 0);
-  height: 20px;
-  background: #0f7b90;
-  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0) !important;
+  height: 20px !important;
+  background: #0f7b90 !important;
+  border-radius: 8px !important;
+}
+
+/*媒体查询*/
+@media (max-width: 1700px) {
+  .left .left-weather {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 1600px) {
+  .center {
+    flex: 1;
+  }
+  .center .center-content .center-content-item {
+    flex: 1 0 calc(50% - 24px);
+  }
+  .center .center-content .center-content-item-con {
+    padding: 10px;
+  }
+  .all-img2 {
+    right: 8px;
+  }
+}
+
+/*轮播表tooltip样式*/
+.tip-text {
+  background: rgb(10, 62, 75);
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 14px;
+  z-index: 200;
+  position: absolute;
+  left: 0;
+  top: 0;
+  text-align: center;
+  white-space: nowrap;
+  color: #dfffff;
+}
+//轮播图的样式
+::v-deep .dv-scroll-board .header {
+  margin-bottom: 15px;
 }
 </style>

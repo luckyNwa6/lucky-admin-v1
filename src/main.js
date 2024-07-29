@@ -10,6 +10,9 @@ import '@/styles/index.scss' //重置样式
 import i18n from '@/lang'
 import Lang from '@/components/Lang'
 import * as echarts from 'echarts'
+import moment from 'moment';
+import dataV from '@jiaminghi/data-view'
+
 Vue.component('Lang', Lang)
 Vue.use(ElementUI)
 Vue.prototype.$echarts = echarts
@@ -25,7 +28,7 @@ import Avue from '@smallwei/avue';
 import '@smallwei/avue/lib/index.css';
 Vue.use(Avue);
 
-
+Vue.use(dataV)
 // 全局前置守卫
 // router.beforeEach(function (to, from, next) {
 //   if (to.path === '/home' || to.path === '/index' || to.path === '/user') {
@@ -42,6 +45,7 @@ Vue.use(Avue);
 //   }
 // })
 Vue.prototype.request = request
+Vue.prototype.$moment = moment;
 Vue.config.productionTip = false
 
 new Vue({
