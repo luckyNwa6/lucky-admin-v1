@@ -1,4 +1,3 @@
-<!-- 适配分辨率1280——1920 -->
 <template>
   <div class="green-content">
     <!-- 这是标题单独布局 -->
@@ -93,21 +92,15 @@
               </div>
             </div>
             <div class="luckyPieCon">
-              <div id="luckyPie" class="luckyPie">
-                <!-- <div class="device-percent">
-                  <span class="device-percent-num">{{ percentageShow }}</span>
-                  <span class="device-percent-company">%</span>
-                </div>
-                <div class="device-online-title">设备在线率</div> -->
-              </div>
+              <div id="luckyPie" class="luckyPie"></div>
             </div>
             <div style="flex: 1">
               <div class="left-device-con-1">
-                <div class="device-title" style="margin-right: 16px; margin-top: 8px; width: 70px">在线设备</div>
-                <div class="device-line" style="margin-right: 8px; margin-top: 8px"></div>
+                <div class="device-title" style="margin-right: 22px; margin-top: 8px; width: 70px">在线设备</div>
+                <div class="device-line" style="position: absolute; right: 11px; top: 13px"></div>
               </div>
               <div>
-                <span class="device-col-value">637</span>
+                <span class="device-col-value" style="margin-left: 6%">637</span>
                 <span class="device-col-num">台</span>
               </div>
             </div>
@@ -167,7 +160,7 @@
       <!-- 中间 -->
       <div class="center">
         <div class="center-content">
-          <div class="center-content-item" v-for="i in 11">
+          <div class="center-content-item" v-for="i in 10">
             <div class="center-content-item-title">1# 管网</div>
             <div class="center-content-item-con">
               <div class="center-kv">
@@ -235,7 +228,7 @@
 
 <script>
 import echarts from 'echarts'
-import ResizeMixins from '@/views/common/mixins-resize.js'
+import ResizeMixins from '@/utils/mixins-resize.js'
 import { greenOpt, greenPieOpt } from '@/utils/echartsOpt.js'
 
 export default {
@@ -243,15 +236,10 @@ export default {
   data() {
     return {
       percentage: 80,
-      colors: [
-        { color: 'rgba(255, 255, 255, 0.2)', percentage: 50 },
-        { color: 'rgba(255, 255, 255, 1)', percentage: 100 },
-      ],
-      percentageBgColor: 'rgba(14, 195, 220,0.08)',
       myChart: null,
+      myChart2: null, //饼图
       dataX: ['7/10', '7/11', '7/12', '7/13', '7/14', '7/15', '7/16'], //x轴的数据
       dataY: [65, 28, 92, 55, 12, 62, 58], //X轴对应的数据
-      myChart2: null, //饼图
       year: '', //下面实时时间
       month: '',
       day: '',
@@ -328,9 +316,9 @@ export default {
     //更新时间
     updateDateTime() {
       this.getCurrentDateTimeWithWeekday()
-      // this.timerId = setInterval(() => {
-      //   this.getCurrentDateTimeWithWeekday()
-      // }, 1000)
+      this.timerId = setInterval(() => {
+        this.getCurrentDateTimeWithWeekday()
+      }, 1000)
     },
     getCurrentDateTimeWithWeekday() {
       const now = new Date()
@@ -381,7 +369,7 @@ export default {
 
 .green-content {
   width: 100%;
-  height: 100vh;
+  height: 100%;
   overflow-y: auto;
   background-color: #072830;
   position: relative;
@@ -602,6 +590,7 @@ export default {
         display: flex;
         margin-bottom: 8px;
         align-items: center;
+        position: relative;
         .device-title {
           font-family: SourceHanSansSC-Regular;
           font-size: 16px;
@@ -648,6 +637,7 @@ export default {
       // background-color: #fff;
       height: 179px;
       flex: 2;
+
       .luckyPie {
         width: 220px;
         // width: 100%;
@@ -735,6 +725,7 @@ export default {
     height: 770px;
     flex-wrap: wrap;
     background: url(~@/assets/screen_images/smart-green-irrigation/中间点阵.png) no-repeat bottom right;
+    scrollbar-color: #0f7b90 #051e24;
     .center-content-item {
       background: url(~@/assets/screen_images/smart-green-irrigation/管网卡片背景1920.png) no-repeat left center;
       flex: 1 0 calc(33.33% - 24px); /* 每个格子的宽度，减去间隔 */
@@ -805,6 +796,19 @@ export default {
       }
     }
   }
+  // .center-content ::-webkit-scrollbar {
+  //   width: 1px !important;
+  //   display: none;
+  //   background: red !important;
+  //   border-radius: 8px !important;
+  // }
+
+  // .center-content::-webkit-scrollbar-thumb {
+  //   border: 1px solid rgba(0, 0, 0, 0) !important;
+  //   height: 20px !important;
+  //   background: #0f7b90 !important;
+  //   border-radius: 8px !important;
+  // }
 }
 .right {
   flex: 1;
@@ -940,20 +944,6 @@ export default {
     font-weight: 400;
     line-height: 32px;
   }
-}
-*::-webkit-scrollbar {
-  width: 1px !important;
-  display: none;
-  // height: 1px;
-  background: red !important;
-  border-radius: 8px !important;
-}
-
-*::-webkit-scrollbar-thumb {
-  border: 1px solid rgba(0, 0, 0, 0) !important;
-  height: 20px !important;
-  background: #0f7b90 !important;
-  border-radius: 8px !important;
 }
 
 /*媒体查询*/

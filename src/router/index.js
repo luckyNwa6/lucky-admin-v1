@@ -43,6 +43,16 @@ const routes = [
     name: 'screen',
     component: () => import('@/views/screen/index.vue'),
   },
+  {
+    path: '/screen2',
+    name: 'screen2',
+    component: () => import('@/views/screen2/index.vue'),
+  },
+  {
+    path: '/screen3',
+    name: 'screen3',
+    component: () => import('@/views/screen3/index.vue'),
+  },
 ]
 
 const router = new VueRouter({
