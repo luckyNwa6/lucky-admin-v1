@@ -7,3 +7,12 @@ export function userList(params) {
     params: params,
   })
 }
+
+//获取用户名列表
+export function userNameList(data) {
+  return request({
+    url: '/api/openApi/getUserList',
+    method: 'post',
+    data,
+  })
+}

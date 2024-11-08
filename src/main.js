@@ -10,7 +10,7 @@ import '@/styles/index.scss' //重置样式
 import i18n from '@/lang'
 import Lang from '@/components/Lang'
 import * as echarts from 'echarts'
-import moment from 'moment';
+import moment from 'moment'
 import dataV from '@jiaminghi/data-view'
 
 Vue.component('Lang', Lang)
@@ -24,9 +24,24 @@ import $ from 'jquery'
 window.jQuery = $
 window.$ = $
 
-import Avue from '@smallwei/avue';
-import '@smallwei/avue/lib/index.css';
-Vue.use(Avue);
+import Avue from '@smallwei/avue'
+import '@smallwei/avue/lib/index.css'
+Vue.use(Avue)
+
+Vue.directive('loadmore', {
+  bind(el, binding) {
+    const dom = el.querySelector('.el-select-dropdown .el-select-dropdown__wrap')
+    dom.addEventListener('scroll', function () {
+      const condition = this.scrollHeight - this.scrollTop <= this.clientHeight
+      if (condition) {
+        binding.value()
+        console.log('滚动到底了1')
+      } else {
+        console.log('滚动到底了2')
+      }
+    })
+  },
+})
 
 Vue.use(dataV)
 // 全局前置守卫
@@ -45,7 +60,7 @@ Vue.use(dataV)
 //   }
 // })
 Vue.prototype.request = request
-Vue.prototype.$moment = moment;
+Vue.prototype.$moment = moment
 Vue.config.productionTip = false
 
 new Vue({
