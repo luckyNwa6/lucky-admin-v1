@@ -12,7 +12,7 @@
     @change="handleSearch"
     @visible-change="handleVisibleProject"
   >
-    <el-option v-for="item in data.list" :key="item.userId" :value="item.userId" :label="item.username">
+    <el-option v-for="item in data.list" :key="item.userId" :value="item.userId + ''" :label="item.username">
       {{ item.username }}
     </el-option>
   </el-select>
