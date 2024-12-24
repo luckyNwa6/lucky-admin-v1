@@ -8,7 +8,7 @@
     "serve": "vue-cli-service serve",
     "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "test": "jest --verbose ",
+    "testJ": "jest --verbose ",
     "coverage": "jest --coverage"
   },
   "dependencies": {

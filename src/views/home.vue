@@ -1,18 +1,19 @@
 <template>
-  <div>
-    <el-button @click="login()">Express登录</el-button>
-    <el-button @click="exit()">退出登录</el-button>
-    <el-button @click="testSession()">测试Session</el-button>
-    <hr />
-    <el-button @click="mockTest()">mock测试</el-button>
-    <hr />
+  <div style="padding: 30px">
+    <el-button @click="login">Express登录</el-button>
+    <!-- 打开nodeT->zhenghe->执行nodemon app.js  -->
+    <el-button @click="exit">退出登录</el-button>
+    <el-button @click="testSession">测试Session</el-button>
+    <el-divider></el-divider>
+    <el-button @click="mockTest">mock测试</el-button>
+    <el-divider></el-divider>
     数据回显区:😃
     <span>{{ responseData }}</span>
-    <hr />
-    <p>路由跳转:</p>
-    <el-button @click="goCharts()">图表测试</el-button>
-    <el-button @click="goAVue()">aVue测试</el-button>
-    <el-button @click="goScreen()">大屏</el-button>
+    <el-divider></el-divider>
+    <p style="margin-bottom: 20px">路由跳转:</p>
+    <el-button @click="goCharts">图表测试</el-button>
+    <el-button @click="goAVue">aVue测试</el-button>
+    <el-button @click="goScreen">大屏</el-button>
   </div>
 </template>
 
@@ -35,7 +36,7 @@ export default {
       this.$router.push('/chartsT')
     },
     goAVue() {
-      this.$router.push('/aVueT')
+      this.$router.push({ path: '/aVueT', query: { id: '6', type: 'edit' } })
     },
     goScreen() {
       this.$router.push('/screen')
