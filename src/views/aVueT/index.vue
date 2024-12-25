@@ -1,6 +1,11 @@
 <template>
   <div style="padding: 20px">
     <el-card>
+      <div slot="header"><span>avue-crud进阶</span></div>
+      <CrudWell />
+    </el-card>
+    <el-divider></el-divider>
+    <el-card>
       <div slot="header"><span>avue-crud表格</span></div>
       <avue-crud
         :option="option"
@@ -57,16 +62,16 @@
 </template>
 
 <script>
-import request from 'axios'
 import MySelect from '@/components/MySelect.vue'
 import ServeInfo from '@/components/ServeInfo.vue'
 import { serveInfoData } from '@/components/columnConfig.js'
-
+import CrudWell from '@/components/CrudWell.vue'
 import { userNameList, getOpenCityList } from '@/api/user/index'
 export default {
   components: {
     MySelect,
     ServeInfo,
+    CrudWell,
   },
   data() {
     return {
