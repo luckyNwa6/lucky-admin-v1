@@ -16,3 +16,10 @@ export function userNameList(data) {
     data,
   })
 }
+//开源的el里的下拉框里的城市列表
+export function getOpenCityList(query) {
+  return request({
+    url: `https://cli.avuejs.com/api/area/getProvince?id=${query}`,
+    method: 'get',
+  })
+}

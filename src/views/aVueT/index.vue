@@ -35,7 +35,7 @@
       <el-button @click="modClick" style="margin-bottom: 20px">切换模式</el-button>
       <el-button @click="checkForm">表单校验</el-button>
       <el-button @click="saveFrom">保存表单</el-button>
-      <ServeInfo ref="serveInfo" :params="params" :data.sync="infoObj['serveInfo']" />
+      <ServeInfo ref="serveInfo" :params="params" :data.sync="infoObj['serveInfo']" :columns="getColumn('serveInfo')" />
     </el-card>
     <el-divider></el-divider>
     <div style="display: flex; align-items: center">
@@ -62,7 +62,7 @@ import MySelect from '@/components/MySelect.vue'
 import ServeInfo from '@/components/ServeInfo.vue'
 import { serveInfoData } from '@/components/columnConfig.js'
 
-import { userNameList } from '@/api/user/index'
+import { userNameList, getOpenCityList } from '@/api/user/index'
 export default {
   components: {
     MySelect,
@@ -106,6 +106,12 @@ export default {
       selectionList: [],
       currentRow: {},
       queryStr: '{}',
+
+      cityTypeList: [
+        { label: '北京', dataValue: '0' },
+        { label: '杭州', dataValue: '1' },
+        { label: '上海', dataValue: '2' },
+      ],
     }
   },
 
@@ -118,9 +124,13 @@ export default {
   },
   methods: {
     init() {
-      request.get(`https://cli.avuejs.com/api/area/getProvince?id=''`).then((res) => {
-        console.log(res)
-        this.options = res.data.slice(0, 16)
+      getOpenCityList('').then((res) => {
+        console.log('当前res的值:', res)
+        if (Array.isArray(res)) {
+          this.options = res.slice(0, 16)
+        } else {
+          console.error('Received data is not an array.')
+        }
       })
     },
 
@@ -128,7 +138,7 @@ export default {
       if (query !== '') {
         this.loadingSel = true
         setTimeout(() => {
-          request.get(`https://cli.avuejs.com/api/area/getProvince?id=${query}`).then((res) => {
+          getOpenCityList(query).then((res) => {
             console.log(res)
             this.options = res.data.filter((item) => {
               return item.name.indexOf(query) > -1
@@ -159,13 +169,17 @@ export default {
     //下面是表格的
     onLoad(page = {}, params = {}) {
       //接口请求数据
-      userNameList({ ...params, limit: page.pageSize, total: page.total, page: page.currentPage }).then((res) => {
-        console.log('当前返回的list是', res)
-        if (res.code === 0) {
-          this.data = res.data.list
-          this.page.total = res.data.totalCount
-        }
-      })
+      userNameList({ ...params, limit: page.pageSize, total: page.total, page: page.currentPage })
+        .then((res) => {
+          console.log('当前返回的list是', res)
+          if (res.code === 0) {
+            this.data = res.data.list
+            this.page.total = res.data.totalCount
+          }
+        })
+        .catch((err) => {
+          console.log('ERR异常', err)
+        })
     },
 
     cellStyle({ row, columnIndx }) {
@@ -223,6 +237,13 @@ export default {
     },
   },
   computed: {
+    getColumn() {
+      return (name = '') => {
+        if (['serveInfo'].includes(name)) {
+          return this.serveColumns
+        }
+      }
+    },
     option() {
       return {
         size: 'mini', //设置按键大小
@@ -274,6 +295,82 @@ export default {
           },
         ],
       }
+    },
+
+    serveColumns() {
+      return [
+        {
+          label: '姓名',
+          prop: 'name',
+          rules: [
+            {
+              required: true,
+              message: '请输入姓名',
+              trigger: 'blur',
+            },
+          ],
+        },
+        {
+          label: '年龄',
+          prop: 'age',
+          placeholder: '  ',
+          rules: [],
+        },
+        {
+          label: '昵称',
+          prop: 'nickName',
+          maxlength: 10,
+          showWordLimit: true,
+          prepend: 'lucky_',
+          placeholder: '只能输入数字、字母、下划线而且下划线只能在中间,最多10',
+          rules: [
+            { required: true, message: '请输入昵称', trigger: ['blur', 'change'] },
+            {
+              pattern: /^(?!_)[a-zA-Z0-9]*[a-zA-Z0-9_]*[a-zA-Z0-9](?<!_)$/,
+              message: '只能输入数字、字母、下划线而且下划线只能在中间',
+              trigger: 'blur',
+            },
+          ],
+        },
+        {
+          label: '身份证',
+          prop: 'idCard',
+          disabled: true,
+          rules: [],
+        },
+        {
+          label: 'QQ',
+          prop: 'qq',
+          disabled: true,
+          rules: [],
+        },
+        {
+          label: '城市',
+          prop: 'city',
+          clearable: false,
+          type: 'select', //默认是input
+          dicData: this.cityTypeList,
+          props: {
+            //默认是label和value,不是则需要改
+            label: 'label',
+            value: 'dataValue',
+          },
+
+          rules: [],
+        },
+        {
+          label: '区域',
+          prop: 'area',
+          disabled: true,
+          display: ['1'].includes(this.infoObj.serveInfo.city),
+        },
+        {
+          label: '备注',
+          prop: 'remark',
+          type: 'textarea',
+          span: 24,
+        },
+      ]
     },
   },
 }

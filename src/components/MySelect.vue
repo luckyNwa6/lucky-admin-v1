@@ -80,13 +80,17 @@ export default {
     // 通过调用接口获取数据项
     getList() {
       // 下面是举例写法
-      userNameList(this.query).then((res) => {
-        console.log('当前返回的是', res)
-        if (res.code === 0) {
-          this.data.list = [...this.data.list, ...res.data.list]
-          this.data.total = res.data.totalCount
-        }
-      })
+      userNameList(this.query)
+        .then((res) => {
+          console.log('当前返回的是', res)
+          if (res.code === 0) {
+            this.data.list = [...this.data.list, ...res.data.list]
+            this.data.total = res.data.totalCount
+          }
+        })
+        .catch((err) => {
+          console.log('select-ERR异常', err)
+        })
     },
     // 筛选数据项
     handleFilter: _.debounce(function (val) {
