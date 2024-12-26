@@ -12,7 +12,7 @@ import Lang from '@/components/Lang'
 import * as echarts from 'echarts'
 import moment from 'moment'
 import dataV from '@jiaminghi/data-view'
-
+import { loadmore } from '@/components/directive'
 Vue.component('Lang', Lang)
 Vue.use(ElementUI)
 Vue.prototype.$echarts = echarts
@@ -28,20 +28,7 @@ import Avue from '@smallwei/avue'
 import '@smallwei/avue/lib/index.css'
 Vue.use(Avue)
 
-Vue.directive('loadmore', {
-  bind(el, binding) {
-    const dom = el.querySelector('.el-select-dropdown .el-select-dropdown__wrap')
-    dom.addEventListener('scroll', function () {
-      const condition = this.scrollHeight - this.scrollTop - 0.5 <= this.clientHeight
-      if (condition) {
-        binding.value()
-        console.log('需要20条才到底啊，通过调整上面差值来控制多少去请求')
-      } else {
-        console.log('滚动到底了')
-      }
-    })
-  },
-})
+Vue.directive('loadmore', loadmore)
 
 Vue.use(dataV)
 // 全局前置守卫
