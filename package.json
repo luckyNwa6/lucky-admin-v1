@@ -5,7 +5,9 @@
   "author": "LuckyNwa",
   "private": true,
   "scripts": {
+    "serve": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "inode14": "npm install",
+    "checkNode": "nvm use 14",
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "build": "gulp",
     "clean": "npx rimraf node_modules"

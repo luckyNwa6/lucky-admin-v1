@@ -12,6 +12,7 @@ import httpRequest from '@/utils/httpRequest' // api: https://github.com/axios/a
 import { isAuth } from '@/utils'
 import cloneDeep from 'lodash/cloneDeep'
 import Global from './utils/Global'
+import { getDic } from '@/api/dic/index.js'
 
 Vue.use(VueCookie)
 Vue.use(Global)
@@ -20,6 +21,7 @@ Vue.config.productionTip = false
 // 挂载全局
 Vue.prototype.$http = httpRequest // ajax请求方法
 Vue.prototype.isAuth = isAuth // 权限方法
+Vue.prototype.getDic = getDic
 
 // 保存整站vuex本地储存初始状态
 window.SITE_CONFIG['storeState'] = cloneDeep(store.state)
