@@ -10,12 +10,11 @@
     <el-select v-model="selectedValue" placeholder="请选择文件夹" style="margin-right: 10px">
       <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
     </el-select>
-
-    <el-button type="primary" @click="uploadHandle()" v-if="isAuth('bed:pic:save')">上传文件</el-button>
     <el-button type="primary" icon="el-icon-search" @click="searchPic">搜索</el-button>
     <el-button v-if="isAuth('bed:pic:delete')" type="danger" @click="delOssPic" :disabled="dataListSelections.length <= 0">
       批量删除
     </el-button>
+    <el-button type="primary" @click="uploadHandle()" v-if="isAuth('bed:pic:save')">上传文件</el-button>
 
     <el-table :data="dataList" style="width: 100%;" v-loading="dataListLoading" border @selection-change="handleSelectionChange">
       <el-table-column header-align="center" align="center" type="selection" width="55"></el-table-column>
@@ -23,7 +22,9 @@
       <el-table-column header-align="center" align="center" prop="picName" label="名称" width="100"></el-table-column>
       <el-table-column header-align="center" align="center" prop="url" label="图片">
         <template slot-scope="scope">
-          <img :src="scope.row.url" style="width: 100px" />
+          <!-- <img :src="scope.row.url" style="width: 100px" />
+           -->
+          <el-image style="width: 100px; height: 100px" :src="scope.row.url" :preview-src-list="[scope.row.url]">></el-image>
         </template>
       </el-table-column>
       <el-table-column header-align="center" align="center" prop="url" label="URL"></el-table-column>
@@ -202,6 +203,7 @@ export default {
     //获取文件夹列表,处理成下拉框数据
     getFolderList({
       folderName: '',
+      type: 'noTree',
       userId: JSON.parse(this.$cookie.get('picData')).userId,
     }).then(({ data }) => {
       if (data && data.code === 0) {

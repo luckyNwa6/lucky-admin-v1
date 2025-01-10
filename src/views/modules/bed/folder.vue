@@ -62,6 +62,7 @@ export default {
       let obj = {
         folderName: this.findContent,
         userId: 1,
+        type: 'tree',
       }
       getFolderList(obj).then(res => {
         console.log('🚀 ~ 获取到的树形列表:', res.data.data)
