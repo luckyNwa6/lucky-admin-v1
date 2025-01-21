@@ -39,6 +39,16 @@ const routes = [
     component: () => import('@/views/aVueT/index.vue'),
   },
   {
+    path: '/aVueT/index2',
+    name: 'aVueT',
+    component: () => import('@/views/aVueT/index2.vue'),
+  },
+  {
+    path: '/dialog',
+    name: 'dialog',
+    component: () => import('@/views/dialog/index.vue'),
+  },
+  {
     path: '/screen',
     name: 'screen',
     component: () => import('@/views/screen/index.vue'),

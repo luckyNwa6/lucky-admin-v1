@@ -14,6 +14,8 @@
     <el-button @click="goCharts">图表测试</el-button>
     <el-button @click="goAVue">aVue测试</el-button>
     <el-button @click="goScreen">大屏</el-button>
+    <el-button @click="goDialog">弹框组件</el-button>
+    <el-divider></el-divider>
   </div>
 </template>
 
@@ -41,7 +43,9 @@ export default {
     goScreen() {
       this.$router.push('/screen')
     },
-
+    goDialog() {
+      this.$router.push('/dialog')
+    },
     //下面是测试session
     testSession() {
       request.get('http://localhost/api/testSession').then((res) => {

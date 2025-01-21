@@ -1,5 +1,7 @@
 <template>
   <div style="padding: 20px">
+    <!-- <avue-form :option="option6" v-model="luckyA"></avue-form>
+    <el-button @click="banC">切换禁用</el-button> -->
     <el-card>
       <div slot="header"><span>avue-crud进阶</span></div>
       <CrudWell />
@@ -13,10 +15,13 @@
         :page="page"
         :data="data"
         :before-open="beforeOpen"
-        :cell-class-name="cellStyle"
+        :cell-style="cellStyle"
+        :row-style="rowStyle"
+        :row-class-name="tableRowClassName"
         v-model="form"
         :search.sync="search"
         ref="crud"
+        @sort-change="sortChange"
         @row-click="setCurrentRow"
         @row-update="rowUpdate"
         @row-save="rowSave"
@@ -43,7 +48,7 @@
       <ServeInfo ref="serveInfo" :params="params" :data.sync="infoObj['serveInfo']" :columns="getColumn('serveInfo')" />
     </el-card>
     <el-divider></el-divider>
-    <div style="display: flex; align-items: center">
+    <div>
       <el-select
         v-model="elValue"
         filterable
@@ -56,7 +61,9 @@
       >
         <el-option v-for="item in options" :key="item.code" :label="item.name" :value="item.code"></el-option>
       </el-select>
-      <MySelect placeholder="请输入" v-model="keyword" style="margin-left: 20px" />
+      <p style="margin: 15px">这个是下拉加载的组件</p>
+      <MySelect ref="luckySelect" placeholder="请输入" :isSelValue="isSelValue" v-model="keyword" />
+      <el-button style="margin-left: 10px" size="small" @click="showKeyV">输入框的值</el-button>
     </div>
   </div>
 </template>
@@ -66,7 +73,8 @@ import MySelect from '@/components/MySelect.vue'
 import ServeInfo from '@/components/ServeInfo.vue'
 import { serveInfoData } from '@/components/columnConfig.js'
 import CrudWell from '@/components/CrudWell.vue'
-import { userNameList, getOpenCityList } from '@/api/user/index'
+import { getUserInfoList, getOpenCityList } from '@/api/user/index'
+
 export default {
   components: {
     MySelect,
@@ -75,11 +83,35 @@ export default {
   },
   data() {
     return {
+      luckyA: '',
+      dicData: [
+        {
+          value: 'zhinan',
+          label: '指南',
+          children: [
+            {
+              value: 'shejiyuanze',
+              label: '设计原则',
+              children: [
+                {
+                  // disabled: false,
+                  value: 'yizhi',
+                  label: '一致',
+                },
+                {
+                  value: 'fankui',
+                  label: '反馈',
+                },
+              ],
+            },
+          ],
+        },
+      ],
       options: [],
       elValue: {},
       loadingSel: false,
       keyword: '',
-
+      isSelValue: '1',
       params: {
         detail: false,
       },
@@ -128,6 +160,11 @@ export default {
     this.infoObj.serveInfo = this.handleLeftFixName(this.resData)
   },
   methods: {
+    banC() {
+      // this.dicData[0]['children'][0]['children'][0].disabled = true
+      this.$set(this.dicData[0].children[0].children[0], 'disabled', !this.dicData[0].children[0].children[0].disabled)
+      console.log('🚀 ~ banC ~ this.dicData:', this.dicData)
+    },
     init() {
       getOpenCityList('').then((res) => {
         console.log('当前res的值:', res)
@@ -174,7 +211,7 @@ export default {
     //下面是表格的
     onLoad(page = {}, params = {}) {
       //接口请求数据
-      userNameList({ ...params, limit: page.pageSize, total: page.total, page: page.currentPage })
+      getUserInfoList({ ...params, limit: page.pageSize, total: page.total, page: page.currentPage })
         .then((res) => {
           console.log('当前返回的list是', res)
           if (res.code === 0) {
@@ -186,10 +223,43 @@ export default {
           console.log('ERR异常', err)
         })
     },
-
-    cellStyle({ row, columnIndx }) {
+    //设置行的样式
+    rowStyle({ row, column, rowIndex }) {
       return ''
+      // if (rowIndex % 2 === 0) {
+      //   return {
+      //     backgroundColor: '#eee',
+      //     color: 'blue',
+      //   }
+      // }
     },
+    cellStyle({ row, column, rowIndex, columnIndex }) {
+      if (columnIndex == 2) {
+        if (row.age <= 35) {
+          return {
+            color: 'green',
+            fontWeight: 'bold',
+            fontSize: '20',
+          }
+        } else {
+          return {
+            color: 'red',
+            fontWeight: 'bold',
+            fontSize: '20',
+          }
+        }
+      }
+    },
+    //应该是avue包版本低了没生效
+    tableRowClassName({ row, rowIndex }) {
+      // console.log('🚀 ~ tableRowClassName ~ rowIndex:', rowIndex)
+      if (rowIndex === 0) {
+        return 'warning-row'
+      } else {
+        return ''
+      }
+    },
+
     beforeOpen(done, type) {
       if (['add', 'view'].includes(type)) {
         console.log('🚀 ~ beforeOpen ~ type:', type)
@@ -240,6 +310,14 @@ export default {
     sizeChange(pageSize = 10) {
       this.page.pageSize = pageSize
     },
+    //排序
+    sortChange(val) {
+      this.$message.success(JSON.stringify(val))
+    },
+    showKeyV() {
+      console.log('🚀 ~ showKeyV ~ success:', this.$refs.luckySelect)
+      // this.$notify.success('数据为:', )
+    },
   },
   computed: {
     getColumn() {
@@ -249,34 +327,70 @@ export default {
         }
       }
     },
+    option6() {
+      return {
+        column: [
+          {
+            label: '级联',
+            prop: 'cascader',
+            type: 'cascader',
+            dicData: this.dicData,
+          },
+        ],
+      }
+    },
+
     option() {
       return {
         size: 'mini', //设置按键大小
+        // defaultSort: { //结合prop里的sortable
+        //   prop: 'id',
+        //   order: 'descending', //ascending 表示升序，descending 表示降序
+        // },
         border: true, //边框线
+        // stripe: true, //斑马纹
         // dialogDrag: true,//它带的弹框设置拖拽移动
+        dialogMenuPosition: 'center', //它自带弹框里的确认按钮位置
+        // headerAlign: 'left',//头部表格字段默认居中
         align: 'center', //表格内容居中,默认居左
         // menuAlign: 'center', //操作栏内容居中,默认居中
-        searchLabelWidth: 100, //搜索的文本宽度
+        searchLabelWidth: 100, //搜索的文本宽度 //默认为110,也可以给下面属性单独设置
+        // height: 300, //设置表格高度 表格的高度超过设定值，就会出现滚动条，从而达到固定表头的效果
         searchGutter: 5, //搜索框之间的间距
-
+        // submitBtn: true, //搜索框提交按钮,默认true //按钮的位置menuSpan|menuPosition
+        // submitText:'完成',//对应的文本
+        // emptyBtn: true, //搜索框重置按钮,默认true
+        emptyBtnText: '重置', //默认清空-搜索的文本
         // menu: false, //默认true有操作栏
+        // menuTitle: '其它',//操作栏标题
+        // menuWidth: 250,
+        // menuAlign: 'left',
+        // menuHeaderAlign: 'left',
+
         addBtn: false, //表格左上方的新增按钮true则展示
         viewBtn: true, //操作里的查看按钮,默认隐藏
         // delBtn: false, //操作里的删除按钮,默认展示
         // editBtn: false, //操作里的编辑按钮,默认展示
 
-        emptyBtnText: '重置', //默认清空-搜索的文本
         addBtnText: '新增', //默认新增-新增按钮的文本
         columnBtn: false, //列隐藏的按键,表格右上角
-        searchShowBtn: false, //搜索隐藏的按键
+        searchShowBtn: false, //搜索隐藏的按键,表格右上角
         gridBtn: false, //直接讲表格换了样式column未定义
-
+        index: true, //序号,发现没有递增
+        indexLabel: '序号',
         searchIcon: true, //启用展开和搜索search
         searchIndex: 3, //默认展示2个搜索条件
         selection: true, //是否可以选择
+        selectable: (row, index) => {
+          //索引不为1才能选择
+          return index !== 1
+        },
+        // reserveSelection: true, //保留翻页前的数据，感觉还是有bug
+        // tip: false,//会提示当前表格已选择多少项
         span: 24,
         searchSpan: 6, //搜索框宽占比
-
+        // searchMenuSpan: 18, //搜索按钮的长度
+        // searchBtnIcon: 'el-icon-user',//修改搜索按钮的图标
         // excelBtn: false,
         // filterBtn: false,
 
@@ -285,13 +399,66 @@ export default {
             label: 'id',
             prop: 'userId',
             slot: true, //插槽
+            // sortable: true, //开启排序
           },
-          { label: '昵称', prop: 'nickname', search: true },
-          { label: '账号', prop: 'username', search: true },
+          {
+            label: '昵称',
+            prop: 'nickname',
+            search: true,
+            formatter: (val, value, label) => {
+              return val.nickname + '-格式化内容'
+            },
+          },
+          {
+            label: '账号',
+            prop: 'username',
+            search: true,
+            searchOrder: 1, //搜索字段排序 不写默认为0搜索字段排序不影响表格顺序
+            // searchRules: [
+            //   {
+            //     //还能加入校验搜索框不能为空
+            //     required: true,
+            //     message: '请输入账号',
+            //     trigger: 'blur',
+            //   },
+            // ],
+            searchTip: '我是一个左边提示语',
+            searchTipPlacement: 'left',
+          },
           { label: '年龄', prop: 'age' },
+          {
+            label: '性别',
+            prop: 'sex',
+            filters: true, //表头那可以过滤
+            dicData: [
+              { label: '男', value: '男' },
+              { label: '女', value: '女' },
+            ],
+            filterMethod: function (value, row, column) {
+              return row.sex === value
+            },
+          },
           { label: '邮箱', prop: 'email' },
-          { label: '手机号', prop: 'mobile', search: true },
-          { label: '创建时间', prop: 'createTime', search: true },
+          {
+            label: '手机号',
+            prop: 'mobile',
+            search: true,
+            searchValue: '138...', //搜索默认值
+            html: true,
+            // hide: true,//直接隐藏这一列
+            formatter: (val) => {
+              return '<b style="color:pink">' + val.mobile + '-格式化内容</b>'
+            },
+          },
+          {
+            label: '创建时间',
+            prop: 'createTime',
+            type: 'datetime',
+            searchRange: true,
+            search: true,
+            valueFormat: 'yyyy-MM-dd HH:mm:ss',
+            row: true,
+          },
           {
             label: '备注',
             prop: 'remark',
@@ -307,6 +474,8 @@ export default {
         {
           label: '姓名',
           prop: 'name',
+          labelslot: true, //name文字的插槽
+          formslot: true, //表单name输入框的插槽
           rules: [
             {
               required: true,
@@ -380,3 +549,17 @@ export default {
   },
 }
 </script>
+<style scoped>
+.warning-row {
+  background-color: #f40606 !important;
+  color: #fff;
+}
+.success-row {
+  background-color: #67c23a !important;
+  color: #fff;
+}
+.warning-row.hover-row td,
+.success-row.hover-row td {
+  background-color: initial !important;
+}
+</style>

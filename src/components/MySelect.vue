@@ -12,14 +12,12 @@
     @change="handleSearch"
     @visible-change="handleVisibleProject"
   >
-    <el-option v-for="item in data.list" :key="item.userId" :value="item.userId + ''" :label="item.username">
-      {{ item.username }}
-    </el-option>
+    <el-option v-for="item in data.list" :key="item.userId" :value="item.userId + ''" :label="item.username"></el-option>
   </el-select>
 </template>
 <script>
 import _ from 'lodash'
-import { userNameList } from '@/api/user/index'
+import { getUserInfoList } from '@/api/user/index'
 export default {
   model: {
     prop: 'inputValue',
@@ -44,8 +42,12 @@ export default {
       type: String,
       default: 'medium',
     },
+    isSelValue: {
+      type: String,
+    },
   },
   watch: {
+    //外部回显时候，先mount生命周期赋值，再触发这里,:isSelValue.sync='XXX'，列表也许需要深拷贝JSON.parse(JSON.stringfy(xxx))
     inputValue(newValue, oldValue) {
       this.val = newValue
     },
@@ -66,6 +68,11 @@ export default {
       isFristLoad: true,
     }
   },
+  created() {
+    console.log('下拉组件创建,获取数据中------')
+    this.handleFilter('')
+    this.val = this.isSelValue
+  },
   methods: {
     // 分页加载数据项
     loadProject() {
@@ -80,11 +87,11 @@ export default {
     // 通过调用接口获取数据项
     getList() {
       // 下面是举例写法
-      userNameList(this.query)
+      getUserInfoList(this.query)
         .then((res) => {
           console.log('当前返回的是', res)
           if (res.code === 0) {
-            this.data.list = [...this.data.list, ...res.data.list]
+            this.data.list = this.uniqueArray([...this.data.list, ...res.data.list])
             this.data.total = res.data.totalCount
           }
         })
@@ -114,6 +121,23 @@ export default {
     },
     handleSearch(val) {
       this.$emit('change', val)
+    },
+
+    //去重
+    uniqueArray(obj) {
+      let seen = new Map()
+      let reObj = obj
+        .filter((i) => {
+          if (!seen.has(i.userId) && i.userId) {
+            seen.set(i.userId, true)
+            return true
+          }
+          return false
+        })
+        .map((i) => {
+          return { userId: i.userId, username: i.username }
+        })
+      return reObj
     },
   },
 }
