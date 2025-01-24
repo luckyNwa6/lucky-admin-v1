@@ -20,12 +20,12 @@ export default {
     },
   },
   actions: {
-    GetUserInfo({ commit }, obj) {
+    GetUserInfo({ commit }) {
       return new Promise((resolve, reject) => {
-        getPersonInfo(obj)
+        getPersonInfo()
           .then(({ data }) => {
             if (data && data.code === 0) {
-              commit('SET_USERINFO', JSON.stringify(data.user))
+              commit('SET_USERINFO', data.user)
             }
             resolve(data)
           })

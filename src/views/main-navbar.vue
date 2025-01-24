@@ -52,6 +52,7 @@
 <script>
 import UpdatePassword from './main-navbar-update-password'
 import { clearLoginInfo } from '@/utils'
+import { mapGetters } from 'vuex'
 export default {
   components: {
     UpdatePassword,
@@ -70,10 +71,10 @@ export default {
   },
 
   mounted() {
-    var obj = JSON.parse(this.$cookie.get('picData'))
-    console.log('dddddddddddddddddddd', obj.status)
+    console.log(this.userInfo)
   },
   computed: {
+    ...mapGetters(['userInfo']),
     navbarLayoutType: {
       get() {
         return this.$store.state.common.navbarLayoutType
@@ -140,8 +141,8 @@ export default {
             data: this.$http.adornData(),
           }).then(({ data }) => {
             if (data && data.code === 0) {
-              clearLoginInfo()
-              this.$cookie.delete('picData')
+              clearLoginInfo() //全部清理干净
+              // this.$cookie.delete('picData')
               this.$router.push({ name: 'login' })
             }
           })

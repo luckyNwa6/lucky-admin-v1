@@ -1,6 +1,6 @@
 import request from '@/utils/httpRequest'
 
-export const reqLogin = (data) => {
+export const reqLogin = data => {
   return request({
     url: request.adornUrl('/sys/login'),
     method: 'post',
@@ -13,9 +13,10 @@ export const getQQ = () => {
     method: 'get',
   })
 }
-export const getPersonInfo = (param) => {
+export const getPersonInfo = () => {
   return request({
-    url: request.adornUrl('/sys/getPersonInfo?openId=' + param),
+    url: request.adornUrl('/sys/user/info'),
     method: 'get',
+    params: request.adornParams(),
   })
 }
