@@ -157,15 +157,15 @@ export default {
     if (token !== '' && token !== null && openId !== '' && openId !== null) {
       this.$cookie.set('token', token)
       console.log('开始获取个人信息！')
-
+      this.$router.replace({ name: 'home' })
       // 在这里将 openId 作为参数传递给 getPersonInfo 方法
-      getPersonInfo(openId).then(res => {
-        console.log('🚀 ~ getPersonInfo ~ res:', res)
-        if (res.data.code === 0) {
-          // this.$router.push('/home')
-          this.$router.replace({ name: 'home' })
-        }
-      })
+      // getPersonInfo(openId).then(res => {
+      //   console.log('🚀 ~ getPersonInfo ~ res:', res)
+      //   if (res.data.code === 0) {
+      //     // this.$router.push('/home')
+
+      //   }
+      // })
     }
   },
 

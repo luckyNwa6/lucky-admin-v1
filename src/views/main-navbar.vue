@@ -37,6 +37,15 @@
     </div>
     <!-- 弹窗, 修改密码 -->
     <update-password v-if="updatePassowrdVisible" ref="updatePassowrd"></update-password>
+    <!-- 内置弹窗, 新增 / 修改 -->
+    <el-dialog :title="dialogInfo.title" :visible.sync="dialogInfo.visible" width="500px" append-to-body>
+      <h3>is show time</h3>
+
+      <span slot="footer" class="dialog-footer">
+        <el-button>取消</el-button>
+        <el-button type="primary" :loading="dialogInfo.loading" @click="bindInfoSub">确认</el-button>
+      </span>
+    </el-dialog>
   </nav>
 </template>
 
@@ -44,16 +53,26 @@
 import UpdatePassword from './main-navbar-update-password'
 import { clearLoginInfo } from '@/utils'
 export default {
+  components: {
+    UpdatePassword,
+  },
   data() {
     return {
       updatePassowrdVisible: false,
       headImgLocal: require('@/assets/img/avatar.gif'),
+
+      dialogInfo: {
+        title: '绑定用户信息',
+        visible: false,
+        loading: false,
+      },
     }
   },
-  components: {
-    UpdatePassword,
-  },
 
+  mounted() {
+    var obj = JSON.parse(this.$cookie.get('picData'))
+    console.log('dddddddddddddddddddd', obj.status)
+  },
   computed: {
     navbarLayoutType: {
       get() {
@@ -98,6 +117,8 @@ export default {
     },
   },
   methods: {
+    //绑定信息
+    bindInfoSub() {},
     // 修改密码
     updatePasswordHandle() {
       this.updatePassowrdVisible = true
