@@ -19,7 +19,8 @@ const _import = require('./import-' + process.env.NODE_ENV)
 const globalRoutes = [
   { path: '/404', component: _import('common/404'), name: '404', meta: { title: '404未找到' } },
   { path: '/login', component: _import('common/login'), name: 'login', meta: { title: '登录' } },
-  { path: '/uploadL', component: _import('common/uploadL'), name: 'login', meta: { title: '大文件上传' } },
+  { path: '/uploadL', component: _import('common/uploadL'), name: 'uploadL', meta: { title: '大文件上传' } },
+  { path: '/settings', component: _import('common/settings'), name: 'settings', meta: { title: '账号设置' } },
 ]
 
 // 主入口路由(需嵌套上左右整体布局)
@@ -79,7 +80,7 @@ router.beforeEach((to, from, next) => {
           next()
         }
       })
-      .catch((e) => {
+      .catch(e => {
         console.log(`%c${e} 请求菜单列表和权限失败，跳转至登录页！！`, 'color:blue')
         router.push({ name: 'login' })
       })
@@ -134,7 +135,7 @@ function fnAddDynamicMenuRoutes(menuList = [], routes = []) {
       } else {
         try {
           route['component'] = _import(`modules/${menuList[i].url}`) || null
-        } catch (e) { }
+        } catch (e) {}
       }
       routes.push(route)
     }

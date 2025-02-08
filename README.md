@@ -14,6 +14,15 @@ node 14 版本
 
 包管理采用 npm 安装
 
+```js
+// 非生产环境 && 开启代理, 接口前缀统一使用[/proxyApi/]前缀做代理拦截!
+return (process.env.NODE_ENV !== 'production' && process.env.OPEN_PROXY ? '/proxyApi/' : window.SITE_CONFIG.baseUrl) + actionName
+```
+
+项目中 2 处修改代理，这段 js 中是接口请求来判断是否开启代理并且非生产,直接携带这个后缀，去本地--项目/config/index.js 里走的本地代理
+部署到服务器上的生产环境或没开本地代理 就走 window.SITE_CONFIG.baseUrl 里 URL 代理路径,去本地--项目/static/config/index.js
+正常本地开启代理，部署到服务器也不需要配置 Nginx
+
 ## 🐯 代码提交规范
 
 严格按照如下规范:

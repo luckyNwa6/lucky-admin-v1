@@ -28,15 +28,14 @@
               {{ nickname }}
             </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item v-if="isAuth('sys:pwd:update')" @click.native="updatePasswordHandle()">修改密码</el-dropdown-item>
+              <el-dropdown-item v-if="isAuth('sys:pwd:update')" @click.native="goSetUpPage()">账号设置</el-dropdown-item>
               <el-dropdown-item @click.native="logoutHandle()">退出</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </el-menu-item>
       </el-menu>
     </div>
-    <!-- 弹窗, 修改密码 -->
-    <update-password v-if="updatePassowrdVisible" ref="updatePassowrd"></update-password>
+
     <!-- 内置弹窗, 新增 / 修改 -->
     <el-dialog :title="dialogInfo.title" :visible.sync="dialogInfo.visible" width="500px" append-to-body>
       <h3>is show time</h3>
@@ -50,16 +49,11 @@
 </template>
 
 <script>
-import UpdatePassword from './main-navbar-update-password'
 import { clearLoginInfo } from '@/utils'
 import { mapGetters } from 'vuex'
 export default {
-  components: {
-    UpdatePassword,
-  },
   data() {
     return {
-      updatePassowrdVisible: false,
       headImgLocal: require('@/assets/img/avatar.gif'),
 
       dialogInfo: {
@@ -120,12 +114,9 @@ export default {
   methods: {
     //绑定信息
     bindInfoSub() {},
-    // 修改密码
-    updatePasswordHandle() {
-      this.updatePassowrdVisible = true
-      this.$nextTick(() => {
-        this.$refs.updatePassowrd.init()
-      })
+
+    goSetUpPage() {
+      this.$router.push({ name: 'settings' })
     },
     // 退出
     logoutHandle() {

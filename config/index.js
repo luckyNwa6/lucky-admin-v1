@@ -7,20 +7,23 @@ const devEnv = require('./dev.env')
 
 module.exports = {
   dev: {
-
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     // 代理列表, 是否开启代理通过[./dev.env.js]配置
-    proxyTable: devEnv.OPEN_PROXY === false ? {} : {
-      '/proxyApi': {
-        target: 'http://localhost:10086/luckyAdmin',//远程  https://imgs.luckynwa.top   |本地 http://localhost:10086/luckyAdmin
-        changeOrigin: true,
-        pathRewrite: {
-          '^/proxyApi/': ''
-        }
-      }
-    },
+    proxyTable:
+      devEnv.OPEN_PROXY === false
+        ? {}
+        : {
+            '/proxyApi': {
+              // target: ' https://imgs.luckynwa.top', //远程
+              target: 'http://localhost:10086/luckyAdmin', //本地
+              changeOrigin: true,
+              pathRewrite: {
+                '^/proxyApi/': '',
+              },
+            },
+          },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
@@ -86,6 +89,6 @@ module.exports = {
     // View the bundle analyzer report after build finishes:
     // `npm run build --report`
     // Set to `true` or `false` to always turn it on or off
-    bundleAnalyzerReport: process.env.npm_config_report
-  }
+    bundleAnalyzerReport: process.env.npm_config_report,
+  },
 }

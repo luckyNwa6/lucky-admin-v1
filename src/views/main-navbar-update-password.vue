@@ -52,7 +52,7 @@ export default {
   computed: {
     userName: {
       get() {
-        return this.$store.state.user.name
+        return this.$store.state.user.userInfo.username
       },
     },
     mainTabs: {
@@ -64,6 +64,9 @@ export default {
       },
     },
   },
+  // mounted() {
+  //   console.log('dangqianzhi----', this.$store.state.user.userInfo.username)
+  // },
   methods: {
     // 初始化
     init() {
