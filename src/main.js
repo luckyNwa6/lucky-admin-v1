@@ -13,10 +13,28 @@ import { isAuth } from '@/utils'
 import cloneDeep from 'lodash/cloneDeep'
 import Global from './utils/Global'
 import { getDic } from '@/api/dic/index.js'
+import plugins from './plugins' // plugins
 
 Vue.use(VueCookie)
 Vue.use(Global)
-Vue.config.productionTip = false
+Vue.use(plugins)
+
+// const isDebug_mode = !(process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') //关闭开发工具
+const isDebug_mode = false
+Vue.config.debug = isDebug_mode
+Vue.config.devtools = isDebug_mode
+Vue.config.productionTip = isDebug_mode
+
+// 在应用入口文件（如 main.js）中添加以下代码
+const originalWarn = console.warn
+
+console.warn = function(message, ...args) {
+  if (typeof message === 'string' && message.includes(' ')) {
+    // 忽略特定的警告信息
+    return
+  }
+  originalWarn.apply(console, [message, ...args])
+}
 
 // 挂载全局
 Vue.prototype.$http = httpRequest // ajax请求方法
@@ -39,6 +57,7 @@ Vue.directive('preventReClick', {
   },
 })
 const lucky = [`😳欢迎使用小维后台管理系统😳`, '  💕2024 By luckyNwa']
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

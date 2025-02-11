@@ -92,6 +92,9 @@ export default {
   components: {
     Upload,
   },
+  computed: {
+    ...mapGetters(['userInfo']),
+  },
   methods: {
     // 上传文件
     uploadHandle() {
@@ -204,7 +207,7 @@ export default {
     getFolderList({
       folderName: '',
       type: 'noTree',
-      userId: JSON.parse(this.$cookie.get('picData')).userId,
+      userId: this.userInfo.userId,
     }).then(({ data }) => {
       if (data && data.code === 0) {
         this.options = data.data.map(folder => ({

@@ -52,7 +52,7 @@ export function treeDataTranslate(data, id = 'id', pid = 'parentId') {
  * 清除登录信息
  */
 export function clearLoginInfo() {
-  Vue.cookie.delete('picData')
+  Vue.cookie.delete('token')
   store.commit('resetStore')
   router.options.isAddDynamicMenuRoutes = false
 }

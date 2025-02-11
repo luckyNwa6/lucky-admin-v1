@@ -7,10 +7,12 @@
           <span @click="$router.push('/home')" style="cursor: pointer;">返回</span>
         </div>
         <div style="display: flex">
-          <div><img :src="userInfoL.headUrl" alt="Avatar" style="height: 50px;width:50px; border-radius: 50%; margin: 15px;" /></div>
           <div>
-            <p style="font-weight:600;font-size:15px">{{ userInfoL.nickname }}</p>
-            <p style="font-size:11px">{{ userInfoL.roleName }}</p>
+            <el-avatar :src="userInfo.headUrl" alt="Avatar" style=" margin: 15px;"></el-avatar>
+          </div>
+          <div>
+            <p style="font-weight:600;font-size:15px">{{ userInfo.nickname }}</p>
+            <p style="font-size:11px">{{ userInfo.roleName }}</p>
           </div>
         </div>
         <el-menu default-active="1" class="el-menu-vertical-demo" style="height: calc(100vh - 160px);" @select="handleSelect">
@@ -43,11 +45,9 @@
             <div style="font-weight:600;">
               头像
             </div>
-            <div style="margin:25px">
-              <img :src="userInfoL.headUrl" alt="Avatar" style="width: 70px; height: 70px; border-radius: 50%; margin-right: 20px;" />
-              <el-button type="primary" size="small" plain>更新头像</el-button>
-            </div>
+            <UploadUserAvatar :user="userInfo" @changeHeadUrl="changeHeadUrl" />
           </div>
+
           <el-form ref="userInfoForm" :model="userInfoL" label-width="80px">
             <el-form-item label="昵称">
               <el-input v-model="userInfoL.nickname"></el-input>
@@ -179,20 +179,25 @@
       </el-col>
     </el-row>
     <!-- 弹窗, 修改密码 -->
-    <update-password v-if="updatePassowrdVisible" ref="updatePassowrd"></update-password>
+    <update-password v-if="updatePasswordVisible" ref="updatePassword"></update-password>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
+
 import UpdatePassword from '@/views/main-navbar-update-password'
+
+import UploadUserAvatar from '@/components/userAvatar'
 export default {
   components: {
     UpdatePassword,
+    UploadUserAvatar,
   },
   data() {
     return {
       userInfoL: {
+        userId: null,
         nickname: '',
         email: '',
         mobile: '',
@@ -225,27 +230,44 @@ export default {
       totalItems: 2,
       currentPage: 1,
       pageSize: 10,
-      updatePassowrdVisible: false,
+      updatePasswordVisible: false,
+    }
+  },
+  created() {
+    if (Array.isArray(this.userInfo)) {
+      //正常是对象，为空则是数组
+      this.$router.push('/login')
     }
   },
   mounted() {
-    console.log('当前信息数据---', this.userInfo)
-    this.userInfoL = this.userInfo
+    this.userInfoL = JSON.parse(JSON.stringify(this.userInfo))
   },
   methods: {
+    ...mapActions('user', ['UpdateUserInfo']),
+
+    changeHeadUrl(url) {
+      this.userInfoL.headUrl = url
+      this.updateInfo()
+    },
     // 修改密码
     updatePasswordHandle() {
-      this.updatePassowrdVisible = true
+      this.updatePasswordVisible = true
       this.$nextTick(() => {
-        this.$refs.updatePassowrd.init()
+        this.$refs.updatePassword.init()
       })
     },
     handleSelect(key) {
       this.activeMenuItem = key
     },
     updateInfo() {
-      // Handle form submission or API call to update user info
-      console.log('Updating user info:', this.userInfoL)
+      this.UpdateUserInfo(this.userInfoL).then(res => {
+        if (res === 0) {
+          // this.$store.commit('user/SET_USERINFO', this.userInfoL)//这样直接改不符合vuex的规范
+          this.successMsg('信息修改成功！')
+          this.userInfoL = JSON.parse(JSON.stringify(this.userInfo))
+        }
+      })
+      // console.log('Updating user info:', this.userInfoL)
     },
 
     handleCurrentChange(val) {

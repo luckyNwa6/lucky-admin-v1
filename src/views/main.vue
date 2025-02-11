@@ -101,7 +101,7 @@ export default {
       //   }
       // })
       this.$store.dispatch('user/GetUserInfo').then(data => {
-        this.$cookie.set('picData', JSON.stringify(data.user))
+        // this.$cookie.set('picData', JSON.stringify(data.user))
         this.loading = false
         this.userId = data.user.userId
         this.userName = data.user.username

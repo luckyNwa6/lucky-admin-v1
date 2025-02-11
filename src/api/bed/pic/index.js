@@ -26,3 +26,15 @@ export function modifyInfo(data) {
   })
 }
 
+//上传文件
+export function uploadPic(data) {
+  return request({
+    url: request.adornUrl('/bedPic/uploadPic'),
+    method: 'post',
+    data,
+    // 如果您的'request'工具不自动设置multipart/form-data，则需要手动设置headers
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  })
+}

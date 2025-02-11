@@ -64,9 +64,6 @@ export default {
     }
   },
 
-  mounted() {
-    console.log(this.userInfo)
-  },
   computed: {
     ...mapGetters(['userInfo']),
     navbarLayoutType: {
@@ -92,21 +89,19 @@ export default {
     },
     nickname: {
       get() {
-        var obj = JSON.parse(this.$cookie.get('picData'))
-        if (obj.nickname && obj.nickname !== '') {
-          return obj.nickname
+        if (this.userInfo.nickname && this.userInfo.nickname !== '') {
+          return this.userInfo.nickname
         } else {
-          return this.$store.state.user.name
+          return this.userInfo.username
         }
       },
     },
     headImg: {
       get() {
-        var obj = JSON.parse(this.$cookie.get('picData'))
-        if (obj.headUrl && obj.headUrl !== '') {
-          return obj.headUrl
+        if (this.userInfo.headUrl && this.userInfo.headUrl !== '') {
+          return this.userInfo.headUrl
         } else {
-          return this.headImgLocal
+          return this.userInfo.headImgLocal
         }
       },
     },
