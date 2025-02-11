@@ -135,7 +135,7 @@ export default {
         // 如果 originalFileName 为空，则使用当前时间戳作为文件名
         if (!this.originalFileName) {
           const timestamp = new Date().getTime()
-          this.originalFileName = `'scale'-${timestamp}.jpg`
+          this.originalFileName = `scale-${timestamp}.jpg`
         }
 
         // 将单个文件包装成数组
