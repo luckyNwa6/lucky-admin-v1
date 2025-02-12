@@ -28,7 +28,7 @@
               {{ nickname }}
             </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item v-if="isAuth('sys:pwd:update')" @click.native="goSetUpPage()">账号设置</el-dropdown-item>
+              <el-dropdown-item @click.native="goSetUpPage()">账号设置</el-dropdown-item>
               <el-dropdown-item @click.native="logoutHandle()">退出</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
