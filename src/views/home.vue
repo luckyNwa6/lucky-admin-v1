@@ -15,6 +15,7 @@
     <el-button @click="goAVue">aVue测试</el-button>
     <el-button @click="goScreen">大屏</el-button>
     <el-button @click="goDialog">弹框组件</el-button>
+    <el-button @click="goStep">导航组件</el-button>
     <el-divider></el-divider>
   </div>
 </template>
@@ -45,6 +46,9 @@ export default {
     },
     goDialog() {
       this.$router.push('/dialog')
+    },
+    goStep() {
+      this.$router.push('/step')
     },
     //下面是测试session
     testSession() {

@@ -63,6 +63,11 @@ const routes = [
     name: 'screen3',
     component: () => import('@/views/screen3/index.vue'),
   },
+  {
+    path: '/step',
+    name: 'step',
+    component: () => import('@/views/step/index.vue'),
+  },
 ]
 
 const router = new VueRouter({
