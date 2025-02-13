@@ -17,7 +17,8 @@ export default {
       state.name = name
     },
     SET_USERINFO: (state, userInfo) => {
-      state.userInfo = userInfo
+      state.userInfo = { ...userInfo }
+
       setStore({ name: 'userInfo', content: state.userInfo })
     },
   },

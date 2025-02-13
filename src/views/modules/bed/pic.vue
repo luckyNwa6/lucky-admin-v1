@@ -70,6 +70,7 @@
 import { getFolderList } from '@/api/bed/folder/index'
 import { getYunList, delRemotePic, modifyInfo } from '@/api/bed/pic/index'
 import Upload from './pic-upload'
+import { mapGetters } from 'vuex'
 export default {
   data() {
     return {

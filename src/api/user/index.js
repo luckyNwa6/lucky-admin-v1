@@ -7,3 +7,11 @@ export const updatePersonInfo = data => {
     data,
   })
 }
+
+export const updateAcc = data => {
+  return request({
+    url: request.adornUrl('/sys/user/updateAcc'),
+    method: 'post',
+    data,
+  })
+}

@@ -129,11 +129,23 @@
           <div style="padding:20px">
             <el-row>
               <el-col :span="18">
+                <span style="font-weight:600;font-size:15px">登录账号</span>
+                <p>当前账号：{{ userInfoL.username }}</p>
+              </el-col>
+              <el-col :span="2">
+                <el-button @click.native="updateAccHandle()">
+                  修改
+                </el-button>
+              </el-col>
+            </el-row>
+            <el-divider></el-divider>
+            <el-row>
+              <el-col :span="18">
                 <span style="font-weight:600;font-size:15px">账户密码</span>
                 <p>当前密码强度：强</p>
               </el-col>
               <el-col :span="2">
-                <el-button v-if="isAuth('sys:pwd:update')" @click.native="updatePasswordHandle()">
+                <el-button @click.native="updatePasswordHandle()">
                   修改
                 </el-button>
               </el-col>
@@ -142,7 +154,7 @@
             <el-row>
               <el-col :span="18">
                 <span style="font-weight:600;font-size:15px">密保手机</span>
-                <p>已经绑定手机：138....7290</p>
+                <p>已经绑定手机：{{ userInfoL.mobile }}</p>
               </el-col>
               <el-col :span="2">
                 <el-button v-if="isAuth('sys:pwd:update')" @click.native="updatePasswordHandle()">
@@ -180,6 +192,18 @@
     </el-row>
     <!-- 弹窗, 修改密码 -->
     <update-password v-if="updatePasswordVisible" ref="updatePassword"></update-password>
+    <!-- 内置弹窗 -->
+    <el-dialog :title="dialogInfo.title" :visible.sync="dialogInfo.visible" width="500px" append-to-body>
+      <el-form :model="dataForm" ref="dataForm" @keyup.enter.native="sub" label-width="80px">
+        <el-form-item label="新账号" prop="usernameN">
+          <el-input v-model="dataForm.usernameN" placeholder="请输入好记忆的新账号"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogInfo.visible = false">取消</el-button>
+        <el-button type="primary" :loading="dialogInfo.loading" @click="sub">确认</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -189,6 +213,9 @@ import { mapGetters, mapActions } from 'vuex'
 import UpdatePassword from '@/views/main-navbar-update-password'
 
 import UploadUserAvatar from '@/components/userAvatar'
+
+import { updateAcc } from '@/api/user'
+
 export default {
   components: {
     UpdatePassword,
@@ -231,6 +258,15 @@ export default {
       currentPage: 1,
       pageSize: 10,
       updatePasswordVisible: false,
+
+      dialogInfo: {
+        title: '修改',
+        visible: false,
+        loading: false,
+      },
+      dataForm: {
+        usernameN: '',
+      },
     }
   },
   created() {
@@ -273,6 +309,37 @@ export default {
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`)
       // 在这里处理分页逻辑
+    },
+
+    updateAccHandle() {
+      // 打开表单，并设置初始化
+      this.dialogInfo.visible = true
+      this.$nextTick(() => {
+        this.$refs['dataForm'].resetFields()
+      })
+    },
+    sub() {
+      if (this.userInfo.username === 'admin') {
+        this.$modal.msgWarning('超级管理员不可修改！')
+        return
+      }
+      if (this.userInfo.username === this.dataForm.usernameN) {
+        this.$modal.msgWarning('与原用户名相同,请修改！')
+        return
+      }
+      this.dialogInfo.loading = true
+      updateAcc({ ...this.userInfoL, usernameN: this.dataForm.usernameN }).then(res => {
+        console.log('🚀 ~ updateAcc ~ res:', res)
+        if (res.data.code === 0) {
+          this.$modal.msgSuccess(res.data.msg)
+          this.userInfoL.username = this.dataForm.usernameN
+          this.$store.commit('user/SET_USERINFO', this.userInfoL)
+        } else {
+          this.$modal.msgError(res.data.msg)
+        }
+        this.dialogInfo.loading = false
+        this.dialogInfo.visible = false
+      })
     },
   },
   computed: {
