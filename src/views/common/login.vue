@@ -86,8 +86,8 @@ export default {
           { required: true, message: '请输入账号', trigger: 'blur' },
           {
             min: 1,
-            max: 15,
-            message: '账号长度必须为 1-15 位',
+            max: 45,
+            message: '账号长度必须为 1-45 位',
             trigger: 'blur',
           },
         ],

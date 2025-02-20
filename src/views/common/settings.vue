@@ -62,7 +62,7 @@
               <el-input type="textarea" v-model="userInfoL.remark" :rows="5" maxlength="100" show-word-limit></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="updateInfo">更新信息</el-button>
+              <el-button type="primary" @click="updateInfo" :loading="updateLoading">更新信息</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -267,6 +267,7 @@ export default {
       dataForm: {
         usernameN: '',
       },
+      updateLoading: false,
     }
   },
   created() {
@@ -296,12 +297,19 @@ export default {
       this.activeMenuItem = key
     },
     updateInfo() {
+      if (!this.userInfoL.nickname.trim()) {
+        this.$modal.msgWarning('昵称不能为空！')
+        return
+      }
+      this.updateLoading = true
+
       this.UpdateUserInfo(this.userInfoL).then(res => {
         if (res === 0) {
           // this.$store.commit('user/SET_USERINFO', this.userInfoL)//这样直接改不符合vuex的规范
           this.successMsg('信息修改成功！')
           this.userInfoL = JSON.parse(JSON.stringify(this.userInfo))
         }
+        this.updateLoading = false
       })
       // console.log('Updating user info:', this.userInfoL)
     },
@@ -319,7 +327,7 @@ export default {
       })
     },
     sub() {
-      if (this.userInfo.username === 'admin') {
+      if (this.dataForm.usernameN === 'admin') {
         this.$modal.msgWarning('超级管理员不可修改！')
         return
       }
