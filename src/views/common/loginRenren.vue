@@ -16,7 +16,7 @@
               <el-input v-model="dataForm.userName" placeholder="帐号"></el-input>
             </el-form-item>
             <el-form-item prop="password">
-              <el-input v-model="dataForm.password" type="password" placeholder="密码"></el-input>
+              <el-input v-model="dataForm.password" prefix-icon="el-icon-lock" type="password" placeholder="密码"></el-input>
             </el-form-item>
             <el-form-item prop="captcha">
               <el-row :gutter="20">

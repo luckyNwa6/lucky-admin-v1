@@ -178,7 +178,7 @@
             <el-row>
               <el-col :span="18">
                 <span style="font-weight:600;font-size:15px">备用邮箱</span>
-                <p>已绑定邮箱：1656....@qq.com</p>
+                <p>已绑定邮箱：{{ userInfoL.email }}</p>
               </el-col>
               <el-col :span="2">
                 <el-button v-if="isAuth('sys:pwd:update')" @click.native="updatePasswordHandle()">

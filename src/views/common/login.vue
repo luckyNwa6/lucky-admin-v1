@@ -1,71 +1,90 @@
-<!-- 水滴版登录页 -->
 <template>
   <div class="login-container">
-    <div class="box">
-      <el-form class="login-form" :model="form" ref="loginForm" :rules="rules">
-        <h2 class="title">图床后台登录</h2>
-        <el-form-item prop="acc">
-          <el-input v-model="form.acc" prefix-icon="el-icon-user" placeholder="用户名"></el-input>
-        </el-form-item>
-        <el-form-item prop="pwd">
-          <el-input v-model="form.pwd" placeholder="密码" prefix-icon="el-icon-lock" show-password></el-input>
-        </el-form-item>
-        <div style="display: flex; justify-content: left; margin-bottom: 10px">
-          <input v-model="yzmInput" placeholder="验证码" autocomplete="off" class="yzm" />
-          <input type="button" class="yzmF" v-model="yzmm" @click="refreshYzm" />
-        </div>
-        <el-form-item>
-          <ViButton v-preventReClick @click="login">登录</ViButton>
+    <div class="login-card">
+      <!-- 登录方式切换 -->
+      <div class="login-type">
+        <span :class="{ active: loginType === 'account' }" @click="loginType = 'account'">账号登录</span>
+        <span :class="{ active: loginType === 'phone' }" @click="changeLoginType">手机号登录</span>
+      </div>
+
+      <!-- 账号登录表单 -->
+      <el-form v-if="loginType === 'account'" class="login-form" :model="form" ref="loginForm" :rules="rules">
+        <el-form-item label="账号" prop="acc">
+          <el-input v-model="form.acc" prefix-icon="el-icon-user" placeholder="请输入账号" />
         </el-form-item>
 
-        <div @click="goQQ" style="position: absolute; top: 340px; right: 100px">
-          <el-image :src="require('@/assets/img/Connect_logo_7.png')" fit="contain"></el-image>
+        <el-form-item label="密码" prop="pwd">
+          <el-input v-model="form.pwd" type="password" prefix-icon="el-icon-lock" placeholder="请输入密码" show-password />
+        </el-form-item>
+
+        <div class="form-options">
+          <el-checkbox v-model="remember">记住密码</el-checkbox>
+          <!-- <el-link type="primary" :underline="false">忘记密码</el-link> -->
         </div>
+
+        <el-button type="primary" class="login-btn" @click="login">登录</el-button>
       </el-form>
-    </div>
-    <div style="margin: 0 auto; width: 900px; position: absolute; left: 29%; bottom: 0">
-      <!-- background: linear-gradient(to right, #debae6, #c7cefe); -->
-      <p style="letter-spacing: 1px; font-family: 楷体">
-        🤠2023 图床后台管理系统 | Now:
-        {{ currentDateTime }}🏝️|
-        <a style="text-decoration: none" href="https://luckynwa.top/about/" class="cool">前往博客🐳</a>
-        | 备案号:
-        <a href="https://beian.miit.gov.cn/" style="text-decoration: none">
-          <span style="padding: 2px">
-            <img src="https://imgs.luckynwa.top/blog/gonganbeian.png" style="height: 13px; margin-left: 2px" />
-            <span style="color: rgb(0, 0, 0); margin-left: 3px">闽ICP备</span>
-          </span>
-          <span style="color: black">2023003457号-1</span>
-        </a>
-      </p>
+
+      <!-- 手机号登录表单 -->
+      <el-form v-else class="login-form">
+        <el-form-item label="手机号">
+          <el-input v-model="phone" placeholder="请输入手机号" />
+        </el-form-item>
+
+        <el-form-item label="验证码">
+          <div class="sms-code">
+            <el-input v-model="smsCode" placeholder="请输入验证码" />
+            <el-button class="get-code">获取验证码</el-button>
+          </div>
+        </el-form-item>
+
+        <el-button type="primary" class="login-btn">登录</el-button>
+      </el-form>
+
+      <!-- 其他登录方式 -->
+      <div class="other-login">
+        <el-divider>选择其他登录方式</el-divider>
+        <!-- 这里可以添加图标按钮 -->
+      </div>
+
+      <div @click="goQQ" style="width: 45px;height:45px;text-align: center;margin: 0 auto;">
+        <el-image :src="require('@/assets/img/qq_one.png')" fit="contain"></el-image>
+      </div>
+      <div class="copyright">
+        <p style="letter-spacing: 1px; font-family: 楷体;color:#000">
+          Copyright © 2023 图床后台管理系统 |
+          <a href="https://beian.miit.gov.cn/" style="text-decoration: none;color: #000;">
+            <span style="padding: 2px">
+              <img src="https://imgs.luckynwa.top/blog/gonganbeian.png" style="height: 13px; margin-left: 1px" />
+              <span style=" margin-left: 3px">闽ICP备 2023003457号-1</span>
+            </span>
+          </a>
+        </p>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import ViButton from '@luckynwa-lib/vi-button'
-import '@luckynwa-lib/vi-button/dist/index.css'
-import { getQQ, getPersonInfo, reqLogin } from '@/api/login'
-
+import { getQQ, reqLogin } from '@/api/login'
 export default {
-  components: { ViButton },
   data() {
     return {
+      loginType: 'account',
+      remember: false,
+      phone: '',
+      smsCode: '',
       form: {
         acc: 'admin',
         pwd: 'Nwa741',
       },
-      yzmInput: '',
-      yzmm: '',
-      isOpenYzm: true, //开发中false则不需输验证码
-      currentDateTime: '',
       rules: {
         acc: [
           { required: true, message: '请输入账号', trigger: 'blur' },
           {
-            min: 4,
-            max: 33,
-            message: '账号长度必须为 4-33 位',
+            min: 1,
+            max: 15,
+            message: '账号长度必须为 1-15 位',
             trigger: 'blur',
           },
         ],
@@ -77,73 +96,71 @@ export default {
     login() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          if (this.yzmInput.toLowerCase() !== this.yzmm.toLowerCase() && this.isOpenYzm) {
-            this.failMsg('验证码有误！')
-            this.yzmm = this.$options.methods.showCode()
+          if (this.remember) {
+            // 如果用户选择了记住密码，则存储账号和密码
+            this.$cookie.set('acc', this.form.acc)
+            this.$cookie.set('pwd', this.form.pwd)
           } else {
-            let data = {
-              username: this.form.acc,
-              password: this.form.pwd,
-              captcha: '',
-              openCaptcha: false,
-              uuid: '',
-            }
-            reqLogin(data).then(res => {
-              console.log('🚀 ~ reqLogin ~ res:', res)
-              //session会话级，关闭浏览器，token就没了，1登录，开2窗口
-              //会出现还需要登录的情况
-              // sessionStorage.setItem("token", res.luckyToken);
-              //cookie，浏览器关闭也能保持登录状态
-              if (res.data.code === 0) {
-                // console.log('🚀 ~ reqLogin ~ res:', res)
-                this.$cookie.set('token', res.data.token)
-
-                this.successMsg(res.data.msg)
-                this.$router.replace({ name: 'home' })
-              } else {
-                this.failMsg(res.data.msg)
-                this.yzmm = this.$options.methods.showCode()
-                this.$router.push({ name: 'login' })
-              }
-            })
+            // 如果用户未选择记住密码，则清除存储的账号和密码
+            this.$cookie.delete('acc')
+            this.$cookie.delete('pwd')
           }
+          let data = {
+            username: this.form.acc,
+            password: this.form.pwd,
+            captcha: '',
+            openCaptcha: false,
+            uuid: '',
+          }
+          reqLogin(data).then(res => {
+            console.log('🚀 ~ reqLogin ~ res:', res)
+            //session会话级，关闭浏览器，token就没了，1登录，开2窗口
+            //会出现还需要登录的情况
+            // sessionStorage.setItem("token", res.luckyToken);
+            //cookie，浏览器关闭也能保持登录状态
+            if (res.data.code === 0) {
+              // console.log('🚀 ~ reqLogin ~ res:', res)
+              this.$cookie.set('token', res.data.token)
+
+              this.successMsg(res.data.msg)
+              this.$router.replace({ name: 'home' })
+            } else {
+              this.failMsg(res.data.msg)
+              this.yzmm = this.$options.methods.showCode()
+              this.$router.push({ name: 'login' })
+            }
+          })
         }
       })
     },
 
-    //更新时间
-    updateDateTime() {
-      setInterval(() => {
-        const currentDateTime = new Date().toLocaleString()
-        this.currentDateTime = currentDateTime
-      }, 1000)
-    },
-    //验证码相关
-    refreshYzm() {
-      this.yzmm = this.$options.methods.showCode()
-    },
-    showCode() {
-      var codeBox = '23456789qwertyupasdfghjkzxcvbnmQWERTYUPASDFGHJKZXCVBNM'
-      //太像的字符去掉0Oo1il
-      var code = ''
-      for (var i = 1; i <= 4; i++) {
-        code += codeBox.charAt(Math.floor(Math.random() * codeBox.length))
-      }
-      return code
-    },
-
     //获取qq的跳转链接
     goQQ() {
+      console.log('1111111')
       getQQ().then(res => {
         // console.log('🚀 ~ getQQ ~ res:', res)
         // console.log('请求新的URL去验证第三方的QQ！！！')
         window.location.href = res.data
       })
     },
+    changeLoginType() {
+      this.$modal.msgWarning('暂不支持手机号登录！')
+    },
+    loadStoredCredentials() {
+      // 从 localStorage 中读取账号和密码
+      const acc = this.$cookie.get('acc')
+      const pwd = this.$cookie.get('pwd')
+
+      if (acc && pwd) {
+        this.form.acc = acc
+        this.form.pwd = pwd
+        this.remember = true // 自动勾选记住密码
+      }
+    },
   },
 
   mounted() {
-    this.yzmm = this.$options.methods.showCode()
+    this.loadStoredCredentials()
     // 获取完整的查询字符串，例如："?data=42514014FF964FE30D2B24E69E3CA6DB"
     let queryString = window.location.href.split('?')[1]
     // console.log('url?后面的值是:' + queryString)
@@ -160,141 +177,78 @@ export default {
       this.$router.replace({ name: 'home' })
     }
   },
-
-  created() {
-    this.updateDateTime()
-  },
 }
 </script>
 
 <style scoped>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-/* 最外面一层的div */
 .login-container {
+  padding: 0;
+  margin: 0;
   height: 100vh;
-  background: #e9f1f6;
-}
-.box {
-  position: absolute;
-  top: 20%;
-  left: 20%;
-  width: 670px;
-}
-.login-form {
-  position: relative;
   display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-  width: 400px;
-  height: 400px;
-  padding: 60px 20px;
-  box-shadow: inset 20px 20px 20px rgba(0, 0, 0, 0.05), 25px 35px 20px rgba(0, 0, 0, 0.05), 25px 30px 30px rgba(0, 0, 0, 0.05),
-    inset -20px -20px 25px rgba(255, 255, 255, 0.9);
-  transition: 0.5s;
-  border-radius: 52% 48% 33% 67%/ 38% 45% 55% 62%;
+  justify-content: flex-end; /* 将子元素对齐到右侧 */
+  /* align-items: center; 垂直居中 */
+  background-image: url(~@/assets/img/login_lucky.jpg);
+  background-size: 100% 100%;
 }
 
-.login-form:hover {
-  border-radius: 50%;
+.login-card {
+  width: 37.5%;
+  padding: 20px;
+  /* background: #000; */
 }
 
-/* 内容高亮气泡1 */
-.login-form::before {
-  content: '';
-  position: absolute;
-  top: 50px;
-  left: 85px;
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  background: #fff;
-  opacity: 0.9;
-}
-/* 内容高亮气泡2 */
-.login-form::after {
-  content: '';
-  position: absolute;
-  top: 90px;
-  left: 110px;
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  background: #fff;
-  opacity: 0.9;
-}
-.title {
-  font-size: 24px;
+.login-type {
+  margin-top: 90px;
   text-align: center;
-  margin-bottom: 20px;
-  color: #f16893;
-}
-.el-input {
-  /* 修改输入框的宽度和高度 */
-  width: 230px;
-  height: 40px;
-}
-/* 验证码css */
-.yzm {
-  position: relative;
-  margin-top: 10px;
-  width: 100px;
-  height: 35px !important;
-  border: none;
-  border-radius: 5px;
-  padding-left: 10px;
+  margin-bottom: 24px;
 }
 
-.yzmF {
-  position: relative;
-  margin-top: 10px;
-  margin-left: 22px;
-  font-size: 27px;
-  width: 100px;
-  height: 35px;
-  border: none;
-  background-color: white;
-  border-radius: 8px;
-  font-size: 27px;
-  font-weight: 600;
-  letter-spacing: 8px;
-  color: rebeccapurple;
-  font-family: '楷体';
-}
-.yzm:focus {
-  border: 1px solid rgb(131, 44, 174);
-  color: rgb(16, 151, 140);
-  outline: none; /* 去除默认的焦点样式 */
-}
-
-.cool {
-  display: inline;
-  text-align: center;
-  background-image: linear-gradient(to right, #f782a9 0%, #b48bd9 10%, #4ed9ab 40%, #ffd26b 60%, #f782a9 90%, #f782a9 100%);
-  background-size: 200% auto;
+.login-type span {
+  margin: 0 20px;
+  cursor: pointer;
   color: #000;
-  font-size: 1rem;
-  background-clip: text;
-  color: transparent;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shine 10s linear infinite;
-  font-family: dancing script, cursive;
-  font-weight: 700;
+  font-size: 24px;
+  font-weight: 600;
 }
 
-@keyframes shine {
-  to {
-    background-position: 200% center;
-  }
+.login-type span.active {
+  color: #409eff;
+  font-weight: bold;
 }
 
-.el-form >>> .el-form-item__error {
-  padding-top: 1px;
-  font-size: 8px;
+.login-form {
+  margin-top: 20px;
+  padding: 40px;
+}
+
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.login-btn {
+  width: 100%;
+}
+
+.sms-code {
+  display: flex;
+  gap: 10px;
+}
+
+.get-code {
+  flex-shrink: 0;
+}
+
+.other-login {
+  padding: 20px 40px 20px;
+}
+
+.copyright {
+  margin-top: 140px;
+  color: #999;
+  font-size: 12px;
+  text-align: center;
 }
 </style>
