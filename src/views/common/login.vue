@@ -22,7 +22,7 @@
           <!-- <el-link type="primary" :underline="false">忘记密码</el-link> -->
         </div>
 
-        <el-button type="primary" class="login-btn" @click="login">登录</el-button>
+        <el-button type="primary" class="login-btn" @click="loginAdmin" :loading="accLoading">登录</el-button>
       </el-form>
 
       <!-- 手机号登录表单 -->
@@ -40,7 +40,7 @@
 
         <el-button type="primary" class="login-btn">登录</el-button>
       </el-form>
-
+      <div id="captcha-div" class="yzmStyle"></div>
       <!-- 其他登录方式 -->
       <div class="other-login">
         <el-divider>选择其他登录方式</el-divider>
@@ -67,6 +67,9 @@
 
 <script>
 import { getQQ, reqLogin } from '@/api/login'
+
+import '@/assets/captcha/css/tac.css' // 验证码css
+import '@/assets/captcha/js/tac.min.js' // 验证码js
 export default {
   data() {
     return {
@@ -90,47 +93,93 @@ export default {
         ],
         pwd: [{ required: true, message: '请输入密码', trigger: 'blur' }],
       },
+      accLoading: false, //登录防重复点击
+      //验证码配置 http://doc.captcha.tianai.cloud/#%E5%89%8D%E7%AB%AF%E6%8E%A5%E5%85%A5
+      yzm: {
+        yzmOpen: false, //开启滚动验证码
+        yzmStyle: {
+          btnUrl: 'https://minio.tianai.cloud/public/captcha-btn/btn3.png',
+          // 背景样式
+          bgUrl: 'https://minio.tianai.cloud/public/captcha-btn/btn3-bg.jpg',
+          // logo地址
+          logoUrl: '', // 去除logo
+          // 滑动边框样式
+          moveTrackMaskBgColor: '#f7b645',
+          moveTrackMaskBorderColor: '#ef9c0d',
+        },
+      },
     }
   },
   methods: {
-    login() {
+    //加载验证码js文件
+    async loadCaptchaScripts() {
+      const captchaJsPath = require('@/assets/captcha/js/tac.min.js')
+      const captchaJs = document.createElement('script') // 动态创建 script 标签并插入到 body 中
+      captchaJs.src = captchaJsPath
+      captchaJs.onload = () => {
+        // console.log('Captcha scripts loaded successfully')
+      }
+      document.body.appendChild(captchaJs)
+    },
+
+    loginAdmin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          if (this.remember) {
-            // 如果用户选择了记住密码，则存储账号和密码
-            this.$cookie.set('acc', this.form.acc)
-            this.$cookie.set('pwd', this.form.pwd)
-          } else {
-            // 如果用户未选择记住密码，则清除存储的账号和密码
-            this.$cookie.delete('acc')
-            this.$cookie.delete('pwd')
-          }
-          let data = {
-            username: this.form.acc,
-            password: this.form.pwd,
-            captcha: '',
-            openCaptcha: false,
-            uuid: '',
-          }
-          reqLogin(data).then(res => {
-            console.log('🚀 ~ reqLogin ~ res:', res)
-            //session会话级，关闭浏览器，token就没了，1登录，开2窗口
-            //会出现还需要登录的情况
-            // sessionStorage.setItem("token", res.luckyToken);
-            //cookie，浏览器关闭也能保持登录状态
-            if (res.data.code === 0) {
-              // console.log('🚀 ~ reqLogin ~ res:', res)
-              this.$cookie.set('token', res.data.token)
-
-              this.successMsg(res.data.msg)
-              this.$router.replace({ name: 'home' })
-            } else {
-              this.failMsg(res.data.msg)
-              this.yzmm = this.$options.methods.showCode()
-              this.$router.push({ name: 'login' })
+          if (this.yzm.yzmOpen) {
+            const yzmConfig = {
+              requestCaptchaDataUrl: '/proxyApi/LuckyYzm/gen',
+              validCaptchaUrl: '/proxyApi/LuckyYzm/check',
+              bindEl: '#captcha-div', //加这个元素
+              // 验证成功回调函数
+              validSuccess: (res, c, tac) => {
+                this.accLoading = true
+                this.login()
+                tac.destroyWindow()
+              },
             }
-          })
+            new window.TAC(yzmConfig, this.yzm.yzmStyle).init()
+          } else {
+            this.accLoading = true
+            this.login()
+          }
+        } else {
+          return false
         }
+      })
+    },
+    login() {
+      if (this.remember) {
+        // 如果用户选择了记住密码，则存储账号和密码
+        this.$cookie.set('acc', this.form.acc)
+        this.$cookie.set('pwd', this.form.pwd)
+      } else {
+        // 如果用户未选择记住密码，则清除存储的账号和密码
+        this.$cookie.delete('acc')
+        this.$cookie.delete('pwd')
+      }
+      let data = {
+        username: this.form.acc,
+        password: this.form.pwd,
+        captcha: '',
+        openCaptcha: false,
+        uuid: '',
+      }
+      reqLogin(data).then(res => {
+        console.log('🚀 ~ reqLogin ~ res:', res)
+        //session会话级，关闭浏览器，token就没了，1登录，开2窗口
+        //会出现还需要登录的情况
+        // sessionStorage.setItem("token", res.luckyToken);
+        //cookie，浏览器关闭也能保持登录状态
+        if (res.data.code === 0) {
+          // console.log('🚀 ~ reqLogin ~ res:', res)
+          this.$cookie.set('token', res.data.token)
+          this.successMsg(res.data.msg)
+          this.$router.replace({ name: 'home' })
+        } else {
+          this.failMsg(res.data.msg)
+          this.$router.push({ name: 'login' })
+        }
+        this.accLoading = false
       })
     },
 
@@ -159,8 +208,13 @@ export default {
     },
   },
 
+  async created() {
+    let { openYzm } = await this.getDic('openYzm').catch(() => {})
+    this.yzm.yzmOpen = Number(openYzm[0].value)
+  },
   mounted() {
-    this.loadStoredCredentials()
+    // this.loadCaptchaScripts() //jq慢加载导致这个js里读取不到jq报错，才将js单独拉出来引入
+    this.loadStoredCredentials() //记住密码
     // 获取完整的查询字符串，例如："?data=42514014FF964FE30D2B24E69E3CA6DB"
     let queryString = window.location.href.split('?')[1]
     // console.log('url?后面的值是:' + queryString)
@@ -193,6 +247,7 @@ export default {
 }
 
 .login-card {
+  position: relative;
   width: 37.5%;
   padding: 20px;
   /* background: #000; */
@@ -250,5 +305,11 @@ export default {
   color: #999;
   font-size: 12px;
   text-align: center;
+}
+
+.yzmStyle {
+  position: absolute;
+  top: 460px;
+  left: 160px;
 }
 </style>
