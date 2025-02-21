@@ -22,7 +22,7 @@
           <!-- <el-link type="primary" :underline="false">忘记密码</el-link> -->
         </div>
 
-        <el-button type="primary" class="login-btn" @click="loginAdmin" :loading="accLoading">登录</el-button>
+        <el-button type="primary" class="login-btn" @click="loginAdmin" :loading="accLoading" @keyup.enter="keyDown(e)">登录</el-button>
       </el-form>
 
       <!-- 手机号登录表单 -->
@@ -111,16 +111,16 @@ export default {
     }
   },
   methods: {
-    //加载验证码js文件
-    async loadCaptchaScripts() {
-      const captchaJsPath = require('@/assets/captcha/js/tac.min.js')
-      const captchaJs = document.createElement('script') // 动态创建 script 标签并插入到 body 中
-      captchaJs.src = captchaJsPath
-      captchaJs.onload = () => {
-        // console.log('Captcha scripts loaded successfully')
-      }
-      document.body.appendChild(captchaJs)
-    },
+    //控制台报错,采取第三方引入、加载验证码js文件
+    // async loadCaptchaScripts() {
+    //   const captchaJsPath = require('@/assets/captcha/js/tac.min.js')
+    //   const captchaJs = document.createElement('script') // 动态创建 script 标签并插入到 body 中
+    //   captchaJs.src = captchaJsPath
+    //   captchaJs.onload = () => {
+    //     // console.log('Captcha scripts loaded successfully')
+    //   }
+    //   document.body.appendChild(captchaJs)
+    // },
 
     loginAdmin() {
       this.$refs.loginForm.validate(valid => {
@@ -183,6 +183,9 @@ export default {
       })
     },
 
+    keyDown(e) {
+      if (e.keyCode == 13 || e.keyCode == 100) this.login()
+    },
     //获取qq的跳转链接
     goQQ() {
       console.log('1111111')
@@ -199,7 +202,6 @@ export default {
       // 从 localStorage 中读取账号和密码
       const acc = this.$cookie.get('acc')
       const pwd = this.$cookie.get('pwd')
-
       if (acc && pwd) {
         this.form.acc = acc
         this.form.pwd = pwd
@@ -213,6 +215,7 @@ export default {
     this.yzm.yzmOpen = Number(openYzm[0].value)
   },
   mounted() {
+    window.addEventListener('keydown', this.keyDown)
     // this.loadCaptchaScripts() //jq慢加载导致这个js里读取不到jq报错，才将js单独拉出来引入
     this.loadStoredCredentials() //记住密码
     // 获取完整的查询字符串，例如："?data=42514014FF964FE30D2B24E69E3CA6DB"
@@ -230,6 +233,9 @@ export default {
       console.log('开始获取个人信息！')
       this.$router.replace({ name: 'home' })
     }
+  },
+  destroyed() {
+    window.removeEventListener('keydown', this.keyDown, false) // 销毁事件
   },
 }
 </script>
