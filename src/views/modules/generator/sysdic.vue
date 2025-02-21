@@ -5,6 +5,9 @@
         <el-input v-model="dataForm.key" placeholder="字典名称" clearable></el-input>
       </el-form-item>
       <el-form-item>
+        <el-input v-model="dataForm.labelA" placeholder="标签名称" clearable></el-input>
+      </el-form-item>
+      <el-form-item>
         <el-button @click="getDataList()">查询</el-button>
         <el-button v-if="isAuth('generator:sysdic:save')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
         <el-button
@@ -19,7 +22,7 @@
     </el-form>
     <el-table :data="dataList" border v-loading="dataListLoading" @selection-change="selectionChangeHandle" style="width: 100%;">
       <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
-      <el-table-column prop="id" header-align="center" align="center" label="ID"></el-table-column>
+      <!-- <el-table-column prop="id" header-align="center" align="center" label="ID"></el-table-column> -->
       <el-table-column prop="dataType" header-align="center" align="center" label="字典名称"></el-table-column>
       <el-table-column prop="label" header-align="center" align="center" label="Label"></el-table-column>
       <el-table-column prop="value" header-align="center" align="center" label="Value"></el-table-column>
@@ -79,6 +82,7 @@ export default {
           page: this.pageIndex,
           limit: this.pageSize,
           key: this.dataForm.key,
+          labelA: this.dataForm.labelA,
         }),
       }).then(({ data }) => {
         if (data && data.code === 0) {

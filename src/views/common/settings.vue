@@ -20,11 +20,11 @@
             <i class="el-icon-user"></i>
             个人信息
           </el-menu-item>
-          <el-menu-item index="2">
+          <el-menu-item index="2" v-if="isAuth('setting:love')">
             <i class="el-icon-setting"></i>
             偏好设置
           </el-menu-item>
-          <el-menu-item index="3">
+          <el-menu-item index="3" v-if="isAuth('setting:safeLog')">
             <i class="el-icon-tickets"></i>
             安全日志
           </el-menu-item>
@@ -142,7 +142,7 @@
             <el-row>
               <el-col :span="18">
                 <span style="font-weight:600;font-size:15px">账户密码</span>
-                <p>当前密码强度：强</p>
+                <p>当前密码强度：**</p>
               </el-col>
               <el-col :span="2">
                 <el-button @click.native="updatePasswordHandle()">
@@ -151,7 +151,7 @@
               </el-col>
             </el-row>
             <el-divider></el-divider>
-            <el-row>
+            <!-- <el-row>
               <el-col :span="18">
                 <span style="font-weight:600;font-size:15px">密保手机</span>
                 <p>已经绑定手机：{{ userInfoL.mobile }}</p>
@@ -162,8 +162,8 @@
                 </el-button>
               </el-col>
             </el-row>
-            <el-divider></el-divider>
-            <el-row>
+            <el-divider></el-divider> -->
+            <!-- <el-row  >
               <el-col :span="18">
                 <span style="font-weight:600;font-size:15px">密保问题</span>
                 <p>未设置密保问题，密保问题可有效保护账号安全</p>
@@ -174,8 +174,8 @@
                 </el-button>
               </el-col>
             </el-row>
-            <el-divider></el-divider>
-            <el-row>
+            <el-divider></el-divider> -->
+            <!-- <el-row>
               <el-col :span="18">
                 <span style="font-weight:600;font-size:15px">备用邮箱</span>
                 <p>已绑定邮箱：{{ userInfoL.email }}</p>
@@ -185,7 +185,7 @@
                   修改
                 </el-button>
               </el-col>
-            </el-row>
+            </el-row> -->
           </div>
         </div>
       </el-col>
@@ -301,6 +301,11 @@ export default {
         this.$modal.msgWarning('昵称不能为空！')
         return
       }
+      if (this.isEqualLucky(this.userInfo, this.userInfoL)) {
+        this.$modal.msgWarning('请修改信息再保存！')
+        return
+      }
+
       this.updateLoading = true
 
       this.UpdateUserInfo(this.userInfoL).then(res => {
@@ -348,6 +353,19 @@ export default {
         this.dialogInfo.loading = false
         this.dialogInfo.visible = false
       })
+    },
+    //处理数据 l比较大的数组对象  b小的数组对象  比较b是否存在l中,值完全等于b中则返回true
+    isEqualLucky(l, b) {
+      for (let key in l) {
+        if (!b.hasOwnProperty(key)) return false // property not found in b
+        if (typeof l[key] !== typeof b[key]) return false // types are different
+        if ((Array.isArray(l[key]) && Array.isArray(b[key])) || (typeof l[key] !== 'object' && typeof b[key] !== 'object')) {
+          if (!Array.isArray(l[key]) && !Array.isArray(b[key]) && l[key] !== b[key]) return false // simple values are different
+        } else {
+          if (!this.isEqualLucky(l[key], b[key])) return false // recursion for nested objects
+        }
+      }
+      return true
     },
   },
   computed: {

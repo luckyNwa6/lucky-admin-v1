@@ -50,7 +50,7 @@ const mainRoutes = {
 
 const router = new Router({
   mode: 'hash',
-  scrollBehavior: () => ({ y: 0 }),
+  scrollBehavior: () => ({ y: 0 }), //当导航发生时，滚动行为将重置为顶部
   isAddDynamicMenuRoutes: false, // 是否已经添加动态(菜单)路由
   routes: globalRoutes.concat(mainRoutes),
 })
@@ -69,9 +69,10 @@ router.beforeEach((to, from, next) => {
     })
       .then(({ data }) => {
         if (data && data.code === 0) {
-          fnAddDynamicMenuRoutes(data.menuList)
+          let filteredMenuList = data.menuList.filter(item => item.name !== '隐藏菜单')
+          fnAddDynamicMenuRoutes(filteredMenuList)
           router.options.isAddDynamicMenuRoutes = true
-          sessionStorage.setItem('menuList', JSON.stringify(data.menuList || '[]'))
+          sessionStorage.setItem('menuList', JSON.stringify(filteredMenuList || '[]'))
           sessionStorage.setItem('permissions', JSON.stringify(data.permissions || '[]'))
           next({ ...to, replace: true })
         } else {
@@ -137,6 +138,7 @@ function fnAddDynamicMenuRoutes(menuList = [], routes = []) {
           route['component'] = _import(`modules/${menuList[i].url}`) || null
         } catch (e) {}
       }
+
       routes.push(route)
     }
   }
@@ -149,7 +151,7 @@ function fnAddDynamicMenuRoutes(menuList = [], routes = []) {
     sessionStorage.setItem('dynamicMenuRoutes', JSON.stringify(mainRoutes.children || '[]'))
     console.log('\n')
     console.log('%c!<-------------------- 动态(菜单)路由 s -------------------->', 'color:blue')
-    console.log(mainRoutes.children)
+    console.log(mainRoutes)
     console.log('%c!<-------------------- 动态(菜单)路由 e -------------------->', 'color:blue')
   }
 }
