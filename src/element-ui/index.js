@@ -71,10 +71,12 @@ import {
   Notification,
   Divider,
   Avatar,
+  Empty,
 } from 'element-ui'
 
 Dialog.props.closeOnClickModal.default = false // 默认点击背景不关闭弹窗
 
+Vue.use(Empty)
 Vue.use(Avatar)
 Vue.use(Pagination)
 Vue.use(Dialog)

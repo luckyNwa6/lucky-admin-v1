@@ -14,16 +14,11 @@ import cloneDeep from 'lodash/cloneDeep'
 import Global from './utils/Global'
 import { getDic } from '@/api/dic/index.js'
 import plugins from './plugins' // plugins
-// import $ from 'jquery' // 本地有也可以这样 import $ from '@/assets/captcha/js/jquery.min.js'
-
-// window.jQuery = $
-// window.$ = $
 
 Vue.use(VueCookie)
 Vue.use(Global)
 Vue.use(plugins)
-
-// const isDebug_mode = !(process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') //关闭开发工具
+Vue.use(window.AVUE)
 const isDebug_mode = false
 Vue.config.debug = isDebug_mode
 Vue.config.devtools = isDebug_mode
