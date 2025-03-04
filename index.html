@@ -7,6 +7,7 @@
     <title>小维后台管理系统</title>
     <!-- 引入 jQuery -->
     <script src="./static/other/jquery3.6.0.min.js"></script>
+    <script src="./static/other/avue/avue@2.13.2.min.js"></script>
     <link rel="stylesheet" href="./static/other/avue/avue.css" />
     <% if (process.env.NODE_ENV === 'production') { %>
     <!-- 生产环境 -->
@@ -15,10 +16,9 @@
     </script>
     <% }else { %>
     <!-- 开发环境 -->
+
     <link rel="shortcut icon" type="image/x-icon" href="./static/img/favicon.ico" />
     <script src="./static/config/index.js"></script>
-
-    <script src="./static/other/avue/avue@2.13.2.min.js"></script>
     <% } %>
   </head>
   <body>
