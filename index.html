@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>小维后台管理系统</title>
+    <link rel="stylesheet" href="./19990327/static/other/avue/avue.css" />
     <% if (process.env.NODE_ENV === 'production') { %>
     <!-- 生产环境 -->
     <script>
       document.write('<script src="./config/index.js?t=' + new Date().getTime() + '"><\/script>')
       document.write('<script src="./19990327/static/other/jquery3.6.0.min.js?t=' + new Date().getTime() + '"><\/script>')
-      document.write('<link rel="stylesheet" src="./19990327/static/other/avue/avue.css?t=' + new Date().getTime() + '"><\/link>')
       document.write('<script src="./19990327/static/other/avue/avue@2.13.2.min.js?t=' + new Date().getTime() + '"><\/script>')
     </script>
     <% }else { %>
