@@ -21,6 +21,7 @@ const globalRoutes = [
   { path: '/login', component: _import('common/login'), name: 'login', meta: { title: '登录' } },
   { path: '/uploadL', component: _import('common/uploadL'), name: 'uploadL', meta: { title: '大文件上传' } },
   { path: '/settings', component: _import('common/settings'), name: 'settings', meta: { title: '账号设置' } },
+  { path: '/phone', component: _import('common/showIphonePlace'), name: 'showIphonePlace', meta: { title: '归属地查询' } },
 ]
 
 // 主入口路由(需嵌套上左右整体布局)
