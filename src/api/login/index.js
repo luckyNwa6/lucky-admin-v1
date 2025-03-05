@@ -7,6 +7,7 @@ export const reqLogin = data => {
     data,
   })
 }
+
 export const getQQ = () => {
   return request({
     url: request.adornUrl('/sys/getQQCode'),
@@ -18,5 +19,20 @@ export const getPersonInfo = () => {
     url: request.adornUrl('/sys/user/info'),
     method: 'get',
     params: request.adornParams(),
+  })
+}
+
+export const sendEmailCode = email => {
+  return request({
+    url: request.adornUrl('/sys/sendEmailCode?email=' + email),
+    method: 'get',
+  })
+}
+
+export const emailLogin = data => {
+  return request({
+    url: request.adornUrl('/sys/emailLogin'),
+    method: 'post',
+    data,
   })
 }

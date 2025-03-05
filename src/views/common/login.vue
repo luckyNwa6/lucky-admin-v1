@@ -3,8 +3,8 @@
     <div class="login-card">
       <!-- 登录方式切换 -->
       <div class="login-type">
-        <span :class="{ active: loginType === 'account' }" @click="loginType = 'account'">账号登录</span>
-        <span :class="{ active: loginType === 'phone' }" @click="changeLoginType">手机号登录</span>
+        <span :class="{ active: loginType === 'account' }" @click="tabCheck('account')">账号登录</span>
+        <span :class="{ active: loginType === 'email' }" @click="tabCheck('email')">邮箱登录</span>
       </div>
 
       <!-- 账号登录表单 -->
@@ -22,23 +22,26 @@
           <!-- <el-link type="primary" :underline="false">忘记密码</el-link> -->
         </div>
 
-        <el-button type="primary" class="login-btn" @click="loginAdmin" :loading="accLoading" @keyup.enter="keyDown(e)">登录</el-button>
+        <el-button type="primary" class="login-btn" @click="loginAcc" :loading="accLoading" @keyup.enter="keyDown(e)">登录</el-button>
       </el-form>
 
       <!-- 手机号登录表单 -->
-      <el-form v-else class="login-form">
-        <el-form-item label="手机号">
-          <el-input v-model="phone" placeholder="请输入手机号" />
+      <el-form v-else class="login-form" :model="form2" ref="loginForm2" :rules="rules2">
+        <el-form-item label="邮箱" prop="email">
+          <el-input v-model="form2.email" prefix-icon="el-icon-message" placeholder="请输入邮箱" />
         </el-form-item>
 
-        <el-form-item label="验证码">
+        <el-form-item label="验证码" prop="emailCode" style="margin-bottom:61px">
           <div class="sms-code">
-            <el-input v-model="smsCode" placeholder="请输入验证码" />
-            <el-button class="get-code">获取验证码</el-button>
+            <el-input v-model="form2.emailCode" prefix-icon="el-icon-lock" placeholder="请输入验证码">
+              <el-button :loading="emailCodeLoading" slot="append" :disabled="isCounting" @click="handleGetCode">
+                {{ countdown > 0 ? `重新获取(${countdown}s)` : '获取验证码' }}
+              </el-button>
+            </el-input>
           </div>
         </el-form-item>
 
-        <el-button type="primary" class="login-btn">登录</el-button>
+        <el-button type="primary" class="login-btn" @click="loginEmail" :loading="emailLoading" @keyup.enter="keyDown(e)">登录</el-button>
       </el-form>
       <div id="captcha-div" class="yzmStyle"></div>
       <!-- 其他登录方式 -->
@@ -66,13 +69,14 @@
 </template>
 
 <script>
-import { getQQ, reqLogin } from '@/api/login'
+import { getQQ, reqLogin, sendEmailCode, emailLogin } from '@/api/login'
 
 import '@/assets/captcha/css/tac.css' // 验证码css
 import '@/assets/captcha/js/tac.min.js' // 验证码js
 export default {
   data() {
     return {
+      emailEcodeTime: 300, //邮箱验证码时常  默认5分钟
       loginType: 'account',
       remember: false,
       phone: '',
@@ -80,6 +84,10 @@ export default {
       form: {
         acc: 'admin',
         pwd: 'Nwa741',
+      },
+      form2: {
+        email: '2428284043@qq.com',
+        emailCode: '',
       },
       rules: {
         acc: [
@@ -93,7 +101,38 @@ export default {
         ],
         pwd: [{ required: true, message: '请输入密码', trigger: 'blur' }],
       },
+      rules2: {
+        email: [
+          {
+            required: true,
+            message: '请输入邮箱地址',
+            trigger: 'blur',
+          },
+          {
+            pattern: /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/,
+            message: '邮箱格式无效（正确示例：user.name@example.com）',
+            trigger: ['change'],
+          },
+        ],
+        emailCode: [
+          {
+            required: true,
+            message: '请输入验证码',
+            trigger: 'blur',
+          },
+          {
+            min: 6,
+            max: 9,
+            message: '验证码长度必须为 6-9 位',
+            trigger: 'blur',
+          },
+        ],
+      },
+      countdown: 0,
+      timer: null,
       accLoading: false, //登录防重复点击
+      emailLoading: false,
+      emailCodeLoading: false,
       //验证码配置 http://doc.captcha.tianai.cloud/#%E5%89%8D%E7%AB%AF%E6%8E%A5%E5%85%A5
       yzm: {
         yzmOpen: false, //开启滚动验证码
@@ -110,19 +149,94 @@ export default {
       },
     }
   },
+  //方法处理----------------------------------------------------------------------------------------------
   methods: {
-    //控制台报错,采取第三方引入、加载验证码js文件
-    // async loadCaptchaScripts() {
-    //   const captchaJsPath = require('@/assets/captcha/js/tac.min.js')
-    //   const captchaJs = document.createElement('script') // 动态创建 script 标签并插入到 body 中
-    //   captchaJs.src = captchaJsPath
-    //   captchaJs.onload = () => {
-    //     // console.log('Captcha scripts loaded successfully')
-    //   }
-    //   document.body.appendChild(captchaJs)
-    // },
+    //邮箱登录
+    loginEmail() {
+      this.$refs.loginForm2.validate(valid => {
+        if (valid) {
+          this.emailLoading = true
+          this.handleEmailLogin()
+        } else {
+          return false
+        }
+      })
+    },
+    //邮箱登录--处理数据
+    handleEmailLogin() {
+      let data = {
+        email: this.form2.email,
+        emailCode: this.form2.emailCode,
+      }
+      emailLogin(data).then(res => {
+        console.log('🚀 ~ reqLogin ~ res:', res)
+        //session会话级，关闭浏览器，token就没了，1登录，开2窗口
+        //会出现还需要登录的情况
+        // sessionStorage.setItem("token", res.luckyToken);
+        //cookie，浏览器关闭也能保持登录状态
+        if (res.data.code === 0) {
+          // console.log('🚀 ~ reqLogin ~ res:', res)
+          this.$cookie.set('token', res.data.token)
+          this.successMsg(res.data.msg)
+          this.$router.replace({ name: 'home' })
+        } else {
+          this.failMsg(res.data.msg)
+          this.$router.push({ name: 'login' })
+        }
+        this.emailLoading = false
+      })
+    },
+    // 获取验证码处理
+    async handleGetCode() {
+      try {
+        // 先验证邮箱格式
+        let valid = await this.validateEmailField()
+        if (!valid.isPass) return //邮箱校验不通过直接返回
 
-    loginAdmin() {
+        this.emailCodeLoading = true
+        // 开始倒计时
+        this.startCountdown()
+        // 调用获取验证码接口
+        sendEmailCode(this.form2.email).then(res => {
+          if (res.data.code == 0) {
+            this.$message.success('验证码已发送，请注意查收')
+          } else {
+            this.$modal.msgError(res.data.msg)
+          }
+        })
+      } catch (error) {
+        if (error) {
+          this.$message.error(error.message || '验证码发送失败')
+        }
+      }
+    },
+    // 独立的邮箱验证方法
+    validateEmailField() {
+      return new Promise((resolve, reject) => {
+        this.$refs.loginForm2.validateField('email', errorMessage => {
+          if (!errorMessage) {
+            resolve({ isPass: true }) // 验证成功
+          } else {
+            resolve({ isPass: false }) // 验证失败
+          }
+        })
+      })
+    },
+    // 倒计时逻辑
+    startCountdown() {
+      this.emailCodeLoading = false
+      this.countdown = this.emailEcodeTime
+      this.timer = setInterval(() => {
+        if (this.countdown > 0) {
+          this.countdown--
+        } else {
+          clearInterval(this.timer)
+          this.timer = null
+        }
+      }, 1000)
+    },
+    //账号登录
+    loginAcc() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           if (this.yzm.yzmOpen) {
@@ -133,21 +247,22 @@ export default {
               // 验证成功回调函数
               validSuccess: (res, c, tac) => {
                 this.accLoading = true
-                this.login()
+                this.handleAccLogin()
                 tac.destroyWindow()
               },
             }
             new window.TAC(yzmConfig, this.yzm.yzmStyle).init()
           } else {
             this.accLoading = true
-            this.login()
+            this.handleAccLogin()
           }
         } else {
           return false
         }
       })
     },
-    login() {
+    //账号登录--处理数据
+    handleAccLogin() {
       if (this.remember) {
         // 如果用户选择了记住密码，则存储账号和密码
         this.$cookie.set('acc', this.form.acc)
@@ -183,21 +298,16 @@ export default {
       })
     },
 
-    keyDown(e) {
-      if (e.keyCode == 13 || e.keyCode == 100) this.login()
-    },
-    //获取qq的跳转链接
+    //获取qq的跳转链接到第三方页面扫描登录
     goQQ() {
-      console.log('1111111')
       getQQ().then(res => {
         // console.log('🚀 ~ getQQ ~ res:', res)
         // console.log('请求新的URL去验证第三方的QQ！！！')
         window.location.href = res.data
       })
     },
-    changeLoginType() {
-      this.$modal.msgWarning('暂不支持手机号登录！')
-    },
+
+    //记住密码功能
     loadStoredCredentials() {
       // 从 localStorage 中读取账号和密码
       const acc = this.$cookie.get('acc')
@@ -208,9 +318,29 @@ export default {
         this.remember = true // 自动勾选记住密码
       }
     },
+    //绑定回车确定
+    keyDown(e) {
+      if (e.keyCode == 13 && this.loginType === 'account') this.loginAcc()
+      if (e.keyCode == 13 && this.loginType === 'email') this.loginEmail()
+    },
+    //头部标签切换   看看哪些数据切换要重置
+    tabCheck(type) {
+      this.loginType = type
+      this.accLoading = false
+      this.emailLoading = false
+      this.emailCodeLoading = false
+      this.timer = null
+      this.countdown = 0
+    },
   },
-
+  computed: {
+    isCounting() {
+      return this.countdown > 0
+    },
+  },
+  //生命周期----------------------------------------------------------------------------------------------
   async created() {
+    //获取是否开启验证码
     let { openYzm } = await this.getDic('openYzm').catch(() => {})
     this.yzm.yzmOpen = Number(openYzm[0].value)
   },
@@ -291,15 +421,6 @@ export default {
 
 .login-btn {
   width: 100%;
-}
-
-.sms-code {
-  display: flex;
-  gap: 10px;
-}
-
-.get-code {
-  flex-shrink: 0;
 }
 
 .other-login {
