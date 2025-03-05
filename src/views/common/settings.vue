@@ -194,7 +194,7 @@
     <update-password v-if="updatePasswordVisible" ref="updatePassword"></update-password>
     <!-- 内置弹窗 -->
     <el-dialog :title="dialogInfo.title" :visible.sync="dialogInfo.visible" width="500px" append-to-body>
-      <el-form :model="dataForm" ref="dataForm" @submit.native.prevent="sub" label-width="80px">
+      <el-form :model="dataForm" ref="dataForm" @submit.native.prevent="sub" label-width="80px" :rules="rules">
         <el-form-item label="新账号" prop="usernameN">
           <el-input v-model="dataForm.usernameN" placeholder="请输入好记忆的新账号"></el-input>
         </el-form-item>
@@ -268,6 +268,18 @@ export default {
         usernameN: '',
       },
       updateLoading: false,
+
+      rules: {
+        usernameN: [
+          { required: true, message: '请输入账号', trigger: 'blur' },
+          {
+            min: 1,
+            max: 15,
+            message: '账号长度必须为 1-15 位',
+            trigger: 'blur',
+          },
+        ],
+      },
     }
   },
   created() {
@@ -332,45 +344,47 @@ export default {
       })
     },
     sub() {
-      if (!this.dataForm.usernameN.trim()) {
-        this.$modal.msgWarning('账号不能为空！')
-        return
-      }
-      if (this.userInfo.username === this.dataForm.usernameN) {
-        this.$modal.msgWarning('与原用户名相同,请修改！')
-        return
-      }
-      if (Number(this.userInfo.status) !== 2) {
-        this.$modal.msgWarning('仅限第三方用户绑定新账号！')
-        return
-      }
+      this.$refs.dataForm.validate(valid => {
+        if (valid) {
+          if (this.userInfo.username === this.dataForm.usernameN) {
+            this.$modal.msgWarning('与原用户名相同,请修改！')
+            return
+          }
+          if (Number(this.userInfo.status) !== 2) {
+            this.$modal.msgWarning('仅限第三方用户绑定新账号！')
+            return
+          }
 
-      if (this.dataForm.usernameN.toLowerCase() === 'admin') {
-        this.$modal.msgWarning('超级管理员不可修改！')
-        return
-      }
+          if (this.dataForm.usernameN.toLowerCase() === 'admin') {
+            this.$modal.msgWarning('超级管理员不可修改！')
+            return
+          }
 
-      this.$confirm('仅第三方用户绑定新账号,只能修改一次,是否使用', '提示', {
-        confirmButtonText: '确 认',
-        cancelButtonText: '取 消',
-      })
-        .then(() => {
-          this.dialogInfo.loading = true
-          updateAcc({ ...this.userInfoL, usernameN: this.dataForm.usernameN }).then(res => {
-            // console.log('🚀 ~ updateAcc ~ res:', res)
-            if (res.data.code === 0) {
-              this.$modal.msgSuccess(res.data.msg)
-              this.userInfoL.username = this.dataForm.usernameN
-              this.userInfoL.status = 1
-              this.$store.commit('user/SET_USERINFO', this.userInfoL)
-            } else {
-              this.$modal.msgError(res.data.msg)
-            }
-            this.dialogInfo.loading = false
-            this.dialogInfo.visible = false
+          this.$confirm('仅第三方用户绑定新账号,只能修改一次,是否使用', '提示', {
+            confirmButtonText: '确 认',
+            cancelButtonText: '取 消',
           })
-        })
-        .catch(() => console.info('操作取消'))
+            .then(() => {
+              this.dialogInfo.loading = true
+              updateAcc({ ...this.userInfoL, usernameN: this.dataForm.usernameN }).then(res => {
+                // console.log('🚀 ~ updateAcc ~ res:', res)
+                if (res.data.code === 0) {
+                  this.$modal.msgSuccess(res.data.msg)
+                  this.userInfoL.username = this.dataForm.usernameN
+                  this.userInfoL.status = 1
+                  this.$store.commit('user/SET_USERINFO', this.userInfoL)
+                } else {
+                  this.$modal.msgError(res.data.msg)
+                }
+                this.dialogInfo.loading = false
+                this.dialogInfo.visible = false
+              })
+            })
+            .catch(() => console.info('操作取消'))
+        } else {
+          return false
+        }
+      })
     },
     //处理数据 l比较大的数组对象  b小的数组对象  比较b是否存在l中,值完全等于b中则返回true
     isEqualLucky(l, b) {
