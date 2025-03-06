@@ -13,22 +13,25 @@
         </el-menu-item>
       </el-menu>
       <el-menu class="site-navbar__menu site-navbar__menu--right" mode="horizontal">
-        <el-menu-item v-if="isAuth('sys:pwd:update')" index="1" @click="$router.push({ name: 'theme' })">
+        <!-- v-if="isAuth('sys:pwd:update')" -->
+        <!-- <el-menu-item index="1" @click="$router.push({ name: 'theme' })">
           <template slot="title">
             <el-badge value="new">
               <icon-svg name="shezhi" class="el-icon-setting"></icon-svg>
             </el-badge>
           </template>
-        </el-menu-item>
+        </el-menu-item> -->
 
         <el-menu-item class="site-navbar__avatar" index="3">
           <el-dropdown :show-timeout="0" placement="bottom">
             <span class="el-dropdown-link">
               <img :src="headImg" :alt="nickname" />
               {{ nickname }}
+              <span class="el-icon-arrow-down"></span>
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item @click.native="goSetUpPage()">账号设置</el-dropdown-item>
+              <el-dropdown-item @click.native="$router.push({ name: 'theme' })">主题设置</el-dropdown-item>
               <el-dropdown-item @click.native="logoutHandle()">退出</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>

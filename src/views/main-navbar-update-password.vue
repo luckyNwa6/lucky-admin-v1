@@ -5,7 +5,7 @@
         <span>{{ userName }}</span>
       </el-form-item>
       <el-form-item label="原密码" prop="password">
-        <el-input type="password" v-model="dataForm.password" placeholder="第三方默认原密码：123456"></el-input>
+        <el-input type="password" v-model="dataForm.password" placeholder="【QQ | 邮箱】默认原密码：123456"></el-input>
       </el-form-item>
       <el-form-item label="新密码" prop="newPassword">
         <el-input type="password" v-model="dataForm.newPassword"></el-input>
