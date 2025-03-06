@@ -50,15 +50,15 @@
         <!-- 这里可以添加图标按钮 -->
       </div>
 
-      <div @click="goQQ" style="width: 45px;height:45px;text-align: center;margin: 0 auto;">
+      <div @click="goQQ" class="qqClass">
         <el-image :src="require('@/assets/img/qq_one.png')" fit="contain"></el-image>
       </div>
       <div class="copyright">
-        <p style="letter-spacing: 1px; font-family: 楷体;color:#000">
+        <p style="letter-spacing: 1px; color:#000">
           Copyright © 2023 图床后台管理系统 |
           <a href="https://beian.miit.gov.cn/" style="text-decoration: none;color: #000;">
             <span style="padding: 2px">
-              <img src="https://imgs.luckynwa.top/blog/gonganbeian.png" style="height: 13px; margin-left: 1px" />
+              <img src="https://imgs.luckynwa.top/blog/gonganbeian.png" style="height: 12.6px; margin-left: 1px;" />
               <span style=" margin-left: 3px">闽ICP备 2023003457号-1</span>
             </span>
           </a>
@@ -426,12 +426,19 @@ export default {
 .other-login {
   padding: 20px 40px 20px;
 }
-
-.copyright {
-  margin-top: 99px;
-  color: #999;
-  font-size: 12px;
+.qqClass {
+  width: 45px;
+  height: 45px;
   text-align: center;
+  margin: 0 auto;
+}
+.copyright {
+  /* margin-top: 99px; */
+  color: #999;
+  font-size: 10px;
+  position: absolute;
+  bottom: 2%;
+  right: 16%;
 }
 
 .yzmStyle {
