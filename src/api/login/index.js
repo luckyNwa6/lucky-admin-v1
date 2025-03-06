@@ -24,8 +24,9 @@ export const getPersonInfo = () => {
 
 export const sendEmailCode = email => {
   return request({
-    url: request.adornUrl('/sys/sendEmailCode?email=' + email),
-    method: 'get',
+    url: request.adornUrl('/sys/sendEmailCode'),
+    method: 'post',
+    data: { email },
   })
 }
 
