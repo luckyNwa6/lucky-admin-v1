@@ -27,7 +27,7 @@
             <span class="el-dropdown-link">
               <img :src="headImg" :alt="nickname" />
               {{ nickname }}
-              <span class="el-icon-arrow-down"></span>
+              <span class="el-icon-sugar"></span>
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item @click.native="goSetUpPage()">账号设置</el-dropdown-item>

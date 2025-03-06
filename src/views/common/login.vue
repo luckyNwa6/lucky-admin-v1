@@ -10,11 +10,11 @@
       <!-- 账号登录表单 -->
       <el-form v-if="loginType === 'account'" class="login-form" :model="form" ref="loginForm" :rules="rules">
         <el-form-item label="账号" prop="acc">
-          <el-input v-model="form.acc" prefix-icon="el-icon-user" placeholder="请输入账号" />
+          <el-input style="font-weight: 600;" v-model="form.acc" prefix-icon="el-icon-user" placeholder="请输入账号" clearable />
         </el-form-item>
 
         <el-form-item label="密码" prop="pwd">
-          <el-input v-model="form.pwd" type="password" prefix-icon="el-icon-lock" placeholder="请输入密码" show-password />
+          <el-input v-model="form.pwd" type="password" prefix-icon="el-icon-lock" clearable placeholder="请输入密码" show-password />
         </el-form-item>
 
         <div class="form-options">
@@ -28,12 +28,12 @@
       <!-- 手机号登录表单 -->
       <el-form v-else class="login-form" :model="form2" ref="loginForm2" :rules="rules2">
         <el-form-item label="邮箱" prop="email">
-          <el-input v-model="form2.email" prefix-icon="el-icon-message" placeholder="请输入邮箱" />
+          <el-input v-model="form2.email" prefix-icon="el-icon-message" placeholder="请输入邮箱" clearable />
         </el-form-item>
 
         <el-form-item label="验证码" prop="emailCode" style="margin-bottom:61px">
           <div class="sms-code">
-            <el-input v-model="form2.emailCode" prefix-icon="el-icon-lock" placeholder="请输入验证码">
+            <el-input v-model="form2.emailCode" prefix-icon="el-icon-lock" clearable placeholder="请输入验证码">
               <el-button :loading="emailCodeLoading" slot="append" :disabled="isCounting" @click="handleGetCode">
                 {{ countdown > 0 ? `重新获取(${countdown}s)` : '获取验证码' }}
               </el-button>
@@ -428,7 +428,7 @@ export default {
 }
 
 .copyright {
-  margin-top: 140px;
+  margin-top: 99px;
   color: #999;
   font-size: 12px;
   text-align: center;
@@ -438,5 +438,24 @@ export default {
   position: absolute;
   top: 460px;
   left: 160px;
+}
+
+::v-deep.login-form .el-input__inner {
+  height: 47px !important;
+  line-height: 47px;
+  font-weight: 600;
+}
+</style>
+
+<style>
+.login-form .el-input__inner {
+  height: 47px;
+  line-height: 47px;
+  /* font-weight: 600; */
+}
+
+.login-form .el-button--medium {
+  height: 47px;
+  background: #2866ef;
 }
 </style>
