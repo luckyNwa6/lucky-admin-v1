@@ -55,7 +55,7 @@
       </div>
       <div class="copyright">
         <p style="letter-spacing: 1px; color:#000">
-          Copyright © 2023 图床后台管理系统 |
+          Copyright © 2023 小维后台管理系统 |
           <a href="https://beian.miit.gov.cn/" style="text-decoration: none;color: #000;">
             <span style="padding: 2px">
               <img src="https://imgs.luckynwa.top/blog/gonganbeian.png" style="height: 12.6px; margin-left: 1px;" />
