@@ -82,11 +82,11 @@ export default {
       phone: '',
       smsCode: '',
       form: {
-        acc: 'admin',
-        pwd: 'Nwa741',
+        acc: '',
+        pwd: '',
       },
       form2: {
-        email: '2428284043@qq.com',
+        email: '',
         emailCode: '',
       },
       rules: {
