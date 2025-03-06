@@ -53,17 +53,17 @@
       <div @click="goQQ" class="qqClass">
         <el-image :src="require('@/assets/img/qq_one.png')" fit="contain"></el-image>
       </div>
-      <div class="copyright">
-        <p style="letter-spacing: 1px; color:#000">
-          Copyright © 2023 小维后台管理系统 |
-          <a href="https://beian.miit.gov.cn/" style="text-decoration: none;color: #000;">
-            <span style="padding: 2px">
-              <img src="https://imgs.luckynwa.top/blog/gonganbeian.png" style="height: 12.6px; margin-left: 1px;" />
-              <span style=" margin-left: 3px">闽ICP备 2023003457号-1</span>
-            </span>
-          </a>
-        </p>
-      </div>
+    </div>
+    <div class="copyright">
+      <p style="letter-spacing: 1px; color:#000">
+        Copyright © 2023 小维后台管理系统 |
+        <a href="https://beian.miit.gov.cn/" style="text-decoration: none;color: #000;">
+          <span style="padding: 2px">
+            <img src="https://imgs.luckynwa.top/blog/gonganbeian.png" style="height: 12.6px; margin-left: 1px;" />
+            <span style=" margin-left: 3px">闽ICP备 2023003457号-1</span>
+          </span>
+        </a>
+      </p>
     </div>
   </div>
 </template>
@@ -433,12 +433,14 @@ export default {
   margin: 0 auto;
 }
 .copyright {
-  /* margin-top: 99px; */
   color: #999;
   font-size: 10px;
   position: absolute;
-  bottom: 2%;
-  right: 16%;
+
+  bottom: 1%;
+  right: 50%; /* 将元素向右移动50%的视窗宽度 */
+  transform: translateX(50%); /* 使用translateX调整元素位置，使其完全居中 */
+  text-align: center;
 }
 
 .yzmStyle {
