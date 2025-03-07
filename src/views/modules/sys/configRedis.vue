@@ -130,24 +130,34 @@ export default {
       getCache().then(response => {
         this.cache = response.data
         this.$modal.closeLoading()
-        console.log('🚀 ~ getCache ~ this.$echarts:', echarts)
         this.commandstats = echarts.init(this.$refs.commandstats, 'macarons')
 
         this.commandstats.setOption({
+          // 配置提示框（tooltip）的显示样式和内容格式
           tooltip: {
+            // 触发方式为点击图表中的项目
             trigger: 'item',
+            // 格式化提示框内容，其中 {a} 是系列名称，{b} 是数据项名称，{c} 是数值，{d} 是百分比
             formatter: '{a} <br/>{b} : {c} ({d}%)',
           },
           series: [
             {
+              // 系列名称，用于提示框显示
               name: '命令',
+              // 图表类型为饼图
               type: 'pie',
+              // 设置玫瑰图类型为半径模式
               roseType: 'radius',
+              // 设置饼图的内外半径，分别为图表宽度的15%到95%
               radius: [15, 95],
+              // 设置饼图的中心位置，分别为水平50%和垂直38%
               center: ['50%', '38%'],
+              // 数据源，从响应对象中获取命令统计信息
               data: response.data.commandStats,
+              // 动画缓动效果，使用三次贝塞尔曲线
               animationEasing: 'cubicInOut',
-              animationDuration: 1000,
+              // 动画持续时间，单位为毫秒
+              animationDuration: 1100,
             },
           ],
         })
@@ -187,3 +197,9 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.card-box {
+  margin-bottom: 10px;
+}
+</style>

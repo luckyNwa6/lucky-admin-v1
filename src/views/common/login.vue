@@ -339,10 +339,9 @@ export default {
     },
   },
   //生命周期----------------------------------------------------------------------------------------------
-  async created() {
+  async beforeMount() {
     //获取是否开启验证码
-    let { openYzm } = await this.getDic('openYzm').catch(() => {})
-    this.yzm.yzmOpen = Number(openYzm[0].value)
+    this.yzm.yzmOpen = await this.getSysConfig('openYzm').catch(() => {})
   },
   mounted() {
     window.addEventListener('keydown', this.keyDown)
