@@ -88,7 +88,7 @@ export default {
         url: this.$http.adornUrl('/bedFolder/syncYunFolder'),
         method: 'get',
       }).then(({ data }) => {
-        if (data && data.code === 0) {
+        if (data && data.code === 200) {
           this.successMsg(data.msg)
           this.syncYunPic() //同步完文件夹再去同步图片
         } else {
@@ -103,7 +103,7 @@ export default {
         url: this.$http.adornUrl('/bedPic/syncYunPic'),
         method: 'get',
       }).then(({ data }) => {
-        if (data && data.code === 0) {
+        if (data && data.code === 200) {
           this.successMsg(data.msg)
         } else {
           this.failMsg(data.msg)
@@ -115,7 +115,7 @@ export default {
     loadMinIO() {
       //请求那返回类型改blob即可
       loadMinIOFile('http://47.98.230.128:9000/lucky/20240715/ca3371a366b04942bb13166ac7e6e04b.jpg').then(res => {
-        if (res.data.code === 0) {
+        if (res.data.code === 200) {
           //下面是后端返回正常json
           const binaryString = window.atob(res.data.data) // 将 base64 编码的二进制数据转换为二进制字符串
           const bytes = new Uint8Array(binaryString.length)
@@ -161,7 +161,7 @@ export default {
           limit: this.pageSize,
         }),
       }).then(({ data }) => {
-        if (data && data.code === 0) {
+        if (data && data.code === 200) {
           this.dataList = data.page.list
           this.totalPage = data.page.totalCount
         } else {
@@ -218,7 +218,7 @@ export default {
             method: 'post',
             data: this.$http.adornData(ids, false),
           }).then(({ data }) => {
-            if (data && data.code === 0) {
+            if (data && data.code === 200) {
               this.$message({
                 message: '操作成功',
                 type: 'success',

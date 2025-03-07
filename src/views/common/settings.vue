@@ -368,7 +368,7 @@ export default {
               this.dialogInfo.loading = true
               updateAcc({ ...this.userInfoL, usernameN: this.dataForm.usernameN }).then(res => {
                 // console.log('🚀 ~ updateAcc ~ res:', res)
-                if (res.data.code === 0) {
+                if (res.data.code === 200) {
                   this.$modal.msgSuccess(res.data.msg)
                   this.userInfoL.username = this.dataForm.usernameN
                   this.userInfoL.status = 1

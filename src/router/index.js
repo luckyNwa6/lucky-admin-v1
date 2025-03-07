@@ -69,7 +69,7 @@ router.beforeEach((to, from, next) => {
       params: http.adornParams(),
     })
       .then(({ data }) => {
-        if (data && data.code === 0) {
+        if (data && data.code === 200) {
           let filteredMenuList = data.menuList.filter(item => item.name !== '隐藏菜单')
           fnAddDynamicMenuRoutes(filteredMenuList)
           router.options.isAddDynamicMenuRoutes = true

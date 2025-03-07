@@ -93,7 +93,7 @@ export default {
       //   method: 'get',
       //   params: this.$http.adornParams(),
       // }).then(({ data }) => {
-      //   if (data && data.code === 0) {
+      //   if (data && data.code === 200) {
       //     this.$cookie.set('picData', JSON.stringify(data.user))
       //     this.loading = false
       //     this.userId = data.user.userId

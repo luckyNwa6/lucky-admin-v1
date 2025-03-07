@@ -8,20 +8,23 @@
 
     <% if (process.env.NODE_ENV === 'production') { %>
     <!-- 生产环境 -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:100,300,400,500,700,900" />
-    <link rel="stylesheet" href="./19990327/static/other/avue/avue.css" />
+
+    <link rel="stylesheet" href="./19990327/static/plugins/avue/avue.css" />
 
     <script>
       document.write('<script src="./config/index.js?t=' + new Date().getTime() + '"><\/script>')
-      document.write('<script src="./19990327/static/other/jquery3.6.0.min.js?t=' + new Date().getTime() + '"><\/script>')
-      document.write('<script src="./19990327/static/other/avue/avue@2.13.2.min.js?t=' + new Date().getTime() + '"><\/script>')
+      document.write('<script src="./19990327/static/plugins/jquery3.6.0.min.js?t=' + new Date().getTime() + '"><\/script>')
+      document.write('<script src="./19990327/static/plugins/avue/avue@2.13.2.min.js?t=' + new Date().getTime() + '"><\/script>')
+      document.write('<script src="./19990327/static/plugins/echarts-3.8.5/echarts.min.js?t=' + new Date().getTime() + '"><\/script>')
     </script>
     <% }else { %>
     <!-- 开发环境 -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:100,300,400,500,700,900" />
-    <link rel="stylesheet" href="./static/other/avue/avue.css" />
-    <script src="./static/other/jquery3.6.0.min.js"></script>
-    <script src="./static/other/avue/avue@2.13.2.min.js"></script>
+
+    <link rel="stylesheet" href="./static/plugins/avue/avue.css" />
+
+    <script src="./static/plugins/echarts-3.8.5/echarts.min.js"></script>
+    <script src="./static/plugins/jquery3.6.0.min.js"></script>
+    <script src="./static/plugins/avue/avue@2.13.2.min.js"></script>
     <link rel="shortcut icon" type="image/x-icon" href="./static/img/favicon.ico" />
     <script src="./static/config/index.js"></script>
     <% } %>

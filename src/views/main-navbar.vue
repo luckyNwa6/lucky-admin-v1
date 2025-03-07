@@ -129,7 +129,7 @@ export default {
             method: 'post',
             data: this.$http.adornData(),
           }).then(({ data }) => {
-            if (data && data.code === 0) {
+            if (data && data.code === 200) {
               clearLoginInfo() //全部清理干净
               // this.$cookie.delete('picData')
               this.$router.push({ name: 'login' })

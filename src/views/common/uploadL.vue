@@ -317,7 +317,7 @@ export default {
             }
           )
 
-          if (response.data.code === 0) {
+          if (response.data.code === 200) {
             console.log('文件上传成功', response.data)
             flagPro = true
             this.tableFileData[index].state = 1 //状态改成功

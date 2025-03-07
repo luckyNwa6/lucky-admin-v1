@@ -99,7 +99,7 @@ export default {
         .then(() => {
           deleteFolder([obj.id]).then(res => {
             console.log('🚀 ~ updateAddInfo ~ res:', res)
-            if (res.data.code === 0) {
+            if (res.data.code === 200) {
               this.successMsg('文件夹信息删除成功！')
               this.getFolderData()
             } else {

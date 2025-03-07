@@ -76,7 +76,7 @@ export default {
               isOpenCaptcha: false, //跳过验证码
             }),
           }).then(({ data }) => {
-            if (data && data.code === 0) {
+            if (data && data.code === 200) {
               this.$cookie.set('token', data.token)
               this.$router.replace({ name: 'home' })
             } else {

@@ -23,6 +23,8 @@ return (process.env.NODE_ENV !== 'production' && process.env.OPEN_PROXY ? '/prox
 部署到服务器上的生产环境或没开本地代理 就走 window.SITE_CONFIG.baseUrl 里 URL 代理路径,去本地--项目/static/config/index.js
 正常本地开启代理，部署到服务器也不需要配置 Nginx
 
+自定义下载 echarts.min.js-->https://echarts.apache.org/zh/builder.html#
+
 ## 🐯 代码提交规范
 
 严格按照如下规范:

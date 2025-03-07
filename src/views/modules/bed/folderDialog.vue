@@ -90,7 +90,7 @@ export default {
     submitForm() {
       updateAddInfo(this.form).then(res => {
         console.log('🚀 ~ updateAddInfo ~ res:', res)
-        if (res.data.code === 0) {
+        if (res.data.code === 200) {
           this.handleClose(1)
           if (this.nowOptStatus === 'update') this.successMsg('文件夹信息修改成功！')
           if (this.nowOptStatus === 'add') this.successMsg('文件夹信息新增成功！')

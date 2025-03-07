@@ -94,7 +94,7 @@ export default {
               //会出现还需要登录的情况
               // sessionStorage.setItem("token", res.luckyToken);
               //cookie，浏览器关闭也能保持登录状态
-              if (res.data.code === 0) {
+              if (res.data.code === 200) {
                 // console.log('🚀 ~ reqLogin ~ res:', res)
                 this.$cookie.set('token', res.data.token)
 

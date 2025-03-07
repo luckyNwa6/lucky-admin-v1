@@ -142,7 +142,7 @@ export default {
       }
       getYunList(params).then(res => {
         // console.log('🚀 ~ getYunList ~ res:', res)
-        if (res.data.code === 0) {
+        if (res.data.code === 200) {
           this.dataList = res.data.data.list
           this.totalPage = res.data.data.totalCount
         } else {
@@ -210,7 +210,7 @@ export default {
       type: 'noTree',
       userId: this.userInfo.userId,
     }).then(({ data }) => {
-      if (data && data.code === 0) {
+      if (data && data.code === 200) {
         this.options = data.data.map(folder => ({
           value: folder.folderName,
           label: folder.folderName,

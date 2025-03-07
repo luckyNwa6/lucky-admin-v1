@@ -107,7 +107,7 @@ export default {
         params: this.$http.adornParams(),
       })
         .then(({ data }) => {
-          this.roleList = data && data.code === 0 ? data.list : []
+          this.roleList = data && data.code === 200 ? data.list : []
         })
         .then(() => {
           this.visible = true
@@ -122,7 +122,7 @@ export default {
               method: 'get',
               params: this.$http.adornParams(),
             }).then(({ data }) => {
-              if (data && data.code === 0) {
+              if (data && data.code === 200) {
                 this.dataForm.userName = data.user.username
                 this.dataForm.salt = data.user.salt
                 this.dataForm.email = data.user.email
@@ -152,7 +152,7 @@ export default {
               roleIdList: this.dataForm.roleIdList,
             }),
           }).then(({ data }) => {
-            if (data && data.code === 0) {
+            if (data && data.code === 200) {
               this.$message({
                 message: '操作成功',
                 type: 'success',

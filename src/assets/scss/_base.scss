@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'SourceHanSans-Normal'; /* 自定义字体名称 */
+  src: url('./fonts/SourceHanSans-Normal.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 *,
 *:before,
 *:after {
@@ -5,7 +12,7 @@
 }
 body {
   // 第一个是思源黑体开源免费
-  font-family: 'Noto Sans SC', 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial,
+  font-family: 'SourceHanSans-Normal', 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial,
     sans-serif;
   font-size: 14px;
   line-height: 1.15;

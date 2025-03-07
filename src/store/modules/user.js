@@ -27,7 +27,7 @@ export default {
       return new Promise((resolve, reject) => {
         getPersonInfo()
           .then(({ data }) => {
-            if (data && data.code === 0) {
+            if (data && data.code === 200) {
               commit('SET_USERINFO', data.user)
             }
             resolve(data)
@@ -41,7 +41,7 @@ export default {
       return new Promise((resolve, reject) => {
         updatePersonInfo(userInfo)
           .then(response => {
-            if (response.data.code === 0) {
+            if (response.data.code === 200) {
               commit('SET_USERINFO', userInfo)
               resolve(0)
             } else {

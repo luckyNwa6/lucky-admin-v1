@@ -174,7 +174,7 @@ export default {
         //会出现还需要登录的情况
         // sessionStorage.setItem("token", res.luckyToken);
         //cookie，浏览器关闭也能保持登录状态
-        if (res.data.code === 0) {
+        if (res.data.code === 200) {
           // console.log('🚀 ~ reqLogin ~ res:', res)
           this.$cookie.set('token', res.data.token)
           this.successMsg(res.data.msg)
@@ -198,7 +198,7 @@ export default {
         this.startCountdown()
         // 调用获取验证码接口
         sendEmailCode(this.form2.email).then(res => {
-          if (res.data.code == 0) {
+          if (res.data.code === 200) {
             this.$message.success('验证码已发送，请注意查收')
           } else {
             this.$modal.msgError(res.data.msg)
@@ -285,7 +285,7 @@ export default {
         //会出现还需要登录的情况
         // sessionStorage.setItem("token", res.luckyToken);
         //cookie，浏览器关闭也能保持登录状态
-        if (res.data.code === 0) {
+        if (res.data.code === 200) {
           // console.log('🚀 ~ reqLogin ~ res:', res)
           this.$cookie.set('token', res.data.token)
           this.successMsg(res.data.msg)
