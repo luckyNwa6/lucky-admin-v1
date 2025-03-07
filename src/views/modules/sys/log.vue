@@ -31,6 +31,14 @@
       ></el-table-column>
       <el-table-column prop="time" header-align="center" align="center" label="执行时长(毫秒)"></el-table-column>
       <el-table-column prop="ip" header-align="center" align="center" width="150" label="IP地址"></el-table-column>
+      <el-table-column
+        prop="address"
+        header-align="center"
+        :show-overflow-tooltip="true"
+        align="center"
+        width="150"
+        label="地址"
+      ></el-table-column>
       <el-table-column prop="createDate" header-align="center" align="center" width="180" label="创建时间"></el-table-column>
     </el-table>
     <el-pagination
