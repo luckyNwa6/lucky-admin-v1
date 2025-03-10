@@ -25,7 +25,7 @@
         <el-button type="primary" class="login-btn" @click="loginAcc" :loading="accLoading" @keyup.enter="keyDown(e)">登录</el-button>
       </el-form>
 
-      <!-- 手机号登录表单 -->
+      <!-- 邮箱登录表单 -->
       <el-form v-else class="login-form" :model="form2" ref="loginForm2" :rules="rules2">
         <el-form-item label="邮箱" prop="email">
           <el-input v-model="form2.email" prefix-icon="el-icon-message" placeholder="请输入邮箱" clearable />
@@ -369,14 +369,13 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .login-container {
   padding: 0;
   margin: 0;
   height: 100vh;
   display: flex;
   justify-content: flex-end; /* 将子元素对齐到右侧 */
-  /* align-items: center; 垂直居中 */
   background-image: url(~@/assets/img/login_lucky.jpg);
   background-size: 100% 100%;
 }
@@ -452,6 +451,91 @@ export default {
   height: 47px !important;
   line-height: 47px;
   font-weight: 600;
+}
+
+/* 对于移动设备进行调整 */
+@media (max-width: 600px) {
+  .login-container {
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center; /* 居中 */
+    align-items: center; /* 垂直居中 */
+    background-image: url(~@/assets/img/login_lucky.jpg);
+    background-size: 550% 118%;
+  }
+
+  .login-card {
+    position: relative;
+    width: 90%; /* 宽度适应屏幕 */
+    max-width: 400px; /* 最大宽度限制 */
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  .login-type {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 16px;
+  }
+
+  .login-type span {
+    margin: 0 15px;
+    cursor: pointer;
+    color: #000;
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .login-type span.active {
+    color: #409eff;
+  }
+
+  .login-form {
+    margin-top: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  .mobile-form {
+    padding: 10px;
+  }
+
+  .form-options {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .login-btn {
+    width: 100%;
+  }
+
+  .other-login {
+    text-align: center;
+  }
+  .el-divider__text {
+    padding: 0;
+    font-size: 9px;
+    color: rgb(243, 227, 227);
+    background-color: transparent;
+  }
+
+  .qqClass {
+    width: 45px;
+    height: 45px;
+    margin: 10px auto;
+  }
+
+  .copyright {
+    color: #999;
+    font-size: 7px;
+    text-align: center;
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+  }
 }
 </style>
 
