@@ -62,10 +62,10 @@
         </el-table-column>
         <el-table-column prop="QJL" align="center">
           <template slot="header" slot-scope="scope">
-            <span>全景照片</span>
+            <span>图片视频</span>
           </template>
           <template slot-scope="scope">
-            <span style="font-weight: 600">jpeg &nbsp; jpg</span>
+            <span style="font-weight: 600">jpeg &nbsp; mp4</span>
           </template>
         </el-table-column>
       </el-table>
@@ -87,7 +87,7 @@
           <el-dropdown-item command="QX" :disabled="btDisable">倾斜模型</el-dropdown-item>
           <el-dropdown-item command="DY" :disabled="btDisable">点云</el-dropdown-item>
           <el-dropdown-item command="2D" :disabled="btDisable">二维地图</el-dropdown-item>
-          <el-dropdown-item command="QJ" :disabled="btDisable">全景照片</el-dropdown-item>
+          <el-dropdown-item command="QJ" :disabled="btDisable">图片视频</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
       <el-upload
@@ -355,10 +355,10 @@ export default {
         .slice(0, -1)
         .join('.')
       // console.log(nameA);
-      if (nameA.length > 30) {
-        this.failMsg(`文件名过长，请限制30字内!`)
-        return
-      }
+      // if (nameA.length > 30) {
+      //   this.failMsg(`文件名过长，请限制30字内!`)
+      //   return
+      // }
       const isLt = file.size / 1024 / 1024 / 1024 < this.fileSize
       if (!isLt) {
         this.failMsg(`上传文件大小不能超过 ${this.fileSize} GB!`)

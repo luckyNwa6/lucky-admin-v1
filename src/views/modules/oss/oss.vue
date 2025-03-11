@@ -42,7 +42,7 @@
 <script>
 import Config from './oss-config'
 import Upload from './oss-upload'
-
+import { base64ToFile } from '@/utils/toolLucky.js'
 import { loadMinIOFile } from '@/api/oss/index'
 export default {
   data() {
@@ -114,21 +114,22 @@ export default {
     //下载MinIO测试
     loadMinIO() {
       //请求那返回类型改blob即可
-      loadMinIOFile('http://47.98.230.128:9000/lucky/20240715/ca3371a366b04942bb13166ac7e6e04b.jpg').then(res => {
+      loadMinIOFile('http://120.26.80.35:9000/lucky/20240813/ef21f720e16f44bda5836d622b4e21c9.png').then(res => {
         if (res.data.code === 200) {
+          base64ToFile(res.data.data, '测试MINIO图片下载.png')
           //下面是后端返回正常json
-          const binaryString = window.atob(res.data.data) // 将 base64 编码的二进制数据转换为二进制字符串
-          const bytes = new Uint8Array(binaryString.length)
-          for (let i = 0; i < binaryString.length; i++) {
-            bytes[i] = binaryString.charCodeAt(i)
-          }
-          const fileBlob = new Blob([bytes], { type: 'image/png' })
-          const fileUrl = window.URL.createObjectURL(fileBlob)
-          const downloadLink = document.createElement('a')
-          downloadLink.href = fileUrl
-          downloadLink.download = 'filename.png'
-          downloadLink.click()
-          URL.revokeObjectURL(fileUrl)
+          // const binaryString = window.atob(res.data.data) // 将 base64 编码的二进制数据转换为二进制字符串
+          // const bytes = new Uint8Array(binaryString.length)
+          // for (let i = 0; i < binaryString.length; i++) {
+          //   bytes[i] = binaryString.charCodeAt(i)
+          // }
+          // const fileBlob = new Blob([bytes], { type: 'image/png' })
+          // const fileUrl = window.URL.createObjectURL(fileBlob)
+          // const downloadLink = document.createElement('a')
+          // downloadLink.href = fileUrl
+          // downloadLink.download = 'filename.png'
+          // downloadLink.click()
+          // URL.revokeObjectURL(fileUrl)
           //下面是后端直接返回二进制流，并且请求接口那要加responseType: "blob"
           // // 创建Blob对象和临时URL
           // const fileBlob = new Blob([res], { type: 'image/png' })
@@ -137,10 +138,8 @@ export default {
           // const downloadLink = document.createElement('a')
           // downloadLink.href = fileUrl
           // downloadLink.download = 'filename.png' // 设置下载的文件名
-
           // // 模拟点击下载链接
           // downloadLink.click()
-
           // // 清理临时URL
           // URL.revokeObjectURL(fileUrl)
         } else {
