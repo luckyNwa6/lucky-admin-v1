@@ -16,7 +16,13 @@
     <el-button @click="goScreen">大屏</el-button>
     <el-button @click="goDialog">弹框组件</el-button>
     <el-button @click="goStep">导航组件</el-button>
+    <el-button @click="goYzm">验证码</el-button>
     <el-divider></el-divider>
+    <el-form ref="form" :model="form" label-width="80px">
+      <el-form-item label="活动名称" class="luckyTest">
+        <el-input v-model="form.name"></el-input>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
@@ -26,6 +32,9 @@ import { userList } from '@/api/user'
 export default {
   data() {
     return {
+      form: {
+        name: 'HHA',
+      },
       responseData: '',
       url: require('@/assets/imgs/Connect_logo_7.webp'),
     }
@@ -49,6 +58,9 @@ export default {
     },
     goStep() {
       this.$router.push('/step')
+    },
+    goYzm() {
+      this.$router.push('/yzm')
     },
     //下面是测试session
     testSession() {
@@ -131,5 +143,11 @@ body {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+}
+</style>
+
+<style scoped>
+::v-deep .luckyTest .el-form-item__label {
+  color: red;
 }
 </style>

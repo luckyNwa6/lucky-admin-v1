@@ -18,19 +18,15 @@ import '@/assets/captcha/css/tac.css' // 验证码css
 import '@/assets/captcha/js/tac.min.js' // 验证码js
 
 export default {
-  created() {
-    this.testA()
+  mounted() {
+    console.log(jQuery)
   },
   methods: {
-    testA() {
-      console.log('test jq')
-      // console.log(jQuery)
-    },
     loginBtn() {
       // 样式配置
       const config = {
-        requestCaptchaDataUrl: 'http://localhost:10087/gen',
-        validCaptchaUrl: 'http://localhost:10087/check',
+        requestCaptchaDataUrl: 'http://localhost:10086/luckyAdmin/LuckyYzm/gen',
+        validCaptchaUrl: 'http://localhost:10086/luckyAdmin/LuckyYzm/gen',
         bindEl: '#captcha-div',
         // 验证成功回调函数
         validSuccess: (res, c, tac) => {

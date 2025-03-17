@@ -68,6 +68,16 @@ const routes = [
     name: 'step',
     component: () => import('@/views/step/index.vue'),
   },
+  {
+    path: '/yzm',
+    name: 'yzm',
+    component: () => import('@/views/yzm/index.vue'),
+  },
+  {
+    path: '/dialogD',
+    name: 'dialogD',
+    component: () => import('@/views/dialog/demo.vue'),
+  },
 ]
 
 const router = new VueRouter({
