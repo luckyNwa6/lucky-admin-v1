@@ -1,6 +1,6 @@
 {
-  "name": "lucky-pic",
-  "version": "1.2.2",
+  "name": "lucky-admin-v1",
+  "version": "1.0.0",
   "description": "基于renren-fast-vue进行二次开发",
   "author": "LuckyNwa",
   "private": true,
